@@ -1,4 +1,4 @@
-ARG sourceimage=tradingorg/trading
+ARG sourceimage=bot-app/trading
 ARG sourcetag=develop
 FROM ${sourceimage}:${sourcetag}
 

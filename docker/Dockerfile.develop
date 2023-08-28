@@ -1,4 +1,4 @@
-FROM tradingorg/trading:develop
+FROM bot-app/trading:develop
 
 # Install dependencies
 COPY requirements-dev.txt /trading/

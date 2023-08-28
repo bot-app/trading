@@ -9,7 +9,7 @@ To update your trading installation, please use one of the below methods, corres
 ## docker
 
 !!! Note "Legacy installations using the `master` image"
-    We're switching from master to stable for the release Images - please adjust your docker-file and replace `tradingorg/trading:master` with `tradingorg/trading:stable`
+    We're switching from master to stable for the release Images - please adjust your docker-file and replace `bot-app/trading:master` with `bot-app/trading:stable`
 
 ``` bash
 docker compose pull

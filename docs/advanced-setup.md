@@ -60,10 +60,10 @@ To run multiple instances of trading using docker you will need to edit the dock
 version: '3'
 services:
   trading1:
-    image: tradingorg/trading:stable
-    # image: tradingorg/trading:develop
+    image: bot-app/trading:stable
+    # image: bot-app/trading:develop
     # Use plotting image
-    # image: tradingorg/trading:develop_plot
+    # image: bot-app/trading:develop_plot
     # Build step - only needed when additional dependencies are needed
     # build:
     #   context: .
@@ -87,10 +87,10 @@ services:
       --strategy SampleStrategy
   
   trading2:
-    image: tradingorg/trading:stable
-    # image: tradingorg/trading:develop
+    image: bot-app/trading:stable
+    # image: bot-app/trading:develop
     # Use plotting image
-    # image: tradingorg/trading:develop_plot
+    # image: bot-app/trading:develop_plot
     # Build step - only needed when additional dependencies are needed
     # build:
     #   context: .

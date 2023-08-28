@@ -2,10 +2,10 @@
 version: '3'
 services:
   trading:
-    image: tradingorg/trading:stable
-    # image: tradingorg/trading:develop
+    image: bot-app/trading:stable
+    # image: bot-app/trading:develop
     # Use plotting image
-    # image: tradingorg/trading:develop_plot
+    # image: bot-app/trading:develop_plot
     # # Enable GPU Image and GPU Resources (only relevant for freqAI)
     # # Make sure to uncomment the whole deploy section
     # deploy:

@@ -2,7 +2,7 @@
 version: '3'
 services:
   trading:
-    image: tradingorg/trading:stable_tradingaitorch
+    image: bot-app/trading:stable_tradingaitorch
     # # Enable GPU Image and GPU Resources
     # # Make sure to uncomment the whole deploy section
     # deploy:

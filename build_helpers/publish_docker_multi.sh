@@ -2,8 +2,8 @@
 
 # The below assumes a correctly setup docker buildx environment
 
-IMAGE_NAME=tradingorg/trading
-CACHE_IMAGE=tradingorg/trading_cache
+IMAGE_NAME=bot-app/trading
+CACHE_IMAGE=bot-app/trading_cache
 # Replace / with _ to create a valid tag
 TAG=$(echo "${BRANCH_NAME}" | sed -e "s/\//_/g")
 TAG_PLOT=${TAG}_plot

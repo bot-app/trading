@@ -1,4 +1,4 @@
-FROM tradingorg/trading:develop_plot
+FROM bot-app/trading:develop_plot
 
 
 # Pin jupyter-client to avoid tornado version conflict

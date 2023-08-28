@@ -3,8 +3,8 @@
 # Use BuildKit, otherwise building on ARM fails
 export DOCKER_BUILDKIT=1
 
-IMAGE_NAME=tradingorg/trading
-CACHE_IMAGE=tradingorg/trading_cache
+IMAGE_NAME=bot-app/trading
+CACHE_IMAGE=bot-app/trading_cache
 GHCR_IMAGE_NAME=ghcr.io/bot-app/trading
 
 # Replace / with _ to create a valid tag
