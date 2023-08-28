@@ -292,11 +292,11 @@ def test_advise_all_indicators(default_conf, testdatadir) -> None:
     assert len(processed['UNITTEST/BTC']) == 103
 
 
-def test_freqai_not_initialized(default_conf) -> None:
+def test_tradingai_not_initialized(default_conf) -> None:
     strategy = StrategyResolver.load_strategy(default_conf)
     strategy.ft_bot_start()
     with pytest.raises(OperationalException, match=r'freqAI is not enabled\.'):
-        strategy.freqai.start()
+        strategy.tradingai.start()
 
 
 def test_advise_all_indicators_copy(mocker, default_conf, testdatadir) -> None:

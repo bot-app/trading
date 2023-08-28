@@ -15,17 +15,17 @@ logger = logging.getLogger(__name__)
 
 class FreqaiExampleHybridStrategy(IStrategy):
     """
-    Example of a hybrid FreqAI strat, designed to illustrate how a user may employ
-    FreqAI to bolster a typical Trading strategy.
+    Example of a hybrid TradingAI strat, designed to illustrate how a user may employ
+    TradingAI to bolster a typical Trading strategy.
 
     Launching this strategy would be:
 
     trading trade --strategy FreqaiExampleHybridStrategy --strategy-path trading/templates
-    --freqaimodel CatboostClassifier --config config_examples/config_freqai.example.json
+    --tradingaimodel CatboostClassifier --config config_examples/config_tradingai.example.json
 
     or the user simply adds this to their config:
 
-    "freqai": {
+    "tradingai": {
         "enabled": true,
         "purge_old_models": 2,
         "train_period_days": 15,
@@ -99,7 +99,7 @@ class FreqaiExampleHybridStrategy(IStrategy):
     def feature_engineering_expand_all(self, dataframe: DataFrame, period: int,
                                        metadata: Dict, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This function will automatically expand the defined features on the config defined
         `indicator_periods_candles`, `include_timeframes`, `include_shifted_candles`, and
         `include_corr_pairs`. In other words, a single feature defined in this function
@@ -107,14 +107,14 @@ class FreqaiExampleHybridStrategy(IStrategy):
         `indicator_periods_candles` * `include_timeframes` * `include_shifted_candles` *
         `include_corr_pairs` numbers of features added to the model.
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param period: period of the indicator - usage example:
@@ -154,7 +154,7 @@ class FreqaiExampleHybridStrategy(IStrategy):
     def feature_engineering_expand_basic(
             self, dataframe: DataFrame, metadata: Dict, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This function will automatically expand the defined features on the config defined
         `include_timeframes`, `include_shifted_candles`, and `include_corr_pairs`.
         In other words, a single feature defined in this function
@@ -165,14 +165,14 @@ class FreqaiExampleHybridStrategy(IStrategy):
         Features defined here will *not* be automatically duplicated on user defined
         `indicator_periods_candles`
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -187,21 +187,21 @@ class FreqaiExampleHybridStrategy(IStrategy):
     def feature_engineering_standard(
             self, dataframe: DataFrame, metadata: Dict, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This optional function will be called once with the dataframe of the base timeframe.
         This is the final function to be called, which means that the dataframe entering this
         function will contain all the features and columns created by all other
-        freqai_feature_engineering_* functions.
+        tradingai_feature_engineering_* functions.
 
         This function is a good place to do custom exotic feature extractions (e.g. tsfresh).
         This function is a good place for any feature that should not be auto-expanded upon
         (e.g. day of the week).
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/tradingai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -211,21 +211,21 @@ class FreqaiExampleHybridStrategy(IStrategy):
         dataframe["%-hour_of_day"] = dataframe["date"].dt.hour
         return dataframe
 
-    def set_freqai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs) -> DataFrame:
+    def set_tradingai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         Required function to set the targets for the model.
-        All targets must be prepended with `&` to be recognized by the FreqAI internals.
+        All targets must be prepended with `&` to be recognized by the TradingAI internals.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/tradingai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the targets
         :param metadata: metadata of current pair
         usage example: dataframe["&-target"] = dataframe["close"].shift(-1) / dataframe["close"]
         """
-        self.freqai.class_names = ["down", "up"]
+        self.tradingai.class_names = ["down", "up"]
         dataframe['&s-up_or_down'] = np.where(dataframe["close"].shift(-50) >
                                               dataframe["close"], 'up', 'down')
 
@@ -236,7 +236,7 @@ class FreqaiExampleHybridStrategy(IStrategy):
         # User creates their own custom strat here. Present example is a supertrend
         # based strategy.
 
-        dataframe = self.freqai.start(dataframe, metadata, self)
+        dataframe = self.tradingai.start(dataframe, metadata, self)
 
         # TA indicators to combine with the Freqai targets
         # RSI

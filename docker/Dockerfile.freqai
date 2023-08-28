@@ -3,6 +3,6 @@ ARG sourcetag=develop
 FROM ${sourceimage}:${sourcetag}
 
 # Install dependencies
-COPY requirements-freqai.txt /trading/
+COPY requirements-tradingai.txt /trading/
 
-RUN pip install -r requirements-freqai.txt --user --no-cache-dir
+RUN pip install -r requirements-tradingai.txt --user --no-cache-dir

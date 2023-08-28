@@ -285,4 +285,4 @@ Failing to follow these guidelines will not be responsibility of trading.
 
 Trading does not have a Crypto token offering.
 
-Token offerings you find on the internet referring Trading, FreqAI or freqUI must be considered to be a scam, trying to exploit trading's popularity for their own, nefarious gains.
+Token offerings you find on the internet referring Trading, TradingAI or freqUI must be considered to be a scam, trying to exploit trading's popularity for their own, nefarious gains.

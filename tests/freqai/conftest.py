@@ -8,10 +8,10 @@ import pytest
 
 from trading.configuration import TimeRange
 from trading.data.dataprovider import DataProvider
-from trading.freqai.data_drawer import FreqaiDataDrawer
-from trading.freqai.data_kitchen import FreqaiDataKitchen
+from trading.tradingai.data_drawer import FreqaiDataDrawer
+from trading.tradingai.data_kitchen import FreqaiDataKitchen
 from trading.resolvers import StrategyResolver
-from trading.resolvers.freqaimodel_resolver import FreqaiModelResolver
+from trading.resolvers.tradingaimodel_resolver import FreqaiModelResolver
 from tests.conftest import get_patched_exchange
 
 
@@ -21,18 +21,18 @@ def is_mac() -> bool:
 
 
 @pytest.fixture(scope="function")
-def freqai_conf(default_conf, tmpdir):
-    freqaiconf = deepcopy(default_conf)
-    freqaiconf.update(
+def tradingai_conf(default_conf, tmpdir):
+    tradingaiconf = deepcopy(default_conf)
+    tradingaiconf.update(
         {
             "datadir": Path(default_conf["datadir"]),
-            "strategy": "freqai_test_strat",
+            "strategy": "tradingai_test_strat",
             "user_data_dir": Path(tmpdir),
             "strategy-path": "trading/tests/strategy/strats",
-            "freqaimodel": "LightGBMRegressor",
-            "freqaimodel_path": "freqai/prediction_models",
+            "tradingaimodel": "LightGBMRegressor",
+            "tradingaimodel_path": "tradingai/prediction_models",
             "timerange": "20180110-20180115",
-            "freqai": {
+            "tradingai": {
                 "enabled": True,
                 "purge_old_models": 2,
                 "train_period_days": 2,
@@ -60,21 +60,21 @@ def freqai_conf(default_conf, tmpdir):
                 "data_split_parameters": {"test_size": 0.33, "shuffle": False},
                 "model_training_parameters": {"n_estimators": 100},
             },
-            "config_files": [Path('config_examples', 'config_freqai.example.json')]
+            "config_files": [Path('config_examples', 'config_tradingai.example.json')]
         }
     )
-    freqaiconf['exchange'].update({'pair_whitelist': ['ADA/BTC', 'DASH/BTC', 'ETH/BTC', 'LTC/BTC']})
-    return freqaiconf
+    tradingaiconf['exchange'].update({'pair_whitelist': ['ADA/BTC', 'DASH/BTC', 'ETH/BTC', 'LTC/BTC']})
+    return tradingaiconf
 
 
 def make_rl_config(conf):
-    conf.update({"strategy": "freqai_rl_test_strat"})
-    conf["freqai"].update({"model_training_parameters": {
+    conf.update({"strategy": "tradingai_rl_test_strat"})
+    conf["tradingai"].update({"model_training_parameters": {
         "learning_rate": 0.00025,
         "gamma": 0.9,
         "verbose": 1
     }})
-    conf["freqai"]["rl_config"] = {
+    conf["tradingai"]["rl_config"] = {
         "train_cycles": 1,
         "thread_count": 2,
         "max_trade_duration_candles": 300,
@@ -109,149 +109,149 @@ def mock_pytorch_mlp_model_training_parameters() -> Dict[str, Any]:
         }
 
 
-def get_patched_data_kitchen(mocker, freqaiconf):
-    dk = FreqaiDataKitchen(freqaiconf)
+def get_patched_data_kitchen(mocker, tradingaiconf):
+    dk = FreqaiDataKitchen(tradingaiconf)
     return dk
 
 
-def get_patched_data_drawer(mocker, freqaiconf):
-    # dd = mocker.patch('trading.freqai.data_drawer', MagicMock())
-    dd = FreqaiDataDrawer(freqaiconf)
+def get_patched_data_drawer(mocker, tradingaiconf):
+    # dd = mocker.patch('trading.tradingai.data_drawer', MagicMock())
+    dd = FreqaiDataDrawer(tradingaiconf)
     return dd
 
 
-def get_patched_freqai_strategy(mocker, freqaiconf):
-    strategy = StrategyResolver.load_strategy(freqaiconf)
+def get_patched_tradingai_strategy(mocker, tradingaiconf):
+    strategy = StrategyResolver.load_strategy(tradingaiconf)
     strategy.ft_bot_start()
 
     return strategy
 
 
-def get_patched_freqaimodel(mocker, freqaiconf):
-    freqaimodel = FreqaiModelResolver.load_freqaimodel(freqaiconf)
+def get_patched_tradingaimodel(mocker, tradingaiconf):
+    tradingaimodel = FreqaiModelResolver.load_tradingaimodel(tradingaiconf)
 
-    return freqaimodel
+    return tradingaimodel
 
 
-def make_unfiltered_dataframe(mocker, freqai_conf):
-    freqai_conf.update({"timerange": "20180110-20180130"})
+def make_unfiltered_dataframe(mocker, tradingai_conf):
+    tradingai_conf.update({"timerange": "20180110-20180130"})
 
-    strategy = get_patched_freqai_strategy(mocker, freqai_conf)
-    exchange = get_patched_exchange(mocker, freqai_conf)
-    strategy.dp = DataProvider(freqai_conf, exchange)
-    strategy.freqai_info = freqai_conf.get("freqai", {})
-    freqai = strategy.freqai
-    freqai.live = True
-    freqai.dk = FreqaiDataKitchen(freqai_conf)
-    freqai.dk.live = True
-    freqai.dk.pair = "ADA/BTC"
+    strategy = get_patched_tradingai_strategy(mocker, tradingai_conf)
+    exchange = get_patched_exchange(mocker, tradingai_conf)
+    strategy.dp = DataProvider(tradingai_conf, exchange)
+    strategy.tradingai_info = tradingai_conf.get("tradingai", {})
+    tradingai = strategy.tradingai
+    tradingai.live = True
+    tradingai.dk = FreqaiDataKitchen(tradingai_conf)
+    tradingai.dk.live = True
+    tradingai.dk.pair = "ADA/BTC"
     data_load_timerange = TimeRange.parse_timerange("20180110-20180130")
-    freqai.dd.load_all_pair_histories(data_load_timerange, freqai.dk)
+    tradingai.dd.load_all_pair_histories(data_load_timerange, tradingai.dk)
 
-    freqai.dd.pair_dict = MagicMock()
+    tradingai.dd.pair_dict = MagicMock()
 
     new_timerange = TimeRange.parse_timerange("20180120-20180130")
 
-    corr_dataframes, base_dataframes = freqai.dd.get_base_and_corr_dataframes(
-            data_load_timerange, freqai.dk.pair, freqai.dk
+    corr_dataframes, base_dataframes = tradingai.dd.get_base_and_corr_dataframes(
+            data_load_timerange, tradingai.dk.pair, tradingai.dk
         )
 
-    unfiltered_dataframe = freqai.dk.use_strategy_to_populate_indicators(
-                strategy, corr_dataframes, base_dataframes, freqai.dk.pair
+    unfiltered_dataframe = tradingai.dk.use_strategy_to_populate_indicators(
+                strategy, corr_dataframes, base_dataframes, tradingai.dk.pair
             )
     for i in range(5):
         unfiltered_dataframe[f'constant_{i}'] = i
 
-    unfiltered_dataframe = freqai.dk.slice_dataframe(new_timerange, unfiltered_dataframe)
+    unfiltered_dataframe = tradingai.dk.slice_dataframe(new_timerange, unfiltered_dataframe)
 
-    return freqai, unfiltered_dataframe
+    return tradingai, unfiltered_dataframe
 
 
-def make_data_dictionary(mocker, freqai_conf):
-    freqai_conf.update({"timerange": "20180110-20180130"})
+def make_data_dictionary(mocker, tradingai_conf):
+    tradingai_conf.update({"timerange": "20180110-20180130"})
 
-    strategy = get_patched_freqai_strategy(mocker, freqai_conf)
-    exchange = get_patched_exchange(mocker, freqai_conf)
-    strategy.dp = DataProvider(freqai_conf, exchange)
-    strategy.freqai_info = freqai_conf.get("freqai", {})
-    freqai = strategy.freqai
-    freqai.live = True
-    freqai.dk = FreqaiDataKitchen(freqai_conf)
-    freqai.dk.live = True
-    freqai.dk.pair = "ADA/BTC"
+    strategy = get_patched_tradingai_strategy(mocker, tradingai_conf)
+    exchange = get_patched_exchange(mocker, tradingai_conf)
+    strategy.dp = DataProvider(tradingai_conf, exchange)
+    strategy.tradingai_info = tradingai_conf.get("tradingai", {})
+    tradingai = strategy.tradingai
+    tradingai.live = True
+    tradingai.dk = FreqaiDataKitchen(tradingai_conf)
+    tradingai.dk.live = True
+    tradingai.dk.pair = "ADA/BTC"
     data_load_timerange = TimeRange.parse_timerange("20180110-20180130")
-    freqai.dd.load_all_pair_histories(data_load_timerange, freqai.dk)
+    tradingai.dd.load_all_pair_histories(data_load_timerange, tradingai.dk)
 
-    freqai.dd.pair_dict = MagicMock()
+    tradingai.dd.pair_dict = MagicMock()
 
     new_timerange = TimeRange.parse_timerange("20180120-20180130")
 
-    corr_dataframes, base_dataframes = freqai.dd.get_base_and_corr_dataframes(
-            data_load_timerange, freqai.dk.pair, freqai.dk
+    corr_dataframes, base_dataframes = tradingai.dd.get_base_and_corr_dataframes(
+            data_load_timerange, tradingai.dk.pair, tradingai.dk
         )
 
-    unfiltered_dataframe = freqai.dk.use_strategy_to_populate_indicators(
-                strategy, corr_dataframes, base_dataframes, freqai.dk.pair
+    unfiltered_dataframe = tradingai.dk.use_strategy_to_populate_indicators(
+                strategy, corr_dataframes, base_dataframes, tradingai.dk.pair
             )
 
-    unfiltered_dataframe = freqai.dk.slice_dataframe(new_timerange, unfiltered_dataframe)
+    unfiltered_dataframe = tradingai.dk.slice_dataframe(new_timerange, unfiltered_dataframe)
 
-    freqai.dk.find_features(unfiltered_dataframe)
+    tradingai.dk.find_features(unfiltered_dataframe)
 
-    features_filtered, labels_filtered = freqai.dk.filter_features(
+    features_filtered, labels_filtered = tradingai.dk.filter_features(
             unfiltered_dataframe,
-            freqai.dk.training_features_list,
-            freqai.dk.label_list,
+            tradingai.dk.training_features_list,
+            tradingai.dk.label_list,
             training_filter=True,
         )
 
-    data_dictionary = freqai.dk.make_train_test_datasets(features_filtered, labels_filtered)
+    data_dictionary = tradingai.dk.make_train_test_datasets(features_filtered, labels_filtered)
 
-    data_dictionary = freqai.dk.normalize_data(data_dictionary)
+    data_dictionary = tradingai.dk.normalize_data(data_dictionary)
 
-    return freqai
+    return tradingai
 
 
-def get_freqai_live_analyzed_dataframe(mocker, freqaiconf):
-    strategy = get_patched_freqai_strategy(mocker, freqaiconf)
-    exchange = get_patched_exchange(mocker, freqaiconf)
-    strategy.dp = DataProvider(freqaiconf, exchange)
-    freqai = strategy.freqai
-    freqai.live = True
-    freqai.dk = FreqaiDataKitchen(freqaiconf, freqai.dd)
+def get_tradingai_live_analyzed_dataframe(mocker, tradingaiconf):
+    strategy = get_patched_tradingai_strategy(mocker, tradingaiconf)
+    exchange = get_patched_exchange(mocker, tradingaiconf)
+    strategy.dp = DataProvider(tradingaiconf, exchange)
+    tradingai = strategy.tradingai
+    tradingai.live = True
+    tradingai.dk = FreqaiDataKitchen(tradingaiconf, tradingai.dd)
     timerange = TimeRange.parse_timerange("20180110-20180114")
-    freqai.dk.load_all_pair_histories(timerange)
+    tradingai.dk.load_all_pair_histories(timerange)
 
     strategy.analyze_pair('ADA/BTC', '5m')
     return strategy.dp.get_analyzed_dataframe('ADA/BTC', '5m')
 
 
-def get_freqai_analyzed_dataframe(mocker, freqaiconf):
-    strategy = get_patched_freqai_strategy(mocker, freqaiconf)
-    exchange = get_patched_exchange(mocker, freqaiconf)
-    strategy.dp = DataProvider(freqaiconf, exchange)
-    strategy.freqai_info = freqaiconf.get("freqai", {})
-    freqai = strategy.freqai
-    freqai.live = True
-    freqai.dk = FreqaiDataKitchen(freqaiconf, freqai.dd)
+def get_tradingai_analyzed_dataframe(mocker, tradingaiconf):
+    strategy = get_patched_tradingai_strategy(mocker, tradingaiconf)
+    exchange = get_patched_exchange(mocker, tradingaiconf)
+    strategy.dp = DataProvider(tradingaiconf, exchange)
+    strategy.tradingai_info = tradingaiconf.get("tradingai", {})
+    tradingai = strategy.tradingai
+    tradingai.live = True
+    tradingai.dk = FreqaiDataKitchen(tradingaiconf, tradingai.dd)
     timerange = TimeRange.parse_timerange("20180110-20180114")
-    freqai.dk.load_all_pair_histories(timerange)
+    tradingai.dk.load_all_pair_histories(timerange)
     sub_timerange = TimeRange.parse_timerange("20180111-20180114")
-    corr_df, base_df = freqai.dk.get_base_and_corr_dataframes(sub_timerange, "LTC/BTC")
+    corr_df, base_df = tradingai.dk.get_base_and_corr_dataframes(sub_timerange, "LTC/BTC")
 
-    return freqai.dk.use_strategy_to_populate_indicators(strategy, corr_df, base_df, 'LTC/BTC')
+    return tradingai.dk.use_strategy_to_populate_indicators(strategy, corr_df, base_df, 'LTC/BTC')
 
 
-def get_ready_to_train(mocker, freqaiconf):
-    strategy = get_patched_freqai_strategy(mocker, freqaiconf)
-    exchange = get_patched_exchange(mocker, freqaiconf)
-    strategy.dp = DataProvider(freqaiconf, exchange)
-    strategy.freqai_info = freqaiconf.get("freqai", {})
-    freqai = strategy.freqai
-    freqai.live = True
-    freqai.dk = FreqaiDataKitchen(freqaiconf, freqai.dd)
+def get_ready_to_train(mocker, tradingaiconf):
+    strategy = get_patched_tradingai_strategy(mocker, tradingaiconf)
+    exchange = get_patched_exchange(mocker, tradingaiconf)
+    strategy.dp = DataProvider(tradingaiconf, exchange)
+    strategy.tradingai_info = tradingaiconf.get("tradingai", {})
+    tradingai = strategy.tradingai
+    tradingai.live = True
+    tradingai.dk = FreqaiDataKitchen(tradingaiconf, tradingai.dd)
     timerange = TimeRange.parse_timerange("20180110-20180114")
-    freqai.dk.load_all_pair_histories(timerange)
+    tradingai.dk.load_all_pair_histories(timerange)
     sub_timerange = TimeRange.parse_timerange("20180111-20180114")
-    corr_df, base_df = freqai.dk.get_base_and_corr_dataframes(sub_timerange, "LTC/BTC")
-    return corr_df, base_df, freqai, strategy
+    corr_df, base_df = tradingai.dk.get_base_and_corr_dataframes(sub_timerange, "LTC/BTC")
+    return corr_df, base_df, tradingai, strategy

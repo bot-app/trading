@@ -117,10 +117,10 @@ def start_list_strategies(args: Dict[str, Any]) -> None:
 
 def start_list_freqAI_models(args: Dict[str, Any]) -> None:
     """
-    Print files with FreqAI models custom classes available in the directory
+    Print files with TradingAI models custom classes available in the directory
     """
     config = setup_utils_configuration(args, RunMode.UTIL_NO_EXCHANGE)
-    from trading.resolvers.freqaimodel_resolver import FreqaiModelResolver
+    from trading.resolvers.tradingaimodel_resolver import FreqaiModelResolver
     model_objs = FreqaiModelResolver.search_all_objects(config, not args['print_one_column'])
     # Sort alphabetically
     model_objs = sorted(model_objs, key=lambda x: x['name'])

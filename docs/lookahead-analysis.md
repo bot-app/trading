@@ -17,7 +17,7 @@ This is done by not looking at the strategy itself - but at the results it retur
 The results are things like changed indicator-values and moved entries/exits compared to the full backtest.
 
 You can use commands of [Backtesting](backtesting.md).
-It also supports the lookahead-analysis of freqai strategies.
+It also supports the lookahead-analysis of tradingai strategies.
 
 - `--cache` is forced to "none".
 - `--max-open-trades` is forced to be at least equal to the number of pairs.
@@ -33,8 +33,8 @@ usage: trading lookahead-analysis [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                     [-d PATH] [--userdir PATH] [-s NAME]
                                     [--strategy-path PATH]
                                     [--recursive-strategy-search]
-                                    [--freqaimodel NAME]
-                                    [--freqaimodel-path PATH] [-i TIMEFRAME]
+                                    [--tradingaimodel NAME]
+                                    [--tradingaimodel-path PATH] [-i TIMEFRAME]
                                     [--timerange TIMERANGE]
                                     [--data-format-ohlcv {json,jsongz,hdf5,feather,parquet}]
                                     [--max-open-trades INT]
@@ -48,7 +48,7 @@ usage: trading lookahead-analysis [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                     [--export-filename PATH]
                                     [--breakdown {day,week,month} [{day,week,month} ...]]
                                     [--cache {none,day,week,month}]
-                                    [--freqai-backtest-live-models]
+                                    [--tradingai-backtest-live-models]
                                     [--minimum-trade-amount INT]
                                     [--targeted-trade-amount INT]
                                     [--lookahead-analysis-exportfilename LOOKAHEAD_ANALYSIS_EXPORTFILENAME]

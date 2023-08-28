@@ -121,8 +121,8 @@ async def api_start_backtest(
     btconfig = deepcopy(config)
     remove_exchange_credentials(btconfig['exchange'], True)
     settings = dict(bt_settings)
-    if settings.get('freqai', None) is not None:
-        settings['freqai'] = dict(settings['freqai'])
+    if settings.get('tradingai', None) is not None:
+        settings['tradingai'] = dict(settings['tradingai'])
     # Pydantic models will contain all keys, but non-provided ones are None
 
     btconfig = deep_merge_dicts(settings, btconfig, allow_null_overrides=False)

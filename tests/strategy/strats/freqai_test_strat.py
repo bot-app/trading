@@ -11,7 +11,7 @@ from trading.strategy import DecimalParameter, IntParameter, IStrategy
 logger = logging.getLogger(__name__)
 
 
-class freqai_test_strat(IStrategy):
+class tradingai_test_strat(IStrategy):
     """
     Test strategy - used for testing freqAI functionalities.
     DO not use in production.
@@ -67,12 +67,12 @@ class freqai_test_strat(IStrategy):
 
         return dataframe
 
-    def set_freqai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
+    def set_tradingai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
 
         dataframe["&-s_close"] = (
             dataframe["close"]
-            .shift(-self.freqai_info["feature_parameters"]["label_period_candles"])
-            .rolling(self.freqai_info["feature_parameters"]["label_period_candles"])
+            .shift(-self.tradingai_info["feature_parameters"]["label_period_candles"])
+            .rolling(self.tradingai_info["feature_parameters"]["label_period_candles"])
             .mean()
             / dataframe["close"]
             - 1
@@ -82,9 +82,9 @@ class freqai_test_strat(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
 
-        self.freqai_info = self.config["freqai"]
+        self.tradingai_info = self.config["tradingai"]
 
-        dataframe = self.freqai.start(dataframe, metadata, self)
+        dataframe = self.tradingai.start(dataframe, metadata, self)
 
         dataframe["target_roi"] = dataframe["&-s_close_mean"] + dataframe["&-s_close_std"] * 1.25
         dataframe["sell_roi"] = dataframe["&-s_close_mean"] - dataframe["&-s_close_std"] * 1.25

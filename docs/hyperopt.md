@@ -40,8 +40,8 @@ pip install -r requirements-hyperopt.txt
 ```
 usage: trading hyperopt [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
                           [--userdir PATH] [-s NAME] [--strategy-path PATH]
-                          [--recursive-strategy-search] [--freqaimodel NAME]
-                          [--freqaimodel-path PATH] [-i TIMEFRAME]
+                          [--recursive-strategy-search] [--tradingaimodel NAME]
+                          [--tradingaimodel-path PATH] [-i TIMEFRAME]
                           [--timerange TIMERANGE]
                           [--data-format-ohlcv {json,jsongz,hdf5}]
                           [--max-open-trades INT]
@@ -156,9 +156,9 @@ Strategy arguments:
   --recursive-strategy-search
                         Recursively search for a strategy in the strategies
                         folder.
-  --freqaimodel NAME    Specify a custom freqaimodels.
-  --freqaimodel-path PATH
-                        Specify additional lookup path for freqaimodels.
+  --tradingaimodel NAME    Specify a custom tradingaimodels.
+  --tradingaimodel-path PATH
+                        Specify additional lookup path for tradingaimodels.
 
 ```
 

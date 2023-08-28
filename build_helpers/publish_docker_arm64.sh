@@ -10,7 +10,7 @@ GHCR_IMAGE_NAME=ghcr.io/bot-app/trading
 # Replace / with _ to create a valid tag
 TAG=$(echo "${BRANCH_NAME}" | sed -e "s/\//_/g")
 TAG_PLOT=${TAG}_plot
-TAG_FREQAI=${TAG}_freqai
+TAG_FREQAI=${TAG}_tradingai
 TAG_FREQAI_RL=${TAG_FREQAI}rl
 TAG_FREQAI_TORCH=${TAG_FREQAI}torch
 TAG_PI="${TAG}_pi"
@@ -44,8 +44,8 @@ if [ $? -ne 0 ]; then
 fi
 
 docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_ARM} -t trading:${TAG_PLOT_ARM} -f docker/Dockerfile.plot .
-docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_ARM} -t trading:${TAG_FREQAI_ARM} -f docker/Dockerfile.freqai .
-docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_FREQAI_ARM} -t trading:${TAG_FREQAI_RL_ARM} -f docker/Dockerfile.freqai_rl .
+docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_ARM} -t trading:${TAG_FREQAI_ARM} -f docker/Dockerfile.tradingai .
+docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_FREQAI_ARM} -t trading:${TAG_FREQAI_RL_ARM} -f docker/Dockerfile.tradingai_rl .
 
 # Tag image for upload and next build step
 docker tag trading:$TAG_ARM ${CACHE_IMAGE}:$TAG_ARM

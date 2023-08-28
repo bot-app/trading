@@ -8,8 +8,8 @@ user_data/*
 !user_data/strategy/sample_strategy.py
 !user_data/notebooks
 !user_data/models
-!user_data/freqaimodels
-user_data/freqaimodels/*
+!user_data/tradingaimodels
+user_data/tradingaimodels/*
 user_data/models/*
 user_data/notebooks/*
 trading-plot.html
@@ -111,4 +111,4 @@ target/
 !config_examples/config_bittrex.example.json
 !config_examples/config_full.example.json
 !config_examples/config_kraken.example.json
-!config_examples/config_freqai.example.json
+!config_examples/config_tradingai.example.json

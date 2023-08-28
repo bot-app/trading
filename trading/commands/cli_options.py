@@ -673,18 +673,18 @@ AVAILABLE_CLI_OPTIONS = {
         help=("Specify a path to save the analysis CSVs "
               "if --analysis-to-csv is enabled. Default: user_data/basktesting_results/"),
     ),
-    "freqaimodel": Arg(
-        '--freqaimodel',
-        help='Specify a custom freqaimodels.',
+    "tradingaimodel": Arg(
+        '--tradingaimodel',
+        help='Specify a custom tradingaimodels.',
         metavar='NAME',
     ),
-    "freqaimodel_path": Arg(
-        '--freqaimodel-path',
-        help='Specify additional lookup path for freqaimodels.',
+    "tradingaimodel_path": Arg(
+        '--tradingaimodel-path',
+        help='Specify additional lookup path for tradingaimodels.',
         metavar='PATH',
     ),
-    "freqai_backtest_live_models": Arg(
-        '--freqai-backtest-live-models',
+    "tradingai_backtest_live_models": Arg(
+        '--tradingai-backtest-live-models',
         help='Run backtest with ready models.',
         action='store_true'
     ),

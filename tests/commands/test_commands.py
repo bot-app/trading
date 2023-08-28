@@ -926,7 +926,7 @@ def test_start_list_strategies(capsys):
 def test_start_list_freqAI_models(capsys):
 
     args = [
-        "list-freqaimodels",
+        "list-tradingaimodels",
         "-1"
     ]
     pargs = get_args(args)
@@ -939,7 +939,7 @@ def test_start_list_freqAI_models(capsys):
     assert "<builtin>/LightGBMRegressor.py" not in captured.out
 
     args = [
-        "list-freqaimodels",
+        "list-tradingaimodels",
     ]
     pargs = get_args(args)
     pargs['config'] = None

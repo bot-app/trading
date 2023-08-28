@@ -13,7 +13,7 @@ from tests.conftest import (CURRENT_TEST_STRATEGY, get_args, log_has_re, patch_e
                             patched_configuration_load_config_file)
 
 
-def test_freqai_backtest_start_backtest_list(freqai_conf, mocker, testdatadir, caplog):
+def test_tradingai_backtest_start_backtest_list(tradingai_conf, mocker, testdatadir, caplog):
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
@@ -22,7 +22,7 @@ def test_freqai_backtest_start_backtest_list(freqai_conf, mocker, testdatadir, c
     mocker.patch('trading.optimize.backtesting.history.load_data')
     mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
 
-    patched_configuration_load_config_file(mocker, freqai_conf)
+    patched_configuration_load_config_file(mocker, tradingai_conf)
 
     args = [
         'backtesting',
@@ -35,12 +35,12 @@ def test_freqai_backtest_start_backtest_list(freqai_conf, mocker, testdatadir, c
     args = get_args(args)
     bt_config = setup_optimize_configuration(args, RunMode.BACKTEST)
     Backtesting(bt_config)
-    assert log_has_re('Using --strategy-list with FreqAI REQUIRES all strategies to have identical',
+    assert log_has_re('Using --strategy-list with TradingAI REQUIRES all strategies to have identical',
                       caplog)
     Backtesting.cleanup()
 
 
-def test_freqai_backtest_load_data(freqai_conf, mocker, caplog):
+def test_tradingai_backtest_load_data(tradingai_conf, mocker, caplog):
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
@@ -48,15 +48,15 @@ def test_freqai_backtest_load_data(freqai_conf, mocker, caplog):
                  PropertyMock(return_value=['HULUMULU/USDT', 'XRP/USDT']))
     mocker.patch('trading.optimize.backtesting.history.load_data')
     mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
-    backtesting = Backtesting(deepcopy(freqai_conf))
+    backtesting = Backtesting(deepcopy(tradingai_conf))
     backtesting.load_bt_data()
 
-    assert log_has_re('Increasing startup_candle_count for freqai to.*', caplog)
+    assert log_has_re('Increasing startup_candle_count for tradingai to.*', caplog)
 
     Backtesting.cleanup()
 
 
-def test_freqai_backtest_live_models_model_not_found(freqai_conf, mocker, testdatadir, caplog):
+def test_tradingai_backtest_live_models_model_not_found(tradingai_conf, mocker, testdatadir, caplog):
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
@@ -64,10 +64,10 @@ def test_freqai_backtest_live_models_model_not_found(freqai_conf, mocker, testda
                  PropertyMock(return_value=['HULUMULU/USDT', 'XRP/USDT']))
     mocker.patch('trading.optimize.backtesting.history.load_data')
     mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
-    freqai_conf["timerange"] = ""
-    freqai_conf.get("freqai", {}).update({"backtest_using_historic_predictions": False})
+    tradingai_conf["timerange"] = ""
+    tradingai_conf.get("tradingai", {}).update({"backtest_using_historic_predictions": False})
 
-    patched_configuration_load_config_file(mocker, freqai_conf)
+    patched_configuration_load_config_file(mocker, tradingai_conf)
 
     args = [
         'backtesting',
@@ -75,7 +75,7 @@ def test_freqai_backtest_live_models_model_not_found(freqai_conf, mocker, testda
         '--datadir', str(testdatadir),
         '--strategy-path', str(Path(__file__).parents[1] / 'strategy/strats'),
         '--timeframe', '5m',
-        '--freqai-backtest-live-models'
+        '--tradingai-backtest-live-models'
     ]
     args = get_args(args)
     bt_config = setup_optimize_configuration(args, RunMode.BACKTEST)

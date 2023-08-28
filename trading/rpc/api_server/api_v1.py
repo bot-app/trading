@@ -15,7 +15,7 @@ from trading.rpc.api_server.api_schemas import (AvailablePairs, Balances, Blackl
                                                   DeleteLockRequest, DeleteTrade,
                                                   ExchangeListResponse, ForceEnterPayload,
                                                   ForceEnterResponse, ForceExitPayload,
-                                                  FreqAIModelListResponse, Health, Locks, Logs,
+                                                  TradingAIModelListResponse, Health, Locks, Logs,
                                                   OpenTradeSchema, PairHistory, PerformanceEntry,
                                                   Ping, PlotConfig, Profit, ResultMsg, ShowConfig,
                                                   Stats, StatusMsg, StrategyListResponse,
@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 # 2.17: Forceentry - leverage, partial force_exit
 # 2.20: Add websocket endpoints
 # 2.21: Add new_candle messagetype
-# 2.22: Add FreqAI to backtesting
+# 2.22: Add TradingAI to backtesting
 # 2.23: Allow plot config request in webserver mode
 # 2.24: Add cancel_open_order endpoint
 # 2.25: Add several profit values to /status endpoint
@@ -260,7 +260,7 @@ def pair_candles(
 
 @router.get('/pair_history', response_model=PairHistory, tags=['candle data'])
 def pair_history(pair: str, timeframe: str, timerange: str, strategy: str,
-                 freqaimodel: Optional[str] = None,
+                 tradingaimodel: Optional[str] = None,
                  config=Depends(get_config), exchange=Depends(get_exchange)):
     # The initial call to this endpoint can be slow, as it may need to initialize
     # the exchange class.
@@ -268,7 +268,7 @@ def pair_history(pair: str, timeframe: str, timerange: str, strategy: str,
     config.update({
         'strategy': strategy,
         'timerange': timerange,
-        'freqaimodel': freqaimodel if freqaimodel else config.get('freqaimodel'),
+        'tradingaimodel': tradingaimodel if tradingaimodel else config.get('tradingaimodel'),
     })
     try:
         return RPC._rpc_analysed_history_full(config, pair, timeframe, exchange)
@@ -333,14 +333,14 @@ def list_exchanges(config=Depends(get_config)):
     }
 
 
-@router.get('/freqaimodels', response_model=FreqAIModelListResponse, tags=['freqai'])
-def list_freqaimodels(config=Depends(get_config)):
-    from trading.resolvers.freqaimodel_resolver import FreqaiModelResolver
+@router.get('/tradingaimodels', response_model=TradingAIModelListResponse, tags=['tradingai'])
+def list_tradingaimodels(config=Depends(get_config)):
+    from trading.resolvers.tradingaimodel_resolver import FreqaiModelResolver
     models = FreqaiModelResolver.search_all_objects(
         config, False)
     models = sorted(models, key=lambda x: x['name'])
 
-    return {'freqaimodels': [x['name'] for x in models]}
+    return {'tradingaimodels': [x['name'] for x in models]}
 
 
 @router.get('/available_pairs', response_model=AvailablePairs, tags=['candle data'])

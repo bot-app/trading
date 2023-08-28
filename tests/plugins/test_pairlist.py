@@ -1328,7 +1328,7 @@ def test_expand_pairlist(wildcardlist, pairs, expected):
         assert sorted(expand_pairlist(wildcardlist, pairs)) == sorted(expected)
         conf = {
             'pairs': wildcardlist,
-            'freqai': {
+            'tradingai': {
                 "enabled": True,
                 "feature_parameters": {
                     "include_corr_pairlist": [

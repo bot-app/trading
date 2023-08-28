@@ -1,4 +1,4 @@
-FROM tradingorg/trading:develop_freqairl
+FROM tradingorg/trading:develop_tradingairl
 
 USER root
 # Install dependencies

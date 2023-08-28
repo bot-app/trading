@@ -10,7 +10,7 @@ hyperopt = [
     'filelock',
 ]
 
-freqai = [
+tradingai = [
     'scikit-learn',
     'joblib',
     'catboost; platform_machine != "aarch64"',
@@ -20,7 +20,7 @@ freqai = [
     'datasieve>=0.1.5'
 ]
 
-freqai_rl = [
+tradingai_rl = [
     'torch',
     'gymnasium',
     'stable-baselines3',
@@ -59,7 +59,7 @@ jupyter = [
     'nbconvert',
 ]
 
-all_extra = plot + develop + jupyter + hyperopt + hdf5 + freqai + freqai_rl
+all_extra = plot + develop + jupyter + hyperopt + hdf5 + tradingai + tradingai_rl
 
 setup(
     tests_require=[
@@ -118,8 +118,8 @@ setup(
         'jupyter': jupyter,
         'hyperopt': hyperopt,
         'hdf5': hdf5,
-        'freqai': freqai,
-        'freqai_rl': freqai_rl,
+        'tradingai': tradingai,
+        'tradingai_rl': tradingai_rl,
         'all': all_extra,
     },
 )

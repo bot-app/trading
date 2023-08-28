@@ -11,7 +11,7 @@ from trading.strategy import IStrategy
 logger = logging.getLogger(__name__)
 
 
-class freqai_rl_test_strat(IStrategy):
+class tradingai_rl_test_strat(IStrategy):
     """
     Test strategy - used for testing freqAI functionalities.
     DO not use in production.
@@ -51,7 +51,7 @@ class freqai_rl_test_strat(IStrategy):
 
         return dataframe
 
-    def set_freqai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
+    def set_tradingai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
 
         dataframe["&-action"] = 0
 
@@ -59,7 +59,7 @@ class freqai_rl_test_strat(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
 
-        dataframe = self.freqai.start(dataframe, metadata, self)
+        dataframe = self.tradingai.start(dataframe, metadata, self)
 
         return dataframe
 

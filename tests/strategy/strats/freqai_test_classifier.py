@@ -12,7 +12,7 @@ from trading.strategy import DecimalParameter, IntParameter, IStrategy
 logger = logging.getLogger(__name__)
 
 
-class freqai_test_classifier(IStrategy):
+class tradingai_test_classifier(IStrategy):
     """
     Test strategy - used for testing freqAI functionalities.
     DO not use in production.
@@ -46,9 +46,9 @@ class freqai_test_classifier(IStrategy):
 
     def informative_pairs(self):
         whitelist_pairs = self.dp.current_whitelist()
-        corr_pairs = self.config["freqai"]["feature_parameters"]["include_corr_pairlist"]
+        corr_pairs = self.config["tradingai"]["feature_parameters"]["include_corr_pairlist"]
         informative_pairs = []
-        for tf in self.config["freqai"]["feature_parameters"]["include_timeframes"]:
+        for tf in self.config["tradingai"]["feature_parameters"]["include_timeframes"]:
             for pair in whitelist_pairs:
                 informative_pairs.append((pair, tf))
             for pair in corr_pairs:
@@ -81,8 +81,8 @@ class freqai_test_classifier(IStrategy):
 
         return dataframe
 
-    def set_freqai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
-        self.freqai.class_names = ["down", "up"]
+    def set_tradingai_targets(self, dataframe: DataFrame, metadata: Dict, **kwargs):
+        self.tradingai.class_names = ["down", "up"]
         dataframe['&s-up_or_down'] = np.where(dataframe["close"].shift(-100) >
                                               dataframe["close"], 'up', 'down')
 
@@ -90,9 +90,9 @@ class freqai_test_classifier(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
 
-        self.freqai_info = self.config["freqai"]
+        self.tradingai_info = self.config["tradingai"]
 
-        dataframe = self.freqai.start(dataframe, metadata, self)
+        dataframe = self.tradingai.start(dataframe, metadata, self)
 
         return dataframe
 

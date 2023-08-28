@@ -78,4 +78,4 @@ Webhook terminology changed from "sell" to "exit", and from "buy" to "entry", re
 
 ## Removal of `populate_any_indicators`
 
-version 2023.3 saw the removal of `populate_any_indicators` in favor of split methods for feature engineering and targets. Please read the [migration document](strategy_migration.md#freqai-strategy) for full details.
+version 2023.3 saw the removal of `populate_any_indicators` in favor of split methods for feature engineering and targets. Please read the [migration document](strategy_migration.md#tradingai-strategy) for full details.

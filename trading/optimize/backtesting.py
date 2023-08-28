@@ -98,8 +98,8 @@ class Backtesting:
         self.dataprovider = DataProvider(self.config, self.exchange)
 
         if self.config.get('strategy_list'):
-            if self.config.get('freqai', {}).get('enabled', False):
-                logger.warning("Using --strategy-list with FreqAI REQUIRES all strategies "
+            if self.config.get('tradingai', {}).get('enabled', False):
+                logger.warning("Using --strategy-list with TradingAI REQUIRES all strategies "
                                "to have identical feature_engineering_* functions.")
             for strat in list(self.config['strategy_list']):
                 stratconf = deepcopy(self.config)
@@ -133,8 +133,8 @@ class Backtesting:
             self.fee = self.exchange.get_fee(symbol=self.pairlists.whitelist[0])
         self.precision_mode = self.exchange.precisionMode
 
-        if self.config.get('freqai_backtest_live_models', False):
-            from trading.freqai.utils import get_timerange_backtest_live_models
+        if self.config.get('tradingai_backtest_live_models', False):
+            from trading.tradingai.utils import get_timerange_backtest_live_models
             self.config['timerange'] = get_timerange_backtest_live_models(self.config)
 
         self.timerange = TimeRange.parse_timerange(
@@ -144,8 +144,8 @@ class Backtesting:
         self.required_startup = max([strat.startup_candle_count for strat in self.strategylist])
         self.exchange.validate_required_startup_candles(self.required_startup, self.timeframe)
 
-        if self.config.get('freqai', {}).get('enabled', False):
-            # For FreqAI, increase the required_startup to includes the training data
+        if self.config.get('tradingai', {}).get('enabled', False):
+            # For TradingAI, increase the required_startup to includes the training data
             self.required_startup = self.dataprovider.get_required_startup(self.timeframe)
 
         # Add maximum startup candle count to configuration for informative pairs support

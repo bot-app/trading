@@ -131,12 +131,12 @@ class LookaheadAnalysis:
 
     def prepare_data(self, varholder: VarHolder, pairs_to_load: List[DataFrame]):
 
-        if 'freqai' in self.local_config and 'identifier' in self.local_config['freqai']:
-            # purge previous data if the freqai model is defined
+        if 'tradingai' in self.local_config and 'identifier' in self.local_config['tradingai']:
+            # purge previous data if the tradingai model is defined
             # (to be sure nothing is carried over from older backtests)
             path_to_current_identifier = (
                 Path(f"{self.local_config['user_data_dir']}/models/"
-                     f"{self.local_config['freqai']['identifier']}").resolve())
+                     f"{self.local_config['tradingai']['identifier']}").resolve())
             # remove folder and its contents
             if Path.exists(path_to_current_identifier):
                 shutil.rmtree(path_to_current_identifier)

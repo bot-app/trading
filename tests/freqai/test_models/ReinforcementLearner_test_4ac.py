@@ -2,8 +2,8 @@ import logging
 
 import numpy as np
 
-from trading.freqai.prediction_models.ReinforcementLearner import ReinforcementLearner
-from trading.freqai.RL.Base4ActionRLEnv import Actions, Base4ActionRLEnv, Positions
+from trading.tradingai.prediction_models.ReinforcementLearner import ReinforcementLearner
+from trading.tradingai.RL.Base4ActionRLEnv import Actions, Base4ActionRLEnv, Positions
 
 
 logger = logging.getLogger(__name__)

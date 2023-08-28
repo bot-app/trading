@@ -12,8 +12,8 @@ from trading.constants import DEFAULT_CONFIG
 
 ARGS_COMMON = ["verbosity", "logfile", "version", "config", "datadir", "user_data_dir"]
 
-ARGS_STRATEGY = ["strategy", "strategy_path", "recursive_strategy_search", "freqaimodel",
-                 "freqaimodel_path"]
+ARGS_STRATEGY = ["strategy", "strategy_path", "recursive_strategy_search", "tradingaimodel",
+                 "tradingaimodel_path"]
 
 ARGS_TRADE = ["db_url", "sd_notify", "dry_run", "dry_run_wallet", "fee"]
 
@@ -26,7 +26,7 @@ ARGS_BACKTEST = ARGS_COMMON_OPTIMIZE + ["position_stacking", "use_max_market_pos
                                         "enable_protections", "dry_run_wallet", "timeframe_detail",
                                         "strategy_list", "export", "exportfilename",
                                         "backtest_breakdown", "backtest_cache",
-                                        "freqai_backtest_live_models"]
+                                        "tradingai_backtest_live_models"]
 
 ARGS_HYPEROPT = ARGS_COMMON_OPTIMIZE + ["hyperopt", "hyperopt_path",
                                         "position_stacking", "use_max_market_positions",
@@ -42,7 +42,7 @@ ARGS_EDGE = ARGS_COMMON_OPTIMIZE + ["stoploss_range"]
 ARGS_LIST_STRATEGIES = ["strategy_path", "print_one_column", "print_colorized",
                         "recursive_strategy_search"]
 
-ARGS_LIST_FREQAIMODELS = ["freqaimodel_path", "print_one_column", "print_colorized"]
+ARGS_LIST_FREQAIMODELS = ["tradingaimodel_path", "print_one_column", "print_colorized"]
 
 ARGS_LIST_HYPEROPTS = ["hyperopt_path", "print_one_column", "print_colorized"]
 
@@ -109,7 +109,7 @@ ARGS_ANALYZE_ENTRIES_EXITS = ["exportfilename", "analysis_groups", "enter_reason
                               "analysis_rejected", "analysis_to_csv", "analysis_csv_path"]
 
 NO_CONF_REQURIED = ["convert-data", "convert-trade-data", "download-data", "list-timeframes",
-                    "list-markets", "list-pairs", "list-strategies", "list-freqaimodels",
+                    "list-markets", "list-pairs", "list-strategies", "list-tradingaimodels",
                     "list-data", "hyperopt-list", "hyperopt-show", "backtest-filter",
                     "plot-dataframe", "plot-profit", "show-trades", "trades-to-ohlcv",
                     "strategy-updater"]
@@ -375,13 +375,13 @@ class Arguments:
         self._build_args(optionlist=ARGS_LIST_STRATEGIES, parser=list_strategies_cmd)
 
         # Add list-freqAI Models subcommand
-        list_freqaimodels_cmd = subparsers.add_parser(
-            'list-freqaimodels',
+        list_tradingaimodels_cmd = subparsers.add_parser(
+            'list-tradingaimodels',
             help='Print available freqAI models.',
             parents=[_common_parser],
         )
-        list_freqaimodels_cmd.set_defaults(func=start_list_freqAI_models)
-        self._build_args(optionlist=ARGS_LIST_FREQAIMODELS, parser=list_freqaimodels_cmd)
+        list_tradingaimodels_cmd.set_defaults(func=start_list_freqAI_models)
+        self._build_args(optionlist=ARGS_LIST_FREQAIMODELS, parser=list_tradingaimodels_cmd)
 
         # Add list-timeframes subcommand
         list_timeframes_cmd = subparsers.add_parser(

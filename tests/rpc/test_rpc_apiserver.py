@@ -1554,7 +1554,7 @@ def test_api_plot_config(botclient, mocker):
     assert isinstance(rc.json()['main_plot'], dict)
     assert isinstance(rc.json()['subplots'], dict)
 
-    rc = client_get(client, f"{BASE_URI}/plot_config?strategy=freqai_test_classifier")
+    rc = client_get(client, f"{BASE_URI}/plot_config?strategy=tradingai_test_classifier")
     assert_response(rc)
     res = rc.json()
     assert 'target_roi' in res['subplots']
@@ -1590,11 +1590,11 @@ def test_api_strategies(botclient, tmpdir):
         'StrategyTestV3',
         'StrategyTestV3CustomEntryPrice',
         'StrategyTestV3Futures',
-        'freqai_rl_test_strat',
-        'freqai_test_classifier',
-        'freqai_test_multimodel_classifier_strat',
-        'freqai_test_multimodel_strat',
-        'freqai_test_strat'
+        'tradingai_rl_test_strat',
+        'tradingai_test_classifier',
+        'tradingai_test_multimodel_classifier_strat',
+        'tradingai_test_multimodel_strat',
+        'tradingai_test_strat'
     ]}
 
 
@@ -1658,11 +1658,11 @@ def test_api_exchanges(botclient):
     }
 
 
-def test_api_freqaimodels(botclient, tmpdir, mocker):
+def test_api_tradingaimodels(botclient, tmpdir, mocker):
     ftbot, client = botclient
     ftbot.config['user_data_dir'] = Path(tmpdir)
     mocker.patch(
-        "trading.resolvers.freqaimodel_resolver.FreqaiModelResolver.search_all_objects",
+        "trading.resolvers.tradingaimodel_resolver.FreqaiModelResolver.search_all_objects",
         return_value=[
             {'name': 'LightGBMClassifier'},
             {'name': 'LightGBMClassifierMultiTarget'},
@@ -1677,11 +1677,11 @@ def test_api_freqaimodels(botclient, tmpdir, mocker):
             {'name': 'XGBoostRegressorMultiTarget'},
         ])
 
-    rc = client_get(client, f"{BASE_URI}/freqaimodels")
+    rc = client_get(client, f"{BASE_URI}/tradingaimodels")
 
     assert_response(rc)
 
-    assert rc.json() == {'freqaimodels': [
+    assert rc.json() == {'tradingaimodels': [
         'LightGBMClassifier',
         'LightGBMClassifierMultiTarget',
         'LightGBMRegressor',

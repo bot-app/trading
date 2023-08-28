@@ -80,14 +80,14 @@ function updateenv() {
             fi
         fi
 
-        read -p "Do you want to install dependencies for freqai [y/N]? "
+        read -p "Do you want to install dependencies for tradingai [y/N]? "
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
-            REQUIREMENTS_FREQAI="-r requirements-freqai.txt --use-pep517"
-            read -p "Do you also want dependencies for freqai-rl or PyTorch (~700mb additional space required) [y/N]? "
+            REQUIREMENTS_FREQAI="-r requirements-tradingai.txt --use-pep517"
+            read -p "Do you also want dependencies for tradingai-rl or PyTorch (~700mb additional space required) [y/N]? "
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
-                REQUIREMENTS_FREQAI="-r requirements-freqai-rl.txt"
+                REQUIREMENTS_FREQAI="-r requirements-tradingai-rl.txt"
             fi
         fi
     fi

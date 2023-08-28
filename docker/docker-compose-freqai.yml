@@ -2,7 +2,7 @@
 version: '3'
 services:
   trading:
-    image: tradingorg/trading:stable_freqaitorch
+    image: tradingorg/trading:stable_tradingaitorch
     # # Enable GPU Image and GPU Resources
     # # Make sure to uncomment the whole deploy section
     # deploy:
@@ -32,5 +32,5 @@ services:
       --logfile /trading/user_data/logs/trading.log
       --db-url sqlite:////trading/user_data/tradesv3.sqlite
       --config /trading/user_data/config.json
-      --freqaimodel XGBoostRegressor
+      --tradingaimodel XGBoostRegressor
       --strategy FreqaiExampleStrategy

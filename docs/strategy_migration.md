@@ -478,14 +478,14 @@ after:
 }
 ```
 
-## FreqAI strategy
+## TradingAI strategy
 
-The `populate_any_indicators()` method has been split into `feature_engineering_expand_all()`, `feature_engineering_expand_basic()`, `feature_engineering_standard()` and`set_freqai_targets()`.
+The `populate_any_indicators()` method has been split into `feature_engineering_expand_all()`, `feature_engineering_expand_basic()`, `feature_engineering_standard()` and`set_tradingai_targets()`.
 
 For each new function, the pair (and timeframe where necessary) will be automatically added to the column.
 As such, the definition of features becomes much simpler with the new logic.
 
-For a full explanation of each method, please go to the corresponding [freqAI documentation page](freqai-feature-engineering.md#defining-the-features)
+For a full explanation of each method, please go to the corresponding [freqAI documentation page](tradingai-feature-engineering.md#defining-the-features)
 
 ``` python linenums="1" hl_lines="12-37 39-42 63-65 67-75"
 
@@ -497,7 +497,7 @@ def populate_any_indicators(
             informative = self.dp.get_pair_dataframe(pair, tf)
 
         # first loop is automatically duplicating indicators for time periods
-        for t in self.freqai_info["feature_parameters"]["indicator_periods_candles"]:
+        for t in self.tradingai_info["feature_parameters"]["indicator_periods_candles"]:
 
             t = int(t)
             informative[f"%-{pair}rsi-period_{t}"] = ta.RSI(informative, timeperiod=t)
@@ -534,7 +534,7 @@ def populate_any_indicators(
 
         indicators = [col for col in informative if col.startswith("%")]
         # This loop duplicates and shifts all indicators to add a sense of recency to data
-        for n in range(self.freqai_info["feature_parameters"]["include_shifted_candles"] + 1):
+        for n in range(self.tradingai_info["feature_parameters"]["include_shifted_candles"] + 1):
             if n == 0:
                 continue
             informative_shift = informative[indicators].shift(n)
@@ -558,8 +558,8 @@ def populate_any_indicators(
             # user adds targets here by prepending them with &- (see convention below)
             df["&-s_close"] = (
                 df["close"]
-                .shift(-self.freqai_info["feature_parameters"]["label_period_candles"])
-                .rolling(self.freqai_info["feature_parameters"]["label_period_candles"])
+                .shift(-self.tradingai_info["feature_parameters"]["label_period_candles"])
+                .rolling(self.tradingai_info["feature_parameters"]["label_period_candles"])
                 .mean()
                 / df["close"]
                 - 1
@@ -571,16 +571,16 @@ def populate_any_indicators(
 1. Features - Move to `feature_engineering_expand_all`
 2. Basic features, not expanded across `include_periods_candles` - move to`feature_engineering_expand_basic()`.
 3. Standard features which should not be expanded - move to `feature_engineering_standard()`.
-4. Targets - Move this part to `set_freqai_targets()`.
+4. Targets - Move this part to `set_tradingai_targets()`.
 
-### freqai - feature engineering expand all
+### tradingai - feature engineering expand all
 
 Features will now expand automatically. As such, the expansion loops, as well as the `{pair}` / `{timeframe}` parts will need to be removed.
 
 ``` python linenums="1"
     def feature_engineering_expand_all(self, dataframe, period, **kwargs) -> DataFrame::
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This function will automatically expand the defined features on the config defined
         `indicator_periods_candles`, `include_timeframes`, `include_shifted_candles`, and
         `include_corr_pairs`. In other words, a single feature defined in this function
@@ -588,14 +588,14 @@ Features will now expand automatically. As such, the expansion loops, as well as
         `indicator_periods_candles` * `include_timeframes` * `include_shifted_candles` *
         `include_corr_pairs` numbers of features added to the model.
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param df: strategy dataframe which will receive the features
         :param period: period of the indicator - usage example:
@@ -640,7 +640,7 @@ Basic features. Make sure to remove the `{pair}` part from your features.
 ``` python linenums="1"
     def feature_engineering_expand_basic(self, dataframe: DataFrame, **kwargs) -> DataFrame::
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This function will automatically expand the defined features on the config defined
         `include_timeframes`, `include_shifted_candles`, and `include_corr_pairs`.
         In other words, a single feature defined in this function
@@ -651,14 +651,14 @@ Basic features. Make sure to remove the `{pair}` part from your features.
         Features defined here will *not* be automatically duplicated on user defined
         `indicator_periods_candles`
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param df: strategy dataframe which will receive the features
         dataframe["%-pct-change"] = dataframe["close"].pct_change()
@@ -670,26 +670,26 @@ Basic features. Make sure to remove the `{pair}` part from your features.
         return dataframe
 ```
 
-### FreqAI - feature engineering standard
+### TradingAI - feature engineering standard
 
 ``` python linenums="1"
     def feature_engineering_standard(self, dataframe: DataFrame, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         This optional function will be called once with the dataframe of the base timeframe.
         This is the final function to be called, which means that the dataframe entering this
         function will contain all the features and columns created by all other
-        freqai_feature_engineering_* functions.
+        tradingai_feature_engineering_* functions.
 
         This function is a good place to do custom exotic feature extractions (e.g. tsfresh).
         This function is a good place for any feature that should not be auto-expanded upon
         (e.g. day of the week).
 
-        All features must be prepended with `%` to be recognized by FreqAI internals.
+        All features must be prepended with `%` to be recognized by TradingAI internals.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/tradingai-feature-engineering
 
         :param df: strategy dataframe which will receive the features
         usage example: dataframe["%-day_of_week"] = (dataframe["date"].dt.dayofweek + 1) / 7
@@ -699,28 +699,28 @@ Basic features. Make sure to remove the `{pair}` part from your features.
         return dataframe
 ```
 
-### FreqAI - set Targets
+### TradingAI - set Targets
 
 Targets now get their own, dedicated method.
 
 ``` python linenums="1"
-    def set_freqai_targets(self, dataframe: DataFrame, **kwargs) -> DataFrame:
+    def set_tradingai_targets(self, dataframe: DataFrame, **kwargs) -> DataFrame:
         """
-        *Only functional with FreqAI enabled strategies*
+        *Only functional with TradingAI enabled strategies*
         Required function to set the targets for the model.
-        All targets must be prepended with `&` to be recognized by the FreqAI internals.
+        All targets must be prepended with `&` to be recognized by the TradingAI internals.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/tradingai-feature-engineering
 
         :param df: strategy dataframe which will receive the targets
         usage example: dataframe["&-target"] = dataframe["close"].shift(-1) / dataframe["close"]
         """
         dataframe["&-s_close"] = (
             dataframe["close"]
-            .shift(-self.freqai_info["feature_parameters"]["label_period_candles"])
-            .rolling(self.freqai_info["feature_parameters"]["label_period_candles"])
+            .shift(-self.tradingai_info["feature_parameters"]["label_period_candles"])
+            .rolling(self.tradingai_info["feature_parameters"]["label_period_candles"])
             .mean()
             / dataframe["close"]
             - 1
@@ -730,7 +730,7 @@ Targets now get their own, dedicated method.
 ```
 
 
-### FreqAI - New data Pipeline
+### TradingAI - New data Pipeline
 
 If you have created your own custom `IFreqaiModel` with a custom `train()`/`predict()` function, *and* you still rely on `data_cleaning_train/predict()`, then you will need to migrate to the new pipeline. If your model does *not* rely on `data_cleaning_train/predict()`, then you do not need to worry about this migration. That means that this migration guide is relevant for a very small percentage of power-users. If you stumbled upon this guide by mistake, feel free to inquire in depth about your problem in the Trading discord server.
 
@@ -797,7 +797,7 @@ class MyCoolFreqaiModel(BaseRegressionModel):
 
         # Replace with these lines
         pred_df, _, _ = dk.label_pipeline.inverse_transform(pred_df)
-        if self.freqai_info.get("DI_threshold", 0) > 0:
+        if self.tradingai_info.get("DI_threshold", 0) > 0:
             dk.DI_values = dk.feature_pipeline["di"].di_values
         else:
             dk.DI_values = np.zeros(outliers.shape[0])

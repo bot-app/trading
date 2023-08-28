@@ -97,7 +97,7 @@ class Configuration:
 
         self._process_analyze_options(config)
 
-        self._process_freqai_options(config)
+        self._process_tradingai_options(config)
 
         # Import check_exchange here to avoid import cycle problems
         from trading.exchange.check_exchange import check_exchange
@@ -279,8 +279,8 @@ class Configuration:
         self._args_to_config(config, argname='disableparamexport',
                              logstring='Parameter --disableparamexport detected: {} ...')
 
-        self._args_to_config(config, argname='freqai_backtest_live_models',
-                             logstring='Parameter --freqai-backtest-live-models detected ...')
+        self._args_to_config(config, argname='tradingai_backtest_live_models',
+                             logstring='Parameter --tradingai-backtest-live-models detected ...')
 
         # Edge section:
         if 'stoploss_range' in self.args and self.args["stoploss_range"]:
@@ -503,13 +503,13 @@ class Configuration:
 
         config.update({'runmode': self.runmode})
 
-    def _process_freqai_options(self, config: Config) -> None:
+    def _process_tradingai_options(self, config: Config) -> None:
 
-        self._args_to_config(config, argname='freqaimodel',
-                             logstring='Using freqaimodel class name: {}')
+        self._args_to_config(config, argname='tradingaimodel',
+                             logstring='Using tradingaimodel class name: {}')
 
-        self._args_to_config(config, argname='freqaimodel_path',
-                             logstring='Using freqaimodel path: {}')
+        self._args_to_config(config, argname='tradingaimodel_path',
+                             logstring='Using tradingaimodel path: {}')
 
         return
 

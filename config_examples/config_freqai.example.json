@@ -46,7 +46,7 @@
             "method": "StaticPairList"
         }
     ],
-    "freqai": {
+    "tradingai": {
         "enabled": true,
         "purge_old_models": 2,
         "train_period_days": 15,
