@@ -170,7 +170,7 @@ To simulate a regular trailing stoploss of 4% (trailing 4% behind the maximum re
 ``` python
 # additional imports required
 from datetime import datetime
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 class AwesomeStrategy(IStrategy):
 
@@ -185,7 +185,7 @@ class AwesomeStrategy(IStrategy):
         e.g. returning -0.05 would create a stoploss 5% below current_rate.
         The custom stoploss can never be below self.stoploss, which serves as a hard maximum loss.
 
-        For full documentation please go to https://www.freqtrade.io/en/latest/strategy-advanced/
+        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns the initial stoploss value
         Only called when use_custom_stoploss is set to True.
@@ -201,7 +201,7 @@ class AwesomeStrategy(IStrategy):
         return -0.04
 ```
 
-Stoploss on exchange works similar to `trailing_stop`, and the stoploss on exchange is updated as configured in `stoploss_on_exchange_interval` ([More details about stoploss on exchange](stoploss.md#stop-loss-on-exchange-freqtrade)).
+Stoploss on exchange works similar to `trailing_stop`, and the stoploss on exchange is updated as configured in `stoploss_on_exchange_interval` ([More details about stoploss on exchange](stoploss.md#stop-loss-on-exchange-trading)).
 
 !!! Note "Use of dates"
     All time-based calculations should be done based on `current_time` - using `datetime.now()` or `datetime.utcnow()` is discouraged, as this will break backtesting support.
@@ -220,7 +220,7 @@ Use the initial stoploss for the first 60 minutes, after this change to 10% trai
 
 ``` python
 from datetime import datetime, timedelta
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 class AwesomeStrategy(IStrategy):
 
@@ -246,7 +246,7 @@ In this example, we'll trail the highest price with 10% trailing stoploss for `E
 
 ``` python
 from datetime import datetime
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 class AwesomeStrategy(IStrategy):
 
@@ -272,7 +272,7 @@ Please note that the stoploss can only increase, values lower than the current s
 
 ``` python
 from datetime import datetime, timedelta
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 class AwesomeStrategy(IStrategy):
 
@@ -304,8 +304,8 @@ Instead of continuously trailing behind the current price, this example sets fix
 
 ``` python
 from datetime import datetime
-from freqtrade.persistence import Trade
-from freqtrade.strategy import stoploss_from_open
+from trading.persistence import Trade
+from trading.strategy import stoploss_from_open
 
 class AwesomeStrategy(IStrategy):
 
@@ -378,7 +378,7 @@ The helper function [`stoploss_from_absolute()`](strategy-customization.md#stopl
 
 ## Custom order price rules
 
-By default, freqtrade use the orderbook to automatically set an order price([Relevant documentation](configuration.md#prices-used-for-orders)), you also have the option to create custom order prices based on your strategy.
+By default, trading use the orderbook to automatically set an order price([Relevant documentation](configuration.md#prices-used-for-orders)), you also have the option to create custom order prices based on your strategy.
 
 You can use this feature by creating a `custom_entry_price()` function in your strategy file to customize entry prices and `custom_exit_price()` for exits.
 
@@ -391,7 +391,7 @@ Each of these methods are called right before placing an order on the exchange.
 
 ``` python
 from datetime import datetime, timedelta, timezone
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 class AwesomeStrategy(IStrategy):
 
@@ -432,7 +432,7 @@ class AwesomeStrategy(IStrategy):
 
 Simple, time-based order-timeouts can be configured either via strategy or in the configuration in the `unfilledtimeout` section.
 
-However, freqtrade also offers a custom callback for both order types, which allows you to decide based on custom criteria if an order did time out or not.
+However, trading also offers a custom callback for both order types, which allows you to decide based on custom criteria if an order did time out or not.
 
 !!! Note
     Backtesting fills orders if their price falls within the candle's low/high range.
@@ -450,7 +450,7 @@ The function must return either `True` (cancel order) or `False` (keep order ali
 
 ``` python
 from datetime import datetime, timedelta
-from freqtrade.persistence import Trade, Order
+from trading.persistence import Trade, Order
 
 class AwesomeStrategy(IStrategy):
 
@@ -491,7 +491,7 @@ class AwesomeStrategy(IStrategy):
 
 ``` python
 from datetime import datetime
-from freqtrade.persistence import Trade, Order
+from trading.persistence import Trade, Order
 
 class AwesomeStrategy(IStrategy):
 
@@ -547,7 +547,7 @@ class AwesomeStrategy(IStrategy):
         Timing for this function is critical, so avoid doing heavy computations or
         network requests in this method.
 
-        For full documentation please go to https://www.freqtrade.io/en/latest/strategy-advanced/
+        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns True (always confirming).
 
@@ -581,7 +581,7 @@ The exit-reasons (if applicable) will be in the following sequence:
 * `trailing_stop_loss`
 
 ``` python
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 
 class AwesomeStrategy(IStrategy):
@@ -596,7 +596,7 @@ class AwesomeStrategy(IStrategy):
         Timing for this function is critical, so avoid doing heavy computations or
         network requests in this method.
 
-        For full documentation please go to https://www.freqtrade.io/en/latest/strategy-advanced/
+        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns True (always confirming).
 
@@ -631,7 +631,7 @@ class AwesomeStrategy(IStrategy):
 ## Adjust trade position
 
 The `position_adjustment_enable` strategy property enables the usage of `adjust_trade_position()` callback in the strategy.
-For performance reasons, it's disabled by default and freqtrade will show a warning message on startup if enabled.
+For performance reasons, it's disabled by default and trading will show a warning message on startup if enabled.
 `adjust_trade_position()` can be used to perform additional orders, for example to manage risk with DCA (Dollar Cost Averaging) or to increase or decrease positions.
 
 `max_entry_position_adjustment` property is used to limit the number of additional buys per trade (on top of the first buy) that the bot can execute. By default, the value is -1 which means the bot have no limit on number of adjustment buys.
@@ -664,7 +664,7 @@ Position adjustments will always be applied in the direction of the trade, so a 
     This can also cause deviating results between live and backtesting, since backtesting can adjust the trade only once per candle, whereas live could adjust the trade multiple times per candle.
 
 ``` python
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 
 
 class DigDeeperStrategy(IStrategy):
@@ -703,7 +703,7 @@ class DigDeeperStrategy(IStrategy):
         This means extra buy or sell orders with additional fees.
         Only called when `position_adjustment_enable` is set to True.
 
-        For full documentation please go to https://www.freqtrade.io/en/latest/strategy-advanced/
+        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns None
 
@@ -798,7 +798,7 @@ Please make sure to be aware of this - and eventually adjust your logic in other
     Entry Orders that are cancelled via the above methods will not have this callback called. Be sure to update timeout values to match your expectations.
 
 ```python
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 from datetime import timedelta
 
 class AwesomeStrategy(IStrategy):

@@ -58,6 +58,6 @@ def start_analysis_entries_exits(args: Dict[str, Any]) -> None:
     # Initialize configuration
     config = setup_analyze_configuration(args, RunMode.BACKTEST)
 
-    logger.info('Starting freqtrade in analysis mode')
+    logger.info('Starting trading in analysis mode')
 
     process_entry_exit_reasons(config)

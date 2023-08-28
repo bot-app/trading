@@ -1,6 +1,6 @@
 import pytest
 
-from freqtrade.util import render_template, render_template_with_fallback
+from trading.util import render_template, render_template_with_fallback
 
 
 def test_render_template_fallback():

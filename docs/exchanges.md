@@ -119,7 +119,7 @@ When trading on Binance Futures market, orderbook must be used because there is 
 #### Binance futures settings
 
 Users will also have to have the futures-setting "Position Mode" set to "One-way Mode", and "Asset Mode" set to "Single-Asset Mode".
-These settings will be checked on startup, and freqtrade will show an error if this setting is wrong.
+These settings will be checked on startup, and trading will show an error if this setting is wrong.
 
 ![Binance futures settings](assets/binance_futures_settings.png)
 
@@ -147,7 +147,7 @@ Due to the heavy rate-limiting applied by Kraken, the following configuration se
 
 !!! Warning "Downloading data from kraken"
     Downloading kraken data will require significantly more memory (RAM) than any other exchange, as the trades-data needs to be converted into candles on your machine.
-    It will also take a long time, as freqtrade will need to download every single trade that happened on the exchange for the pair / timerange combination, therefore please be patient.
+    It will also take a long time, as trading will need to download every single trade that happened on the exchange for the pair / timerange combination, therefore please be patient.
 
 !!! Warning "rateLimit tuning"
     Please pay attention that rateLimit configuration entry holds delay in milliseconds between requests, NOT requests\sec rate.
@@ -259,7 +259,7 @@ The configuration parameter `exchange.unknown_fee_rate` can be used to specify t
 
 Futures trading on bybit is currently supported for USDT markets, and will use isolated futures mode.
 Users with unified accounts (there's no way back) can create a Sub-account which will start as "non-unified", and can therefore use isolated futures.
-On startup, freqtrade will set the position mode to "One-way Mode" for the whole (sub)account. This avoids making this call over and over again (slowing down bot operations), but means that changes to this setting may result in exceptions and errors
+On startup, trading will set the position mode to "One-way Mode" for the whole (sub)account. This avoids making this call over and over again (slowing down bot operations), but means that changes to this setting may result in exceptions and errors
 
 As bybit doesn't provide funding rate history, the dry-run calculation is used for live trades as well.
 

@@ -1,6 +1,6 @@
 # Analyzing bot data with Jupyter notebooks
 
-You can analyze the results of backtests and trading history easily using Jupyter notebooks. Sample notebooks are located at `user_data/notebooks/` after initializing the user directory with `freqtrade create-userdir --userdir user_data`.
+You can analyze the results of backtests and trading history easily using Jupyter notebooks. Sample notebooks are located at `user_data/notebooks/` after initializing the user directory with `trading create-userdir --userdir user_data`.
 
 ## Quick start with docker
 
@@ -16,12 +16,12 @@ For more information, Please visit the [Data analysis with Docker](docker_quicks
 
 * See [jupyter.org](https://jupyter.org/documentation) for usage instructions.
 * Don't forget to start a Jupyter notebook server from within your conda or venv environment or use [nb_conda_kernels](https://github.com/Anaconda-Platform/nb_conda_kernels)*
-* Copy the example notebook before use so your changes don't get overwritten with the next freqtrade update.
+* Copy the example notebook before use so your changes don't get overwritten with the next trading update.
 
 ### Using virtual environment with system-wide Jupyter installation
 
 Sometimes it can be desired to use a system-wide installation of Jupyter notebook, and use a jupyter kernel from the virtual environment.
-This prevents you from installing the full jupyter suite multiple times per system, and provides an easy way to switch between tasks (freqtrade / other analytics tasks).
+This prevents you from installing the full jupyter suite multiple times per system, and provides an easy way to switch between tasks (trading / other analytics tasks).
 
 For this to work, first activate your virtual environment and run the following commands:
 
@@ -30,16 +30,16 @@ For this to work, first activate your virtual environment and run the following 
 source .venv/bin/activate
 
 pip install ipykernel
-ipython kernel install --user --name=freqtrade
+ipython kernel install --user --name=trading
 # Restart jupyter (lab / notebook)
-# select kernel "freqtrade" in the notebook
+# select kernel "trading" in the notebook
 ```
 
 !!! Note
     This section is provided for completeness, the Freqtrade Team won't provide full support for problems with this setup and will recommend to install Jupyter in the virtual environment directly, as that is the easiest way to get jupyter notebooks up and running. For help with this setup please refer to the [Project Jupyter](https://jupyter.org/) [documentation](https://jupyter.org/documentation) or [help channels](https://jupyter.org/community).
 
 !!! Warning
-    Some tasks don't work especially well in notebooks. For example, anything using asynchronous execution is a problem for Jupyter. Also, freqtrade's primary entry point is the shell cli, so using pure python in a notebook bypasses arguments that provide required objects and parameters to helper functions. You may need to set those values or create expected objects manually.
+    Some tasks don't work especially well in notebooks. For example, anything using asynchronous execution is a problem for Jupyter. Also, trading's primary entry point is the shell cli, so using pure python in a notebook bypasses arguments that provide required objects and parameters to helper functions. You may need to set those values or create expected objects manually.
 
 ## Recommended workflow
 
@@ -80,7 +80,7 @@ from pathlib import Path
 # Change directory
 # Modify this cell to insure that the output shows the correct path.
 # Define all paths relative to the project root shown in the cell output
-project_root = "somedir/freqtrade"
+project_root = "somedir/trading"
 i=0
 try:
     os.chdir(project_root)
@@ -100,7 +100,7 @@ This will also run through the whole Configuration initialization, so the config
 
 ``` python
 import json
-from freqtrade.configuration import Configuration
+from trading.configuration import Configuration
 
 # Load config from multiple files
 config = Configuration.from_files(["config1.json", "config2.json"])
@@ -114,7 +114,7 @@ Best avoid relative paths, since this starts at the storage location of the jupy
 
 ``` json
 {
-    "user_data_dir": "~/.freqtrade/"
+    "user_data_dir": "~/.trading/"
 }
 ```
 

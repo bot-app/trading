@@ -1,7 +1,7 @@
 # type: ignore
 from pandas import DataFrame
 
-from freqtrade.strategy import IStrategy
+from trading.strategy import IStrategy
 
 
 # Dummy strategy - no longer loads but raises an exception.

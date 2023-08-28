@@ -5,11 +5,11 @@ from types import FunctionType
 import pytest
 from sqlalchemy import select
 
-from freqtrade.constants import CUSTOM_TAG_MAX_LENGTH, DATETIME_PRINT_FORMAT
-from freqtrade.enums import TradingMode
-from freqtrade.exceptions import DependencyException
-from freqtrade.persistence import LocalTrade, Order, Trade, init_db
-from freqtrade.util import dt_now
+from trading.constants import CUSTOM_TAG_MAX_LENGTH, DATETIME_PRINT_FORMAT
+from trading.enums import TradingMode
+from trading.exceptions import DependencyException
+from trading.persistence import LocalTrade, Order, Trade, init_db
+from trading.util import dt_now
 from tests.conftest import create_mock_trades, create_mock_trades_with_leverage, log_has, log_has_re
 
 

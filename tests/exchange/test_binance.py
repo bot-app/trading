@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, PropertyMock
 import ccxt
 import pytest
 
-from freqtrade.enums import CandleType, MarginMode, TradingMode
-from freqtrade.exceptions import DependencyException, InvalidOrderException, OperationalException
+from trading.enums import CandleType, MarginMode, TradingMode
+from trading.exceptions import DependencyException, InvalidOrderException, OperationalException
 from tests.conftest import EXMS, get_mock_coro, get_patched_exchange, log_has_re
 from tests.exchange.test_exchange import ccxt_exceptionhandlers
 

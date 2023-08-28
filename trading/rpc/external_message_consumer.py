@@ -47,7 +47,7 @@ def schema_to_dict(schema: Union[WSMessageSchema, WSRequestSchema]):
 class ExternalMessageConsumer:
     """
     The main controller class for consuming external messages from
-    other freqtrade bot's
+    other trading bot's
     """
 
     def __init__(

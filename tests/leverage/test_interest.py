@@ -1,8 +1,8 @@
 import pytest
 
-from freqtrade.exceptions import OperationalException
-from freqtrade.leverage import interest
-from freqtrade.util import FtPrecise
+from trading.exceptions import OperationalException
+from trading.leverage import interest
+from trading.util import FtPrecise
 
 
 ten_mins = FtPrecise(1 / 6)
@@ -33,7 +33,7 @@ def test_interest(exchange, interest_rate, hours, expected):
 
 
 def test_interest_exception():
-    with pytest.raises(OperationalException, match=r"Leverage not available on .* with freqtrade"):
+    with pytest.raises(OperationalException, match=r"Leverage not available on .* with trading"):
         interest(
             exchange_name='bitmex',
             borrowed=FtPrecise(60.0),

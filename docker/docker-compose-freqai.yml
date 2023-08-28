@@ -1,8 +1,8 @@
 ---
 version: '3'
 services:
-  freqtrade:
-    image: freqtradeorg/freqtrade:stable_freqaitorch
+  trading:
+    image: tradingorg/trading:stable_freqaitorch
     # # Enable GPU Image and GPU Resources
     # # Make sure to uncomment the whole deploy section
     # deploy:
@@ -18,19 +18,19 @@ services:
     #   context: .
     #   dockerfile: "./docker/Dockerfile.custom"
     restart: unless-stopped
-    container_name: freqtrade
+    container_name: trading
     volumes:
-      - "./user_data:/freqtrade/user_data"
+      - "./user_data:/trading/user_data"
     # Expose api on port 8080 (localhost only)
-    # Please read the https://www.freqtrade.io/en/stable/rest-api/ documentation
+    # Please read the https://www.trading.io/en/stable/rest-api/ documentation
     # for more information.
     ports:
       - "127.0.0.1:8080:8080"
     # Default command used when running `docker compose up`
     command: >
       trade
-      --logfile /freqtrade/user_data/logs/freqtrade.log
-      --db-url sqlite:////freqtrade/user_data/tradesv3.sqlite
-      --config /freqtrade/user_data/config.json
+      --logfile /trading/user_data/logs/trading.log
+      --db-url sqlite:////trading/user_data/tradesv3.sqlite
+      --config /trading/user_data/config.json
       --freqaimodel XGBoostRegressor
       --strategy FreqaiExampleStrategy

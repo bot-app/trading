@@ -12,8 +12,8 @@ docker/
 CONTRIBUTING.md
 MANIFEST.in
 README.md
-freqtrade.service
-freqtrade.egg-info
+trading.service
+trading.egg-info
 
 config.json*
 *.sqlite

@@ -1,6 +1,6 @@
 import pytest
 
-from freqtrade.enums import CandleType
+from trading.enums import CandleType
 
 
 @pytest.mark.parametrize('input,expected', [

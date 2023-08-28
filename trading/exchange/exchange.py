@@ -677,10 +677,10 @@ class Exchange:
         margin_mode: Optional[MarginMode]  # Only None when trading_mode = TradingMode.SPOT
     ):
         """
-        Checks if freqtrade can perform trades using the configured
+        Checks if trading can perform trades using the configured
         trading mode(Margin, Futures) and MarginMode(Cross, Isolated)
         Throws OperationalException:
-            If the trading_mode/margin_mode type are not supported by freqtrade on this exchange
+            If the trading_mode/margin_mode type are not supported by trading on this exchange
         """
         if trading_mode != TradingMode.SPOT and (
             (trading_mode, margin_mode) not in self._supported_trading_mode_margin_pairs

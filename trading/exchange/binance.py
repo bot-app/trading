@@ -73,10 +73,10 @@ class Binance(Exchange):
                 msg = ""
                 if position_side.get('dualSidePosition') is True:
                     msg += (
-                        "\nHedge Mode is not supported by freqtrade. "
+                        "\nHedge Mode is not supported by trading. "
                         "Please change 'Position Mode' on your binance futures account.")
                 if assets_margin.get('multiAssetsMargin') is True:
-                    msg += ("\nMulti-Asset Mode is not supported by freqtrade. "
+                    msg += ("\nMulti-Asset Mode is not supported by trading. "
                             "Please change 'Asset Mode' on your binance futures account.")
                 if msg:
                     raise OperationalException(msg)

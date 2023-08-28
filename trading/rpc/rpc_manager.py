@@ -19,11 +19,11 @@ class RPCManager:
     Class to manage RPC objects (Telegram, API, ...)
     """
 
-    def __init__(self, freqtrade) -> None:
+    def __init__(self, trading) -> None:
         """ Initializes all enabled rpc modules """
         self.registered_modules: List[RPCHandler] = []
-        self._rpc = RPC(freqtrade)
-        config = freqtrade.config
+        self._rpc = RPC(trading)
+        config = trading.config
         # Enable telegram
         if config.get('telegram', {}).get('enabled', False):
             logger.info('Enabling rpc.telegram ...')

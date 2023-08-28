@@ -29,9 +29,9 @@ def set_loggers(verbosity: int = 0, api_verbosity: str = 'info') -> None:
 
 
 __BIAS_TESTER_LOGGERS = [
-    'freqtrade.resolvers',
-    'freqtrade.strategy.hyper',
-    'freqtrade.configuration.config_validation',
+    'trading.resolvers',
+    'trading.strategy.hyper',
+    'trading.configuration.config_validation',
 ]
 
 

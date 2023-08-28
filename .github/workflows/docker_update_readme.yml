@@ -14,4 +14,4 @@ jobs:
       env:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKERHUB_REPOSITORY: freqtradeorg/freqtrade
+        DOCKERHUB_REPOSITORY: tradingorg/trading

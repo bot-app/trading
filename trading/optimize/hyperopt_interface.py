@@ -24,7 +24,7 @@ EstimatorType = Union[RegressorMixin, str]
 
 class IHyperOpt(ABC):
     """
-    Interface for freqtrade hyperopt
+    Interface for trading hyperopt
     Defines the mandatory structure must follow any custom hyperopt
 
     Class attributes you can use:

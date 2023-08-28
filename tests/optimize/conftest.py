@@ -5,9 +5,9 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from freqtrade.enums import ExitType, RunMode
-from freqtrade.optimize.backtesting import Backtesting
-from freqtrade.optimize.hyperopt import Hyperopt
+from trading.enums import ExitType, RunMode
+from trading.optimize.backtesting import Backtesting
+from trading.optimize.hyperopt import Hyperopt
 from tests.conftest import patch_exchange
 
 

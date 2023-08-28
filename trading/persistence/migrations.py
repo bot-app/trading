@@ -336,7 +336,7 @@ def check_migrate(engine, decl_base, previous_tables) -> None:
     if 'orders' not in previous_tables and 'trades' in previous_tables:
         raise OperationalException(
             "Your database seems to be very old. "
-            "Please update to freqtrade 2022.3 to migrate this database or "
+            "Please update to trading 2022.3 to migrate this database or "
             "start with a fresh database.")
 
     set_sqlite_to_wal(engine)

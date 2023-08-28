@@ -2,8 +2,8 @@
 from pandas import DataFrame
 from technical.indicators import ichimoku
 
-from freqtrade.strategy import IStrategy
-from freqtrade.strategy.parameters import CategoricalParameter
+from trading.strategy import IStrategy
+from trading.strategy.parameters import CategoricalParameter
 
 
 class strategy_test_v3_with_lookahead_bias(IStrategy):

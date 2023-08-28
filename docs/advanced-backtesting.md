@@ -14,10 +14,10 @@ We need to run backtesting with the `--export` option set to `signals` to enable
 signals **and** trades:
 
 ``` bash
-freqtrade backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals
+trading backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals
 ```
 
-This will tell freqtrade to output a pickled dictionary of strategy, pairs and corresponding
+This will tell trading to output a pickled dictionary of strategy, pairs and corresponding
 DataFrame of the candles that resulted in buy signals. Depending on how many buys your strategy
 makes, this file may get quite large, so periodically check your `user_data/backtest_results`
 folder to delete old exports.
@@ -28,11 +28,11 @@ backtesting with the `--cache none` option to make sure no cached results are us
 If all goes well, you should now see a `backtest-result-{timestamp}_signals.pkl` file in the
 `user_data/backtest_results` folder.
 
-To analyze the entry/exit tags, we now need to use the `freqtrade backtesting-analysis` command
+To analyze the entry/exit tags, we now need to use the `trading backtesting-analysis` command
 with `--analysis-groups` option provided with space-separated arguments:
 
 ``` bash
-freqtrade backtesting-analysis -c <config.json> --analysis-groups 0 1 2 3 4 5
+trading backtesting-analysis -c <config.json> --analysis-groups 0 1 2 3 4 5
 ```
 
 This command will read from the last backtesting results. The `--analysis-groups` option is
@@ -57,20 +57,20 @@ output file. This allows you to keep historical versions of backtest results and
 them at a later date:
 
 ``` bash
-freqtrade backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals --export-filename=/tmp/mystrat_backtest.json
+trading backtesting -c <config.json> --timeframe <tf> --strategy <strategy_name> --timerange=<timerange> --export=signals --export-filename=/tmp/mystrat_backtest.json
 ```
 
 You should see some output similar to below in the logs with the name of the timestamped
 filename that was exported:
 
 ```
-2022-06-14 16:28:32,698 - freqtrade.misc - INFO - dumping json to "/tmp/mystrat_backtest-2022-06-14_16-28-32.json"
+2022-06-14 16:28:32,698 - trading.misc - INFO - dumping json to "/tmp/mystrat_backtest-2022-06-14_16-28-32.json"
 ```
 
 You can then use that filename in `backtesting-analysis`:
 
 ```
-freqtrade backtesting-analysis -c <config.json> --export-filename=/tmp/mystrat_backtest-2022-06-14_16-28-32.json
+trading backtesting-analysis -c <config.json> --export-filename=/tmp/mystrat_backtest-2022-06-14_16-28-32.json
 ```
 
 ### Tuning the buy tags and sell tags to display
@@ -85,18 +85,18 @@ To show only certain buy and sell tags in the displayed output, use the followin
 For example:
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --analysis-groups 0 2 --enter-reason-list enter_tag_a enter_tag_b --exit-reason-list roi custom_exit_tag_a stop_loss
+trading backtesting-analysis -c <config.json> --analysis-groups 0 2 --enter-reason-list enter_tag_a enter_tag_b --exit-reason-list roi custom_exit_tag_a stop_loss
 ```
 
 ### Outputting signal candle indicators
 
-The real power of `freqtrade backtesting-analysis` comes from the ability to print out the indicator
+The real power of `trading backtesting-analysis` comes from the ability to print out the indicator
 values present on signal candles to allow fine-grained investigation and tuning of buy signal
 indicators. To print out a column for a given set of indicators, use the `--indicator-list`
 option:
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --analysis-groups 0 2 --enter-reason-list enter_tag_a enter_tag_b --exit-reason-list roi custom_exit_tag_a stop_loss --indicator-list rsi rsi_1h bb_lowerband ema_9 macd macdsignal
+trading backtesting-analysis -c <config.json> --analysis-groups 0 2 --enter-reason-list enter_tag_a enter_tag_b --exit-reason-list roi custom_exit_tag_a stop_loss --indicator-list rsi rsi_1h bb_lowerband ema_9 macd macdsignal
 ```
 
 The indicators have to be present in your strategy's main DataFrame (either for your main
@@ -130,7 +130,7 @@ To show only trades between dates within your backtested timerange, supply the u
 For example, if your backtest timerange was `20220101-20221231` but you only want to output trades in January:
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --timerange 20220101-20220201
+trading backtesting-analysis -c <config.json> --timerange 20220101-20220201
 ```
 
 ### Printing out rejected signals
@@ -138,7 +138,7 @@ freqtrade backtesting-analysis -c <config.json> --timerange 20220101-20220201
 Use the `--rejected-signals` option to print out rejected signals.
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --rejected-signals
+trading backtesting-analysis -c <config.json> --rejected-signals
 ```
 
 ### Writing tables to CSV
@@ -147,13 +147,13 @@ Some of the tabular outputs can become large, so printing them out to the termin
 Use the `--analysis-to-csv` option to disable printing out of tables to standard out and write them to CSV files.
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --analysis-to-csv
+trading backtesting-analysis -c <config.json> --analysis-to-csv
 ```
 
 By default this will write one file per output table you specified in the `backtesting-analysis` command, e.g.
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --analysis-to-csv --rejected-signals --analysis-groups 0 1
+trading backtesting-analysis -c <config.json> --analysis-to-csv --rejected-signals --analysis-groups 0 1
 ```
 
 This will write to `user_data/backtest_results`:
@@ -165,5 +165,5 @@ This will write to `user_data/backtest_results`:
 To override where the files will be written, also specify the `--analysis-csv-path` option.
 
 ```bash
-freqtrade backtesting-analysis -c <config.json> --analysis-to-csv --analysis-csv-path another/data/path/
+trading backtesting-analysis -c <config.json> --analysis-to-csv --analysis-csv-path another/data/path/
 ```

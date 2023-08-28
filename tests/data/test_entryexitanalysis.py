@@ -4,10 +4,10 @@ from unittest.mock import MagicMock, PropertyMock
 import pandas as pd
 import pytest
 
-from freqtrade.commands.analyze_commands import start_analysis_entries_exits
-from freqtrade.commands.optimize_commands import start_backtesting
-from freqtrade.enums import ExitType
-from freqtrade.optimize.backtesting import Backtesting
+from trading.commands.analyze_commands import start_analysis_entries_exits
+from trading.commands.optimize_commands import start_backtesting
+from trading.enums import ExitType
+from trading.optimize.backtesting import Backtesting
 from tests.conftest import get_args, patch_exchange, patched_configuration_load_config_file
 
 
@@ -71,9 +71,9 @@ def test_backtest_analysis_nomock(default_conf, mocker, caplog, testdatadir, use
             'final_balance': 1000,
         }
     ])
-    mocker.patch('freqtrade.plugins.pairlistmanager.PairListManager.whitelist',
+    mocker.patch('trading.plugins.pairlistmanager.PairListManager.whitelist',
                  PropertyMock(return_value=['ETH/BTC', 'LTC/BTC', 'DASH/BTC']))
-    mocker.patch('freqtrade.optimize.backtesting.Backtesting.backtest', backtestmock)
+    mocker.patch('trading.optimize.backtesting.Backtesting.backtest', backtestmock)
 
     patched_configuration_load_config_file(mocker, default_conf)
 

@@ -187,7 +187,7 @@ def ask_user_config() -> Dict[str, Any]:
             "type": "text",
             "name": "api_server_username",
             "message": "Insert api-server username",
-            "default": "freqtrader",
+            "default": "tradingr",
             "when": lambda x: x['api_server']
         },
         {

@@ -1,4 +1,4 @@
-# vendored Wheels compiled via https://github.com/xmatthias/ta-lib-python/tree/ta_bundled_040
+# vendored Wheels compiled via https://github.com/sulaiman-coder/ta-lib-python/tree/ta_bundled_040
 
 python -m pip install --upgrade pip wheel
 

@@ -285,7 +285,7 @@ def refresh_backtest_ohlcv_data(exchange: Exchange, pairs: List[str], timeframes
                                 ) -> List[str]:
     """
     Refresh stored ohlcv data for backtesting and hyperopt operations.
-    Used by freqtrade download-data subcommand.
+    Used by trading download-data subcommand.
     :return: List of pairs that are not available.
     """
     pairs_not_available = []
@@ -405,7 +405,7 @@ def refresh_backtest_trades_data(exchange: Exchange, pairs: List[str], datadir: 
                                  erase: bool = False, data_format: str = 'feather') -> List[str]:
     """
     Refresh stored trades data for backtesting and hyperopt operations.
-    Used by freqtrade download-data subcommand.
+    Used by trading download-data subcommand.
     :return: List of pairs that are not available.
     """
     pairs_not_available = []

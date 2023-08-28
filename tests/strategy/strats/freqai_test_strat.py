@@ -5,7 +5,7 @@ from typing import Dict
 import talib.abstract as ta
 from pandas import DataFrame
 
-from freqtrade.strategy import DecimalParameter, IntParameter, IStrategy
+from trading.strategy import DecimalParameter, IntParameter, IStrategy
 
 
 logger = logging.getLogger(__name__)

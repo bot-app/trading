@@ -6,15 +6,15 @@ from typing import Optional
 import talib.abstract as ta
 from pandas import DataFrame
 
-import freqtrade.vendor.qtpylib.indicators as qtpylib
-from freqtrade.persistence import Trade
-from freqtrade.strategy import (BooleanParameter, DecimalParameter, IntParameter, IStrategy,
+import trading.vendor.qtpylib.indicators as qtpylib
+from trading.persistence import Trade
+from trading.strategy import (BooleanParameter, DecimalParameter, IntParameter, IStrategy,
                                 RealParameter)
 
 
 class StrategyTestV3(IStrategy):
     """
-    Strategy used by tests freqtrade bot.
+    Strategy used by tests trading bot.
     Please do not modify this strategy, it's  intended for internal use only.
     Please look at the SampleStrategy in the user_data/strategy directory
     or strategy repository https://github.com/bot-app/trading-strategies

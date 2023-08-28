@@ -5,10 +5,10 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from freqtrade.configuration import TimeRange
-from freqtrade.data.dataprovider import DataProvider
-from freqtrade.exceptions import OperationalException
-from freqtrade.freqai.data_kitchen import FreqaiDataKitchen
+from trading.configuration import TimeRange
+from trading.data.dataprovider import DataProvider
+from trading.exceptions import OperationalException
+from trading.freqai.data_kitchen import FreqaiDataKitchen
 from tests.conftest import get_patched_exchange
 from tests.freqai.conftest import (get_patched_data_kitchen, get_patched_freqai_strategy,
                                    make_unfiltered_dataframe)

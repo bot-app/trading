@@ -9,7 +9,7 @@ The call sequence of the methods described here is covered under [bot execution 
     Callback methods should *only* be implemented if a strategy uses them.
 
 !!! Tip
-    Start off with a strategy template containing all available callback methods by running `freqtrade new-strategy --strategy MyAwesomeStrategy --template advanced`
+    Start off with a strategy template containing all available callback methods by running `trading new-strategy --strategy MyAwesomeStrategy --template advanced`
 
 ## Storing information
 
@@ -45,7 +45,7 @@ class AwesomeStrategy(IStrategy):
 You may access dataframe in various strategy functions by querying it from dataprovider.
 
 ``` python
-from freqtrade.exchange import timeframe_to_prev_date
+from trading.exchange import timeframe_to_prev_date
 
 class AwesomeStrategy(IStrategy):
     def confirm_trade_exit(self, pair: str, trade: 'Trade', order_type: str, amount: float,
@@ -110,7 +110,7 @@ def custom_exit(self, pair: str, trade: Trade, current_time: datetime, current_r
     There is only one `enter_tag` column, which is used for both long and short trades.
     As a consequence, this column must be treated as "last write wins" (it's just a dataframe column after all).
     In fancy situations, where multiple signals collide (or if signals are deactivated again based on different conditions), this can lead to odd results with the wrong tag applied to an entry signal.
-    These results are a consequence of the strategy overwriting prior tags - where the last tag will "stick" and will be the one freqtrade will use.
+    These results are a consequence of the strategy overwriting prior tags - where the last tag will "stick" and will be the one trading will use.
 
 ## Exit tag
 
@@ -146,7 +146,7 @@ def version(self) -> str:
 ```
 
 !!! Note
-    You should make sure to implement proper version control (like a git repository) alongside this, as freqtrade will not keep historic versions of your strategy, so it's up to the user to be able to eventually roll back to a prior version of the strategy.
+    You should make sure to implement proper version control (like a git repository) alongside this, as trading will not keep historic versions of your strategy, so it's up to the user to be able to eventually roll back to a prior version of the strategy.
 
 ## Derived strategies
 

@@ -1,8 +1,8 @@
-FROM freqtradeorg/freqtrade:develop_freqairl
+FROM tradingorg/trading:develop_freqairl
 
 USER root
 # Install dependencies
-COPY requirements-dev.txt /freqtrade/
+COPY requirements-dev.txt /trading/
 
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog \

@@ -5,10 +5,10 @@ from unittest.mock import PropertyMock
 
 import pytest
 
-from freqtrade.commands.optimize_commands import setup_optimize_configuration
-from freqtrade.enums import RunMode
-from freqtrade.exceptions import OperationalException
-from freqtrade.optimize.backtesting import Backtesting
+from trading.commands.optimize_commands import setup_optimize_configuration
+from trading.enums import RunMode
+from trading.exceptions import OperationalException
+from trading.optimize.backtesting import Backtesting
 from tests.conftest import (CURRENT_TEST_STRATEGY, get_args, log_has_re, patch_exchange,
                             patched_configuration_load_config_file)
 
@@ -17,10 +17,10 @@ def test_freqai_backtest_start_backtest_list(freqai_conf, mocker, testdatadir, c
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
-    mocker.patch('freqtrade.plugins.pairlistmanager.PairListManager.whitelist',
+    mocker.patch('trading.plugins.pairlistmanager.PairListManager.whitelist',
                  PropertyMock(return_value=['HULUMULU/USDT', 'XRP/USDT']))
-    mocker.patch('freqtrade.optimize.backtesting.history.load_data')
-    mocker.patch('freqtrade.optimize.backtesting.history.get_timerange', return_value=(now, now))
+    mocker.patch('trading.optimize.backtesting.history.load_data')
+    mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
 
     patched_configuration_load_config_file(mocker, freqai_conf)
 
@@ -44,10 +44,10 @@ def test_freqai_backtest_load_data(freqai_conf, mocker, caplog):
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
-    mocker.patch('freqtrade.plugins.pairlistmanager.PairListManager.whitelist',
+    mocker.patch('trading.plugins.pairlistmanager.PairListManager.whitelist',
                  PropertyMock(return_value=['HULUMULU/USDT', 'XRP/USDT']))
-    mocker.patch('freqtrade.optimize.backtesting.history.load_data')
-    mocker.patch('freqtrade.optimize.backtesting.history.get_timerange', return_value=(now, now))
+    mocker.patch('trading.optimize.backtesting.history.load_data')
+    mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
     backtesting = Backtesting(deepcopy(freqai_conf))
     backtesting.load_bt_data()
 
@@ -60,10 +60,10 @@ def test_freqai_backtest_live_models_model_not_found(freqai_conf, mocker, testda
     patch_exchange(mocker)
 
     now = datetime.now(timezone.utc)
-    mocker.patch('freqtrade.plugins.pairlistmanager.PairListManager.whitelist',
+    mocker.patch('trading.plugins.pairlistmanager.PairListManager.whitelist',
                  PropertyMock(return_value=['HULUMULU/USDT', 'XRP/USDT']))
-    mocker.patch('freqtrade.optimize.backtesting.history.load_data')
-    mocker.patch('freqtrade.optimize.backtesting.history.get_timerange', return_value=(now, now))
+    mocker.patch('trading.optimize.backtesting.history.load_data')
+    mocker.patch('trading.optimize.backtesting.history.get_timerange', return_value=(now, now))
     freqai_conf["timerange"] = ""
     freqai_conf.get("freqai", {}).update({"backtest_using_historic_predictions": False})
 

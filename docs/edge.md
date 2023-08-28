@@ -212,7 +212,7 @@ Let's say the stake currency is **ETH** and there is $10$ **ETH** on the wallet.
 ## Edge command reference
 
 ```
-usage: freqtrade edge [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
+usage: trading edge [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
                       [--userdir PATH] [-s NAME] [--strategy-path PATH]
                       [-i TIMEFRAME] [--timerange TIMERANGE]
                       [--data-format-ohlcv {json,jsongz,hdf5}]
@@ -294,7 +294,7 @@ Edge module has following configuration options:
 You can run Edge independently in order to see in details the result. Here is an example:
 
 ``` bash
-freqtrade edge
+trading edge
 ```
 
 An example of its output:
@@ -331,13 +331,13 @@ Please refer to the [Data Downloading](data-download.md) section of the document
 ### Precising stoploss range
 
 ```bash
-freqtrade edge --stoplosses=-0.01,-0.1,-0.001 #min,max,step
+trading edge --stoplosses=-0.01,-0.1,-0.001 #min,max,step
 ```
 
 ### Advanced use of timerange
 
 ```bash
-freqtrade edge --timerange=20181110-20181113
+trading edge --timerange=20181110-20181113
 ```
 
 Doing `--timerange=-20190901` will get all available data until September 1st (excluding September 1st 2019).

@@ -58,7 +58,7 @@ class FreqaiDataDrawer:
     Elin Törnquist @th0rntwig
 
     Code review, software architecture brainstorming:
-    @xmatthias
+    @sulaiman-coder
 
     Beta testing and bug reporting:
     @bloodhunter4rc, Salah Lamkadem @ikonx, @ken11o2, @longyu, @paranoidandy, @smidelis, @smarm

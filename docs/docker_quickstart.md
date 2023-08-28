@@ -19,7 +19,7 @@ Start by downloading and installing Docker / Docker Desktop for your platform:
 
 ## Freqtrade with docker
 
-Freqtrade provides an official Docker image on [Dockerhub](https://hub.docker.com/r/freqtradeorg/freqtrade/), as well as a [docker compose file](https://github.com/bot-app/trading/blob/stable/docker-compose.yml) ready for usage.
+Freqtrade provides an official Docker image on [Dockerhub](https://hub.docker.com/r/tradingorg/trading/), as well as a [docker compose file](https://github.com/bot-app/trading/blob/stable/docker-compose.yml) ready for usage.
 
 !!! Note
     - The following section assumes that `docker` is installed and available to the logged in user.
@@ -35,17 +35,17 @@ cd ft_userdata/
 # Download the docker-compose file from the repository
 curl https://raw.githubusercontent.com/bot-app/trading/stable/docker-compose.yml -o docker-compose.yml
 
-# Pull the freqtrade image
+# Pull the trading image
 docker compose pull
 
 # Create user directory structure
-docker compose run --rm freqtrade create-userdir --userdir user_data
+docker compose run --rm trading create-userdir --userdir user_data
 
 # Create configuration - Requires answering interactive questions
-docker compose run --rm freqtrade new-config --config user_data/config.json
+docker compose run --rm trading new-config --config user_data/config.json
 ```
 
-The above snippet creates a new directory called `ft_userdata`, downloads the latest compose file and pulls the freqtrade image.
+The above snippet creates a new directory called `ft_userdata`, downloads the latest compose file and pulls the trading image.
 The last 2 steps in the snippet create the directory with `user_data`, as well as (interactively) the default configuration based on your selections.
 
 !!! Question "How to edit the bot configuration?"
@@ -90,20 +90,20 @@ You can now access the UI by typing localhost:8080 in your browser.
 #### Monitoring the bot
 
 You can check for running instances with `docker compose ps`.
-This should list the service `freqtrade` as `running`. If that's not the case, best check the logs (see next point).
+This should list the service `trading` as `running`. If that's not the case, best check the logs (see next point).
 
 #### Docker compose logs
 
-Logs will be written to: `user_data/logs/freqtrade.log`.  
+Logs will be written to: `user_data/logs/trading.log`.  
 You can also check the latest log with the command `docker compose logs -f`.
 
 #### Database
 
 The database will be located at: `user_data/tradesv3.sqlite`
 
-#### Updating freqtrade with docker
+#### Updating trading with docker
 
-Updating freqtrade when using `docker` is as simple as running the following 2 commands:
+Updating trading when using `docker` is as simple as running the following 2 commands:
 
 ``` bash
 # Download the latest image
@@ -121,20 +121,20 @@ This will first pull the latest image, and will then restart the container with 
 
 Advanced users may edit the docker-compose file further to include all possible options or arguments.
 
-All freqtrade arguments will be available by running `docker compose run --rm freqtrade <command> <optional arguments>`.
+All trading arguments will be available by running `docker compose run --rm trading <command> <optional arguments>`.
 
 !!! Warning "`docker compose` for trade commands"
-    Trade commands (`freqtrade trade <...>`) should not be ran via `docker compose run` - but should use `docker compose up -d` instead.
+    Trade commands (`trading trade <...>`) should not be ran via `docker compose run` - but should use `docker compose up -d` instead.
     This makes sure that the container is properly started (including port forwardings) and will make sure that the container will restart after a system reboot.
     If you intend to use freqUI, please also ensure to adjust the [configuration accordingly](rest-api.md#configuration-with-docker), otherwise the UI will not be available.
 
 !!! Note "`docker compose run --rm`"
-    Including `--rm` will remove the container after completion, and is highly recommended for all modes except trading mode (running with `freqtrade trade` command).
+    Including `--rm` will remove the container after completion, and is highly recommended for all modes except trading mode (running with `trading trade` command).
 
 ??? Note "Using docker without docker compose"
     "`docker compose run --rm`" will require a compose file to be provided.
-    Some freqtrade commands that don't require authentication such as `list-pairs` can be run with "`docker run --rm`" instead.  
-    For example `docker run --rm freqtradeorg/freqtrade:stable list-pairs --exchange binance --quote BTC --print-json`.  
+    Some trading commands that don't require authentication such as `list-pairs` can be run with "`docker run --rm`" instead.  
+    For example `docker run --rm tradingorg/trading:stable list-pairs --exchange binance --quote BTC --print-json`.  
     This can be useful for fetching exchange information to add to your `config.json` without affecting your running containers.
 
 #### Example: Download data with docker
@@ -142,7 +142,7 @@ All freqtrade arguments will be available by running `docker compose run --rm fr
 Download backtesting data for 5 days for the pair ETH/BTC and 1h timeframe from Binance. The data will be stored in the directory `user_data/data/` on the host.
 
 ``` bash
-docker compose run --rm freqtrade download-data --pairs ETH/BTC --exchange binance --days 5 -t 1h
+docker compose run --rm trading download-data --pairs ETH/BTC --exchange binance --days 5 -t 1h
 ```
 
 Head over to the [Data Downloading Documentation](data-download.md) for more details on downloading data.
@@ -152,7 +152,7 @@ Head over to the [Data Downloading Documentation](data-download.md) for more det
 Run backtesting in docker-containers for SampleStrategy and specified timerange of historical data, on 5m timeframe:
 
 ``` bash
-docker compose run --rm freqtrade backtesting --config user_data/config.json --strategy SampleStrategy --timerange 20190801-20191001 -i 5m
+docker compose run --rm trading backtesting --config user_data/config.json --strategy SampleStrategy --timerange 20190801-20191001 -i 5m
 ```
 
 Head over to the [Backtesting Documentation](backtesting.md) to learn more.
@@ -165,7 +165,7 @@ For this, please create a Dockerfile containing installation steps for the addit
 You'll then also need to modify the `docker-compose.yml` file and uncomment the build step, as well as rename the image to avoid naming collisions.
 
 ``` yaml
-    image: freqtrade_custom
+    image: trading_custom
     build:
       context: .
       dockerfile: "./Dockerfile.<yourextension>"
@@ -175,11 +175,11 @@ You can then run `docker compose build --pull` to build the docker image, and ru
 
 ### Plotting with docker
 
-Commands `freqtrade plot-profit` and `freqtrade plot-dataframe` ([Documentation](plotting.md)) are available by changing the image to `*_plot` in your `docker-compose.yml` file.
+Commands `trading plot-profit` and `trading plot-dataframe` ([Documentation](plotting.md)) are available by changing the image to `*_plot` in your `docker-compose.yml` file.
 You can then use these commands as follows:
 
 ``` bash
-docker compose run --rm freqtrade plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --timerange=20180801-20180805
+docker compose run --rm trading plot-dataframe --strategy AwesomeStrategy -p BTC/ETH --timerange=20180801-20180805
 ```
 
 The output will be stored in the `user_data/plot` directory, and can be opened with any modern browser.
@@ -196,7 +196,7 @@ docker compose -f docker/docker-compose-jupyter.yml up
 This will create a docker-container running jupyter lab, which will be accessible using `https://127.0.0.1:8888/lab`.
 Please use the link that's printed in the console after startup for simplified login.
 
-Since part of this image is built on your machine, it is recommended to rebuild the image from time to time to keep freqtrade (and dependencies) up-to-date.
+Since part of this image is built on your machine, it is recommended to rebuild the image from time to time to keep trading (and dependencies) up-to-date.
 
 ``` bash
 docker compose -f docker/docker-compose-jupyter.yml build --no-cache
@@ -223,4 +223,4 @@ docker compose -f docker/docker-compose-jupyter.yml build --no-cache
 
 !!! Warning
     Due to the above, we do not recommend the usage of docker on windows for production setups, but only for experimentation, datadownload and backtesting.
-    Best use a linux-VPS for running freqtrade reliably.
+    Best use a linux-VPS for running trading reliably.

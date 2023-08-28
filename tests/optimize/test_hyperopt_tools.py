@@ -7,9 +7,9 @@ import numpy as np
 import pytest
 import rapidjson
 
-from freqtrade.constants import FTHYPT_FILEVERSION
-from freqtrade.exceptions import OperationalException
-from freqtrade.optimize.hyperopt_tools import HyperoptTools, hyperopt_serializer
+from trading.constants import FTHYPT_FILEVERSION
+from trading.exceptions import OperationalException
+from trading.optimize.hyperopt_tools import HyperoptTools, hyperopt_serializer
 from tests.conftest import CURRENT_TEST_STRATEGY, log_has, log_has_re
 
 
@@ -233,7 +233,7 @@ def test_export_params(tmpdir):
 
 def test_try_export_params(default_conf, tmpdir, caplog, mocker):
     default_conf['disableparamexport'] = False
-    export_mock = mocker.patch("freqtrade.optimize.hyperopt_tools.HyperoptTools.export_params")
+    export_mock = mocker.patch("trading.optimize.hyperopt_tools.HyperoptTools.export_params")
 
     filename = Path(tmpdir) / f"{CURRENT_TEST_STRATEGY}.json"
     assert not filename.is_file()

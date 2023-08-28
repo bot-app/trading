@@ -1,14 +1,14 @@
-# ![freqtrade](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/freqtrade_poweredby.svg)
+# ![trading](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/trading_poweredby.svg)
 
 [![Freqtrade CI](https://github.com/bot-app/trading/workflows/Freqtrade%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04864/status.svg)](https://doi.org/10.21105/joss.04864)
 [![Coverage Status](https://coveralls.io/repos/github/bot-app/trading/badge.svg?branch=develop&service=github)](https://coveralls.io/github/bot-app/trading?branch=develop)
-[![Documentation](https://readthedocs.org/projects/freqtrade/badge/)](https://www.freqtrade.io)
+[![Documentation](https://readthedocs.org/projects/trading/badge/)](https://www.trading.io)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5737e6d668200b7518ff/maintainability)](https://codeclimate.com/github/bot-app/trading/maintainability)
 
 Freqtrade is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
 
-![freqtrade](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/freqtrade-screenshot.png)
+![trading](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/trading-screenshot.png)
 
 ## Disclaimer
 
@@ -55,7 +55,7 @@ Exchanges confirmed working by the community:
 
 We invite you to read the bot documentation to ensure you understand how the bot is working.
 
-Please find the complete documentation on the [freqtrade website](https://www.freqtrade.io).
+Please find the complete documentation on the [trading website](https://www.trading.io).
 
 ## Features
 
@@ -64,8 +64,8 @@ Please find the complete documentation on the [freqtrade website](https://www.fr
 - [x] **Dry-run**: Run the bot without paying money.
 - [x] **Backtesting**: Run a simulation of your buy/sell strategy.
 - [x] **Strategy Optimization by machine learning**: Use machine learning to optimize your buy/sell strategy parameters with real exchange data.
-- [X] **Adaptive prediction modeling**: Build a smart strategy with FreqAI that self-trains to the market via adaptive machine learning methods. [Learn more](https://www.freqtrade.io/en/stable/freqai/)
-- [x] **Edge position sizing** Calculate your win rate, risk reward ratio, the best stoploss and adjust your position size before taking a position for each specific market. [Learn more](https://www.freqtrade.io/en/stable/edge/).
+- [X] **Adaptive prediction modeling**: Build a smart strategy with FreqAI that self-trains to the market via adaptive machine learning methods. [Learn more](https://www.trading.io/en/stable/freqai/)
+- [x] **Edge position sizing** Calculate your win rate, risk reward ratio, the best stoploss and adjust your position size before taking a position for each specific market. [Learn more](https://www.trading.io/en/stable/edge/).
 - [x] **Whitelist crypto-currencies**: Select which crypto-currency you want to trade or use dynamic whitelists.
 - [x] **Blacklist crypto-currencies**: Select which crypto-currency you want to avoid.
 - [x] **Builtin WebUI**: Builtin web UI to manage your bot.
@@ -75,16 +75,16 @@ Please find the complete documentation on the [freqtrade website](https://www.fr
 
 ## Quick start
 
-Please refer to the [Docker Quickstart documentation](https://www.freqtrade.io/en/stable/docker_quickstart/) on how to get started quickly.
+Please refer to the [Docker Quickstart documentation](https://www.trading.io/en/stable/docker_quickstart/) on how to get started quickly.
 
-For further (native) installation methods, please refer to the [Installation documentation page](https://www.freqtrade.io/en/stable/installation/).
+For further (native) installation methods, please refer to the [Installation documentation page](https://www.trading.io/en/stable/installation/).
 
 ## Basic Usage
 
 ### Bot commands
 
 ```
-usage: freqtrade [-h] [-V]
+usage: trading [-h] [-V]
                  {trade,create-userdir,new-config,new-strategy,download-data,convert-data,convert-trade-data,list-data,backtesting,edge,hyperopt,hyperopt-list,hyperopt-show,list-exchanges,list-hyperopts,list-markets,list-pairs,list-strategies,list-timeframes,show-trades,test-pairlist,install-ui,plot-dataframe,plot-profit,webserver}
                  ...
 
@@ -127,7 +127,7 @@ optional arguments:
 
 ### Telegram RPC commands
 
-Telegram is not mandatory. However, this is a great way to control your bot. More details and the full command list on the [documentation](https://www.freqtrade.io/en/latest/telegram-usage/)
+Telegram is not mandatory. However, this is a great way to control your bot. More details and the full command list on the [documentation](https://www.trading.io/en/latest/telegram-usage/)
 
 - `/start`: Starts the trader.
 - `/stop`: Stops the trader.

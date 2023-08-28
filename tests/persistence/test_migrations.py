@@ -8,13 +8,13 @@ import pytest
 from sqlalchemy import create_engine, select, text
 from sqlalchemy.schema import CreateTable
 
-from freqtrade.constants import DEFAULT_DB_PROD_URL
-from freqtrade.enums import TradingMode
-from freqtrade.exceptions import OperationalException
-from freqtrade.persistence import Trade, init_db
-from freqtrade.persistence.base import ModelBase
-from freqtrade.persistence.migrations import get_last_sequence_ids, set_sequence_ids
-from freqtrade.persistence.models import PairLock
+from trading.constants import DEFAULT_DB_PROD_URL
+from trading.enums import TradingMode
+from trading.exceptions import OperationalException
+from trading.persistence import Trade, init_db
+from trading.persistence.base import ModelBase
+from trading.persistence.migrations import get_last_sequence_ids, set_sequence_ids
+from trading.persistence.models import PairLock
 from tests.conftest import log_has
 
 
@@ -30,7 +30,7 @@ def test_init_create_session(default_conf):
 
 def test_init_custom_db_url(default_conf, tmpdir):
     # Update path to a value other than default, but still in-memory
-    filename = f"{tmpdir}/freqtrade2_test.sqlite"
+    filename = f"{tmpdir}/trading2_test.sqlite"
     assert not Path(filename).is_file()
 
     default_conf.update({'db_url': f'sqlite:///{filename}'})
@@ -54,7 +54,7 @@ def test_init_prod_db(default_conf, mocker):
     default_conf.update({'dry_run': False})
     default_conf.update({'db_url': DEFAULT_DB_PROD_URL})
 
-    create_engine_mock = mocker.patch('freqtrade.persistence.models.create_engine', MagicMock())
+    create_engine_mock = mocker.patch('trading.persistence.models.create_engine', MagicMock())
 
     init_db(default_conf['db_url'])
     assert create_engine_mock.call_count == 1
@@ -62,7 +62,7 @@ def test_init_prod_db(default_conf, mocker):
 
 
 def test_init_dryrun_db(default_conf, tmpdir):
-    filename = f"{tmpdir}/freqtrade2_prod.sqlite"
+    filename = f"{tmpdir}/trading2_prod.sqlite"
     assert not Path(filename).is_file()
     default_conf.update({
         'dry_run': True,
@@ -220,7 +220,7 @@ def test_migrate_new(mocker, default_conf, fee, caplog):
         )
     """
     engine = create_engine('sqlite://')
-    mocker.patch('freqtrade.persistence.models.create_engine', lambda *args, **kwargs: engine)
+    mocker.patch('trading.persistence.models.create_engine', lambda *args, **kwargs: engine)
 
     # Create table using the old format
     with engine.begin() as connection:
@@ -323,7 +323,7 @@ def test_migrate_too_old(mocker, default_conf, fee, caplog):
                                      amount=amount
                                      )
     engine = create_engine('sqlite://')
-    mocker.patch('freqtrade.persistence.models.create_engine', lambda *args, **kwargs: engine)
+    mocker.patch('trading.persistence.models.create_engine', lambda *args, **kwargs: engine)
 
     # Create table using the old format
     with engine.begin() as connection:
@@ -395,7 +395,7 @@ def test_migrate_pairlocks(mocker, default_conf, fee, caplog):
         VALUES (2, '*', 'Lock all', '2021-07-12 18:41:03', '2021-07-12 19:00:00', 1)
                           """
     engine = create_engine('sqlite://')
-    mocker.patch('freqtrade.persistence.models.create_engine', lambda *args, **kwargs: engine)
+    mocker.patch('trading.persistence.models.create_engine', lambda *args, **kwargs: engine)
     # Create table using the old format
     with engine.begin() as connection:
         connection.execute(text(create_table_old))

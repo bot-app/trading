@@ -3,8 +3,8 @@
 # Use BuildKit, otherwise building on ARM fails
 export DOCKER_BUILDKIT=1
 
-IMAGE_NAME=freqtradeorg/freqtrade
-CACHE_IMAGE=freqtradeorg/freqtrade_cache
+IMAGE_NAME=tradingorg/trading
+CACHE_IMAGE=tradingorg/trading_cache
 GHCR_IMAGE_NAME=ghcr.io/bot-app/trading
 
 # Replace / with _ to create a valid tag
@@ -23,18 +23,18 @@ TAG_FREQAI_RL_ARM=${TAG_FREQAI_RL}_arm
 echo "Running for ${TAG}"
 
 # Add commit and commit_message to docker container
-echo "${GITHUB_SHA}" > freqtrade_commit
+echo "${GITHUB_SHA}" > trading_commit
 
 if [ "${GITHUB_EVENT_NAME}" = "schedule" ]; then
     echo "event ${GITHUB_EVENT_NAME}: full rebuild - skipping cache"
     # Build regular image
-    docker build -t freqtrade:${TAG_ARM} .
+    docker build -t trading:${TAG_ARM} .
 
 else
     echo "event ${GITHUB_EVENT_NAME}: building with cache"
     # Build regular image
     docker pull ${IMAGE_NAME}:${TAG_ARM}
-    docker build --cache-from ${IMAGE_NAME}:${TAG_ARM} -t freqtrade:${TAG_ARM} .
+    docker build --cache-from ${IMAGE_NAME}:${TAG_ARM} -t trading:${TAG_ARM} .
 
 fi
 
@@ -43,18 +43,18 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-docker build --build-arg sourceimage=freqtrade --build-arg sourcetag=${TAG_ARM} -t freqtrade:${TAG_PLOT_ARM} -f docker/Dockerfile.plot .
-docker build --build-arg sourceimage=freqtrade --build-arg sourcetag=${TAG_ARM} -t freqtrade:${TAG_FREQAI_ARM} -f docker/Dockerfile.freqai .
-docker build --build-arg sourceimage=freqtrade --build-arg sourcetag=${TAG_FREQAI_ARM} -t freqtrade:${TAG_FREQAI_RL_ARM} -f docker/Dockerfile.freqai_rl .
+docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_ARM} -t trading:${TAG_PLOT_ARM} -f docker/Dockerfile.plot .
+docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_ARM} -t trading:${TAG_FREQAI_ARM} -f docker/Dockerfile.freqai .
+docker build --build-arg sourceimage=trading --build-arg sourcetag=${TAG_FREQAI_ARM} -t trading:${TAG_FREQAI_RL_ARM} -f docker/Dockerfile.freqai_rl .
 
 # Tag image for upload and next build step
-docker tag freqtrade:$TAG_ARM ${CACHE_IMAGE}:$TAG_ARM
-docker tag freqtrade:$TAG_PLOT_ARM ${CACHE_IMAGE}:$TAG_PLOT_ARM
-docker tag freqtrade:$TAG_FREQAI_ARM ${CACHE_IMAGE}:$TAG_FREQAI_ARM
-docker tag freqtrade:$TAG_FREQAI_RL_ARM ${CACHE_IMAGE}:$TAG_FREQAI_RL_ARM
+docker tag trading:$TAG_ARM ${CACHE_IMAGE}:$TAG_ARM
+docker tag trading:$TAG_PLOT_ARM ${CACHE_IMAGE}:$TAG_PLOT_ARM
+docker tag trading:$TAG_FREQAI_ARM ${CACHE_IMAGE}:$TAG_FREQAI_ARM
+docker tag trading:$TAG_FREQAI_RL_ARM ${CACHE_IMAGE}:$TAG_FREQAI_RL_ARM
 
 # Run backtest
-docker run --rm -v $(pwd)/config_examples/config_bittrex.example.json:/freqtrade/config.json:ro -v $(pwd)/tests:/tests freqtrade:${TAG_ARM} backtesting --datadir /tests/testdata --strategy-path /tests/strategy/strats/ --strategy StrategyTestV3
+docker run --rm -v $(pwd)/config_examples/config_bittrex.example.json:/trading/config.json:ro -v $(pwd)/tests:/tests trading:${TAG_ARM} backtesting --datadir /tests/testdata --strategy-path /tests/strategy/strats/ --strategy StrategyTestV3
 
 if [ $? -ne 0 ]; then
     echo "failed running backtest"

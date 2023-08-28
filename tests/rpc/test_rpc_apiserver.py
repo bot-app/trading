@@ -18,19 +18,19 @@ from fastapi.testclient import TestClient
 from requests.auth import _basic_auth_str
 from sqlalchemy import select
 
-from freqtrade.__init__ import __version__
-from freqtrade.enums import CandleType, RunMode, State, TradingMode
-from freqtrade.exceptions import DependencyException, ExchangeError, OperationalException
-from freqtrade.loggers import setup_logging, setup_logging_pre
-from freqtrade.optimize.backtesting import Backtesting
-from freqtrade.persistence import PairLocks, Trade
-from freqtrade.rpc import RPC
-from freqtrade.rpc.api_server import ApiServer
-from freqtrade.rpc.api_server.api_auth import create_token, get_user_from_token
-from freqtrade.rpc.api_server.uvicorn_threaded import UvicornServer
-from freqtrade.rpc.api_server.webserver_bgwork import ApiBG
+from trading.__init__ import __version__
+from trading.enums import CandleType, RunMode, State, TradingMode
+from trading.exceptions import DependencyException, ExchangeError, OperationalException
+from trading.loggers import setup_logging, setup_logging_pre
+from trading.optimize.backtesting import Backtesting
+from trading.persistence import PairLocks, Trade
+from trading.rpc import RPC
+from trading.rpc.api_server import ApiServer
+from trading.rpc.api_server.api_auth import create_token, get_user_from_token
+from trading.rpc.api_server.uvicorn_threaded import UvicornServer
+from trading.rpc.api_server.webserver_bgwork import ApiBG
 from tests.conftest import (CURRENT_TEST_STRATEGY, EXMS, create_mock_trades, get_mock_coro,
-                            get_patched_freqtradebot, log_has, log_has_re, patch_get_signal)
+                            get_patched_tradingbot, log_has, log_has_re, patch_get_signal)
 
 
 BASE_URI = "/api/v1"
@@ -53,9 +53,9 @@ def botclient(default_conf, mocker):
                                         "ws_token": _TEST_WS_TOKEN
                                         }})
 
-    ftbot = get_patched_freqtradebot(mocker, default_conf)
+    ftbot = get_patched_tradingbot(mocker, default_conf)
     rpc = RPC(ftbot)
-    mocker.patch('freqtrade.rpc.api_server.ApiServer.start_api', MagicMock())
+    mocker.patch('trading.rpc.api_server.ApiServer.start_api', MagicMock())
     apiserver = None
     try:
         apiserver = ApiServer(default_conf)
@@ -127,7 +127,7 @@ def test_api_ui_fallback(botclient, mocker):
 
     rc = client_get(client, "/fallback_file.html")
     assert rc.status_code == 200
-    assert '`freqtrade install-ui`' in rc.text
+    assert '`trading install-ui`' in rc.text
 
     # Forwarded to fallback_html or index.html (depending if it's installed or not)
     rc = client_get(client, "/something")
@@ -140,19 +140,19 @@ def test_api_ui_fallback(botclient, mocker):
     rc = client_get(client, '%2F%2F%2Fetc/passwd')
     assert rc.status_code == 200
     # Allow both fallback or real UI
-    assert '`freqtrade install-ui`' in rc.text or '<!DOCTYPE html>' in rc.text
+    assert '`trading install-ui`' in rc.text or '<!DOCTYPE html>' in rc.text
 
     mocker.patch.object(Path, 'is_file', MagicMock(side_effect=[True, False]))
     rc = client_get(client, '%2F%2F%2Fetc/passwd')
     assert rc.status_code == 200
 
-    assert '`freqtrade install-ui`' in rc.text
+    assert '`trading install-ui`' in rc.text
 
 
 def test_api_ui_version(botclient, mocker):
     ftbot, client = botclient
 
-    mocker.patch('freqtrade.commands.deploy_commands.read_ui_version', return_value='0.1.2')
+    mocker.patch('trading.commands.deploy_commands.read_ui_version', return_value='0.1.2')
     rc = client_get(client, "/ui_version")
     assert rc.status_code == 200
     assert rc.json()['version'] == '0.1.2'
@@ -296,20 +296,20 @@ def test_api__init__(default_conf, mocker):
                                         "username": "TestUser",
                                         "password": "testPass",
                                         }})
-    mocker.patch('freqtrade.rpc.telegram.Telegram._init')
-    mocker.patch('freqtrade.rpc.api_server.webserver.ApiServer.start_api', MagicMock())
+    mocker.patch('trading.rpc.telegram.Telegram._init')
+    mocker.patch('trading.rpc.api_server.webserver.ApiServer.start_api', MagicMock())
     apiserver = ApiServer(default_conf)
-    apiserver.add_rpc_handler(RPC(get_patched_freqtradebot(mocker, default_conf)))
+    apiserver.add_rpc_handler(RPC(get_patched_tradingbot(mocker, default_conf)))
     assert apiserver._config == default_conf
     with pytest.raises(OperationalException, match="RPC Handler already attached."):
-        apiserver.add_rpc_handler(RPC(get_patched_freqtradebot(mocker, default_conf)))
+        apiserver.add_rpc_handler(RPC(get_patched_tradingbot(mocker, default_conf)))
 
     apiserver.cleanup()
     ApiServer.shutdown()
 
 
 def test_api_UvicornServer(mocker):
-    thread_mock = mocker.patch('freqtrade.rpc.api_server.uvicorn_threaded.threading.Thread')
+    thread_mock = mocker.patch('trading.rpc.api_server.uvicorn_threaded.threading.Thread')
     s = UvicornServer(uvicorn.Config(MagicMock(), port=8080, host='127.0.0.1'))
     assert thread_mock.call_count == 0
 
@@ -323,7 +323,7 @@ def test_api_UvicornServer(mocker):
 
 
 def test_api_UvicornServer_run(mocker):
-    serve_mock = mocker.patch('freqtrade.rpc.api_server.uvicorn_threaded.UvicornServer.serve',
+    serve_mock = mocker.patch('trading.rpc.api_server.uvicorn_threaded.UvicornServer.serve',
                               get_mock_coro(None))
     s = UvicornServer(uvicorn.Config(MagicMock(), port=8080, host='127.0.0.1'))
     assert serve_mock.call_count == 0
@@ -335,7 +335,7 @@ def test_api_UvicornServer_run(mocker):
 
 
 def test_api_UvicornServer_run_no_uvloop(mocker, import_fails):
-    serve_mock = mocker.patch('freqtrade.rpc.api_server.uvicorn_threaded.UvicornServer.serve',
+    serve_mock = mocker.patch('trading.rpc.api_server.uvicorn_threaded.UvicornServer.serve',
                               get_mock_coro(None))
     asyncio.set_event_loop(asyncio.new_event_loop())
     s = UvicornServer(uvicorn.Config(MagicMock(), port=8080, host='127.0.0.1'))
@@ -354,16 +354,16 @@ def test_api_run(default_conf, mocker, caplog):
                                         "username": "TestUser",
                                         "password": "testPass",
                                         }})
-    mocker.patch('freqtrade.rpc.telegram.Telegram._init')
+    mocker.patch('trading.rpc.telegram.Telegram._init')
 
     server_inst_mock = MagicMock()
     server_inst_mock.run_in_thread = MagicMock()
     server_inst_mock.run = MagicMock()
     server_mock = MagicMock(return_value=server_inst_mock)
-    mocker.patch('freqtrade.rpc.api_server.webserver.UvicornServer', server_mock)
+    mocker.patch('trading.rpc.api_server.webserver.UvicornServer', server_mock)
 
     apiserver = ApiServer(default_conf)
-    apiserver.add_rpc_handler(RPC(get_patched_freqtradebot(mocker, default_conf)))
+    apiserver.add_rpc_handler(RPC(get_patched_tradingbot(mocker, default_conf)))
 
     assert server_mock.call_count == 1
     assert apiserver._config == default_conf
@@ -417,7 +417,7 @@ def test_api_run(default_conf, mocker, caplog):
 
     # Test crashing API server
     caplog.clear()
-    mocker.patch('freqtrade.rpc.api_server.webserver.UvicornServer',
+    mocker.patch('trading.rpc.api_server.webserver.UvicornServer',
                  MagicMock(side_effect=Exception))
     apiserver.start_api()
     assert log_has("Api server failed to start.", caplog)
@@ -432,14 +432,14 @@ def test_api_cleanup(default_conf, mocker, caplog):
                                         "username": "TestUser",
                                         "password": "testPass",
                                         }})
-    mocker.patch('freqtrade.rpc.telegram.Telegram._init')
+    mocker.patch('trading.rpc.telegram.Telegram._init')
 
     server_mock = MagicMock()
     server_mock.cleanup = MagicMock()
-    mocker.patch('freqtrade.rpc.api_server.webserver.UvicornServer', server_mock)
+    mocker.patch('trading.rpc.api_server.webserver.UvicornServer', server_mock)
 
     apiserver = ApiServer(default_conf)
-    apiserver.add_rpc_handler(RPC(get_patched_freqtradebot(mocker, default_conf)))
+    apiserver.add_rpc_handler(RPC(get_patched_tradingbot(mocker, default_conf)))
 
     apiserver.cleanup()
     assert apiserver._server.cleanup.call_count == 1
@@ -587,7 +587,7 @@ def test_api_show_config(botclient):
     assert response['timeframe_ms'] == 300000
     assert response['timeframe_min'] == 5
     assert response['state'] == 'running'
-    assert response['bot_name'] == 'freqtrade'
+    assert response['bot_name'] == 'trading'
     assert response['trading_mode'] == 'spot'
     assert response['strategy_version'] is None
     assert not response['trailing_stop']
@@ -1231,7 +1231,7 @@ def test_api_force_entry(botclient, mocker, fee, endpoint):
     ftbot.config['force_entry_enable'] = True
 
     fbuy_mock = MagicMock(return_value=None)
-    mocker.patch("freqtrade.rpc.rpc.RPC._rpc_force_entry", fbuy_mock)
+    mocker.patch("trading.rpc.rpc.RPC._rpc_force_entry", fbuy_mock)
     rc = client_post(client, f"{BASE_URI}/{endpoint}",
                      data={"pair": "ETH/BTC"})
     assert_response(rc)
@@ -1257,7 +1257,7 @@ def test_api_force_entry(botclient, mocker, fee, endpoint):
         strategy=CURRENT_TEST_STRATEGY,
         trading_mode=TradingMode.SPOT
     ))
-    mocker.patch("freqtrade.rpc.rpc.RPC._rpc_force_entry", fbuy_mock)
+    mocker.patch("trading.rpc.rpc.RPC._rpc_force_entry", fbuy_mock)
 
     rc = client_post(client, f"{BASE_URI}/{endpoint}",
                      data={"pair": "ETH/BTC"})
@@ -1462,7 +1462,7 @@ def test_api_pair_candles(botclient, ohlcv_history):
 def test_api_pair_history(botclient, mocker):
     ftbot, client = botclient
     timeframe = '5m'
-    lfm = mocker.patch('freqtrade.strategy.interface.IStrategy.load_freqAI_model')
+    lfm = mocker.patch('trading.strategy.interface.IStrategy.load_freqAI_model')
     # No pair
     rc = client_get(client,
                     f"{BASE_URI}/pair_history?timeframe={timeframe}"
@@ -1568,7 +1568,7 @@ def test_api_plot_config(botclient, mocker):
     assert_response(rc, 502)
     assert rc.json()['detail'] is not None
 
-    mocker.patch('freqtrade.rpc.api_server.api_v1.get_rpc_optional', return_value=None)
+    mocker.patch('trading.rpc.api_server.api_v1.get_rpc_optional', return_value=None)
 
     rc = client_get(client, f"{BASE_URI}/plot_config")
     assert_response(rc)
@@ -1662,7 +1662,7 @@ def test_api_freqaimodels(botclient, tmpdir, mocker):
     ftbot, client = botclient
     ftbot.config['user_data_dir'] = Path(tmpdir)
     mocker.patch(
-        "freqtrade.resolvers.freqaimodel_resolver.FreqaiModelResolver.search_all_objects",
+        "trading.resolvers.freqaimodel_resolver.FreqaiModelResolver.search_all_objects",
         return_value=[
             {'name': 'LightGBMClassifier'},
             {'name': 'LightGBMClassifierMultiTarget'},
@@ -1790,7 +1790,7 @@ def test_api_pairlists_evaluate(botclient, tmpdir, mocker):
     assert response['result']['whitelist'] == ['ETH/BTC', 'LTC/BTC', ]
     assert response['result']['length'] == 2
     # Patch __run_pairlists
-    plm = mocker.patch('freqtrade.rpc.api_server.api_background_tasks.__run_pairlist',
+    plm = mocker.patch('trading.rpc.api_server.api_background_tasks.__run_pairlist',
                        return_value=None)
     body = {
         "pairlists": [
@@ -1972,7 +1972,7 @@ def test_api_backtesting(botclient, mocker, fee, caplog, tmpdir):
 
         data['stake_amount'] = 101
 
-        mocker.patch('freqtrade.optimize.backtesting.Backtesting.backtest_one_strategy',
+        mocker.patch('trading.optimize.backtesting.Backtesting.backtest_one_strategy',
                      side_effect=DependencyException('DeadBeef'))
         rc = client_post(client, f"{BASE_URI}/backtest", data=data)
         assert log_has("Backtesting caused an error: DeadBeef", caplog)
@@ -2002,7 +2002,7 @@ def test_api_backtesting(botclient, mocker, fee, caplog, tmpdir):
 
 def test_api_backtest_history(botclient, mocker, testdatadir):
     ftbot, client = botclient
-    mocker.patch('freqtrade.data.btanalysis._get_backtest_files',
+    mocker.patch('trading.data.btanalysis._get_backtest_files',
                  return_value=[
                      testdatadir / 'backtest_results/backtest-result_multistrat.json',
                      testdatadir / 'backtest_results/backtest-result.json'
@@ -2147,7 +2147,7 @@ def test_api_ws_subscribe(botclient, mocker):
     ftbot, client = botclient
     ws_url = f"/api/v1/message/ws?token={_TEST_WS_TOKEN}"
 
-    sub_mock = mocker.patch('freqtrade.rpc.api_server.ws.WebSocketChannel.set_subscriptions')
+    sub_mock = mocker.patch('trading.rpc.api_server.ws.WebSocketChannel.set_subscriptions')
 
     with client.websocket_connect(ws_url) as ws:
         ws.send_json({'type': 'subscribe', 'data': ['whitelist']})
@@ -2208,10 +2208,10 @@ def test_api_ws_send_msg(default_conf, mocker, caplog):
                                             "password": _TEST_PASS,
                                             "ws_token": _TEST_WS_TOKEN
                                             }})
-        mocker.patch('freqtrade.rpc.telegram.Telegram._init')
-        mocker.patch('freqtrade.rpc.api_server.ApiServer.start_api')
+        mocker.patch('trading.rpc.telegram.Telegram._init')
+        mocker.patch('trading.rpc.api_server.ApiServer.start_api')
         apiserver = ApiServer(default_conf)
-        apiserver.add_rpc_handler(RPC(get_patched_freqtradebot(mocker, default_conf)))
+        apiserver.add_rpc_handler(RPC(get_patched_tradingbot(mocker, default_conf)))
 
         # Start test client context manager to run lifespan events
         with TestClient(apiserver.app):

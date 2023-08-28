@@ -220,7 +220,7 @@ def text_table_add_metrics(strat_results: Dict) -> str:
         ] if strat_results.get('canceled_entry_orders', 0) > 0 else []
 
         # Newly added fields should be ignored if they are missing in strat_results. hyperopt-show
-        # command stores these results and newer version of freqtrade must be able to handle old
+        # command stores these results and newer version of trading must be able to handle old
         # results with missing new fields.
         metrics = [
             ('Backtesting from', strat_results['backtest_start']),

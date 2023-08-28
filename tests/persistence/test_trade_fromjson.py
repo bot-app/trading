@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from freqtrade.persistence.trade_model import Trade
+from trading.persistence.trade_model import Trade
 
 
 @pytest.mark.usefixtures("init_persistence")

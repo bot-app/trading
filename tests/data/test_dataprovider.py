@@ -4,10 +4,10 @@ from unittest.mock import MagicMock
 import pytest
 from pandas import DataFrame, Timestamp
 
-from freqtrade.data.dataprovider import DataProvider
-from freqtrade.enums import CandleType, RunMode
-from freqtrade.exceptions import ExchangeError, OperationalException
-from freqtrade.plugins.pairlistmanager import PairListManager
+from trading.data.dataprovider import DataProvider
+from trading.enums import CandleType, RunMode
+from trading.exceptions import ExchangeError, OperationalException
+from trading.plugins.pairlistmanager import PairListManager
 from tests.conftest import EXMS, generate_test_data, get_patched_exchange
 
 
@@ -52,7 +52,7 @@ def test_dp_ohlcv(mocker, default_conf, ohlcv_history, candle_type):
 
 def test_historic_ohlcv(mocker, default_conf, ohlcv_history):
     historymock = MagicMock(return_value=ohlcv_history)
-    mocker.patch("freqtrade.data.dataprovider.load_pair_history", historymock)
+    mocker.patch("trading.data.dataprovider.load_pair_history", historymock)
 
     dp = DataProvider(default_conf, None)
     data = dp.historic_ohlcv("UNITTEST/BTC", "5m")
@@ -64,8 +64,8 @@ def test_historic_ohlcv(mocker, default_conf, ohlcv_history):
 def test_historic_ohlcv_dataformat(mocker, default_conf, ohlcv_history):
     hdf5loadmock = MagicMock(return_value=ohlcv_history)
     featherloadmock = MagicMock(return_value=ohlcv_history)
-    mocker.patch("freqtrade.data.history.hdf5datahandler.HDF5DataHandler._ohlcv_load", hdf5loadmock)
-    mocker.patch("freqtrade.data.history.featherdatahandler.FeatherDataHandler._ohlcv_load",
+    mocker.patch("trading.data.history.hdf5datahandler.HDF5DataHandler._ohlcv_load", hdf5loadmock)
+    mocker.patch("trading.data.history.featherdatahandler.FeatherDataHandler._ohlcv_load",
                  featherloadmock)
 
     default_conf["runmode"] = RunMode.BACKTEST
@@ -125,7 +125,7 @@ def test_get_pair_dataframe(mocker, default_conf, ohlcv_history, candle_type):
     assert dp.get_pair_dataframe("NONESENSE/AAA", timeframe, candle_type=candle_type).empty
 
     historymock = MagicMock(return_value=ohlcv_history)
-    mocker.patch("freqtrade.data.dataprovider.load_pair_history", historymock)
+    mocker.patch("trading.data.dataprovider.load_pair_history", historymock)
     default_conf["runmode"] = RunMode.BACKTEST
     dp = DataProvider(default_conf, exchange)
     assert dp.runmode == RunMode.BACKTEST
@@ -200,9 +200,9 @@ def test_get_producer_df(default_conf):
 
 
 def test_emit_df(mocker, default_conf, ohlcv_history):
-    mocker.patch('freqtrade.rpc.rpc_manager.RPCManager.__init__', MagicMock())
-    rpc_mock = mocker.patch('freqtrade.rpc.rpc_manager.RPCManager', MagicMock())
-    send_mock = mocker.patch('freqtrade.rpc.rpc_manager.RPCManager.send_msg', MagicMock())
+    mocker.patch('trading.rpc.rpc_manager.RPCManager.__init__', MagicMock())
+    rpc_mock = mocker.patch('trading.rpc.rpc_manager.RPCManager', MagicMock())
+    send_mock = mocker.patch('trading.rpc.rpc_manager.RPCManager.send_msg', MagicMock())
 
     dataprovider = DataProvider(default_conf, exchange=None, rpc=rpc_mock)
     dataprovider_no_rpc = DataProvider(default_conf, exchange=None)

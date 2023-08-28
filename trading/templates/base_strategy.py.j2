@@ -8,7 +8,7 @@ from pandas import DataFrame
 from datetime import datetime
 from typing import Optional, Union
 
-from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter,
+from trading.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter,
                                 IntParameter, IStrategy, merge_informative_pair)
 
 # --------------------------------
@@ -21,7 +21,7 @@ from technical import qtpylib
 class {{ strategy }}(IStrategy):
     """
     This is a strategy template to get you started.
-    More information in https://www.freqtrade.io/en/latest/strategy-customization/
+    More information in https://www.trading.io/en/latest/strategy-customization/
 
     You can:
         :return: a Dataframe with all mandatory indicators for the strategies

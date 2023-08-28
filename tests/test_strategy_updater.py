@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from freqtrade.commands.strategy_utils_commands import start_strategy_update
-from freqtrade.strategy.strategyupdater import StrategyUpdater
+from trading.commands.strategy_utils_commands import start_strategy_update
+from trading.strategy.strategyupdater import StrategyUpdater
 from tests.conftest import get_args
 
 
@@ -191,7 +191,7 @@ def test_strategy_updater_comments(default_conf, caplog) -> None:
 # This is the 1st comment
 import talib.abstract as ta
 # This is the 2nd comment
-import freqtrade.vendor.qtpylib.indicators as qtpylib
+import trading.vendor.qtpylib.indicators as qtpylib
 
 
 class someStrategy(IStrategy):

@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
-from freqtrade.enums.marginmode import MarginMode
-from freqtrade.enums.tradingmode import TradingMode
+from trading.enums.marginmode import MarginMode
+from trading.enums.tradingmode import TradingMode
 from tests.conftest import get_mock_coro, get_patched_exchange
 from tests.exchange.test_exchange import ccxt_exceptionhandlers
 

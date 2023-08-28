@@ -51,7 +51,7 @@ def start_backtesting(args: Dict[str, Any]) -> None:
     # Initialize configuration
     config = setup_optimize_configuration(args, RunMode.BACKTEST)
 
-    logger.info('Starting freqtrade in Backtesting mode')
+    logger.info('Starting trading in Backtesting mode')
 
     # Initialize backtesting object
     backtesting = Backtesting(config)
@@ -91,7 +91,7 @@ def start_hyperopt(args: Dict[str, Any]) -> None:
     # Initialize configuration
     config = setup_optimize_configuration(args, RunMode.HYPEROPT)
 
-    logger.info('Starting freqtrade in Hyperopt mode')
+    logger.info('Starting trading in Hyperopt mode')
 
     lock = FileLock(Hyperopt.get_lock_filename(config))
 
@@ -107,12 +107,12 @@ def start_hyperopt(args: Dict[str, Any]) -> None:
             hyperopt.start()
 
     except Timeout:
-        logger.info("Another running instance of freqtrade Hyperopt detected.")
+        logger.info("Another running instance of trading Hyperopt detected.")
         logger.info("Simultaneous execution of multiple Hyperopt commands is not supported. "
                     "Hyperopt module is resource hungry. Please run your Hyperopt sequentially "
                     "or on separate machines.")
         logger.info("Quitting now.")
-        # TODO: return False here in order to help freqtrade to exit
+        # TODO: return False here in order to help trading to exit
         # with non-zero exit code...
         # Same in Edge and Backtesting start() functions.
 
@@ -127,7 +127,7 @@ def start_edge(args: Dict[str, Any]) -> None:
 
     # Initialize configuration
     config = setup_optimize_configuration(args, RunMode.EDGE)
-    logger.info('Starting freqtrade in Edge mode')
+    logger.info('Starting trading in Edge mode')
 
     # Initialize Edge object
     edge_cli = EdgeCli(config)

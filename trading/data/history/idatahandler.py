@@ -352,7 +352,7 @@ class IDataHandler(ABC):
             if warn_no_data:
                 logger.warning(
                     f"No history for {pair}, {candle_type}, {timeframe} found. "
-                    "Use `freqtrade download-data` to download the data"
+                    "Use `trading download-data` to download the data"
                 )
             return True
         elif warn_price:

@@ -14,7 +14,7 @@ You can specify a different configuration file used by the bot with the `-c/--co
 If you used the [Quick start](docker_quickstart.md#docker-quick-start) method for installing
 the bot, the installation script should have already created the default configuration file (`config.json`) for you.
 
-If the default configuration file is not created we recommend to use `freqtrade new-config --config config.json` to generate a basic configuration file.
+If the default configuration file is not created we recommend to use `trading new-config --config config.json` to generate a basic configuration file.
 
 The Freqtrade configuration file is to be written in JSON format.
 
@@ -27,7 +27,7 @@ Do not worry if you are not familiar with JSON format -- simply open the configu
 Set options in the Freqtrade configuration via environment variables.
 This takes priority over the corresponding value in configuration or strategy.
 
-Environment variables must be prefixed with  `FREQTRADE__` to be loaded to the freqtrade configuration.
+Environment variables must be prefixed with  `FREQTRADE__` to be loaded to the trading configuration.
 
 `__` serves as level separator, so the format used should correspond to `FREQTRADE__{section}__{key}`.
 As such - an environment variable defined as  `export FREQTRADE__STAKE_AMOUNT=200` would result in `{stake_amount: 200}`.
@@ -64,7 +64,7 @@ This is similar to using multiple `--config` parameters, but simpler in usage as
     For one-off commands, you can also use the below syntax by specifying multiple "--config" parameters.
 
     ``` bash
-    freqtrade trade --config user_data/config1.json --config user_data/config-private.json <...>
+    trading trade --config user_data/config1.json --config user_data/config-private.json <...>
     ```
 
     The below is equivalent to the example above - but having 2 configuration files in the configuration, for easier reuse.
@@ -77,7 +77,7 @@ This is similar to using multiple `--config` parameters, but simpler in usage as
     ```
 
     ``` bash
-    freqtrade trade --config user_data/config.json <...>
+    trading trade --config user_data/config.json <...>
     ```
 
 ??? Note "config collision handling"
@@ -154,8 +154,8 @@ Mandatory parameters are marked as **Required**, which means that they are requi
 | `trailing_stop_positive` | Changes stoploss once profit has been reached. More details in the [stoploss documentation](stoploss.md#trailing-stop-loss-custom-positive-loss). [Strategy Override](#parameters-in-the-strategy). <br> **Datatype:** Float
 | `trailing_stop_positive_offset` | Offset on when to apply `trailing_stop_positive`. Percentage value which should be positive. More details in the [stoploss documentation](stoploss.md#trailing-stop-loss-only-once-the-trade-has-reached-a-certain-offset). [Strategy Override](#parameters-in-the-strategy). <br>*Defaults to `0.0` (no offset).* <br> **Datatype:** Float
 | `trailing_only_offset_is_reached` | Only apply trailing stoploss when the offset is reached. [stoploss documentation](stoploss.md). [Strategy Override](#parameters-in-the-strategy). <br>*Defaults to `false`.*  <br> **Datatype:** Boolean
-| `fee` | Fee used during backtesting / dry-runs. Should normally not be configured, which has freqtrade fall back to the exchange default fee. Set as ratio (e.g. 0.001 = 0.1%). Fee is applied twice for each trade, once when buying, once when selling. <br> **Datatype:** Float (as ratio)
-| `futures_funding_rate` | User-specified funding rate to be used when historical funding rates are not available from the exchange. This does not overwrite real historical rates. It is recommended that this be set to 0 unless you are testing a specific coin and you understand how the funding rate will affect freqtrade's profit calculations. [More information here](leverage.md#unavailable-funding-rates) <br>*Defaults to `None`.*<br> **Datatype:** Float
+| `fee` | Fee used during backtesting / dry-runs. Should normally not be configured, which has trading fall back to the exchange default fee. Set as ratio (e.g. 0.001 = 0.1%). Fee is applied twice for each trade, once when buying, once when selling. <br> **Datatype:** Float (as ratio)
+| `futures_funding_rate` | User-specified funding rate to be used when historical funding rates are not available from the exchange. This does not overwrite real historical rates. It is recommended that this be set to 0 unless you are testing a specific coin and you understand how the funding rate will affect trading's profit calculations. [More information here](leverage.md#unavailable-funding-rates) <br>*Defaults to `None`.*<br> **Datatype:** Float
 | `trading_mode` | Specifies if you want to trade regularly, trade with leverage, or trade contracts whose prices are derived from matching cryptocurrency prices. [leverage documentation](leverage.md). <br>*Defaults to `"spot"`.*  <br> **Datatype:** String
 | `margin_mode` | When trading with leverage, this determines if the collateral owned by the trader will be shared or isolated to each trading pair [leverage documentation](leverage.md). <br> **Datatype:** String
 | `liquidation_buffer` | A ratio specifying how large of a safety net to place between the liquidation price and the stoploss to prevent a position from reaching the liquidation price [leverage documentation](leverage.md). <br>*Defaults to `0.05`.*  <br> **Datatype:** Float
@@ -202,7 +202,7 @@ Mandatory parameters are marked as **Required**, which means that they are requi
 | `exchange.skip_open_order_update` | Skips open order updates on startup should the exchange cause problems. Only relevant in live conditions.<br>*Defaults to `false`*<br> **Datatype:** Boolean
 | `exchange.unknown_fee_rate` | Fallback value to use when calculating trading fees. This can be useful for exchanges which have fees in non-tradable currencies. The value provided here will be multiplied with the "fee cost".<br>*Defaults to `None`<br> **Datatype:** float
 | `exchange.log_responses` | Log relevant exchange responses. For debug mode only - use with care.<br>*Defaults to `false`*<br> **Datatype:** Boolean
-| `experimental.block_bad_exchanges` | Block exchanges known to not work with freqtrade. Leave on default unless you want to test if that exchange works now. <br>*Defaults to `true`.* <br> **Datatype:** Boolean
+| `experimental.block_bad_exchanges` | Block exchanges known to not work with trading. Leave on default unless you want to test if that exchange works now. <br>*Defaults to `true`.* <br> **Datatype:** Boolean
 | | **Plugins**
 | `edge.*` | Please refer to [edge configuration document](edge.md) for detailed explanation of all possible configuration options.
 | `pairlists` | Define one or more pairlists to be used. [More information](plugins.md#pairlists-and-pairlist-handlers). <br>*Defaults to `StaticPairList`.*  <br> **Datatype:** List of Dicts
@@ -234,7 +234,7 @@ Mandatory parameters are marked as **Required**, which means that they are requi
 | `api_server.username` | Username for API server. See the [API Server documentation](rest-api.md) for more details. <br>**Keep it in secret, do not disclose publicly.**<br> **Datatype:** String
 | `api_server.password` | Password for API server. See the [API Server documentation](rest-api.md) for more details. <br>**Keep it in secret, do not disclose publicly.**<br> **Datatype:** String
 | `api_server.ws_token` | API token for the Message WebSocket. See the [API Server documentation](rest-api.md) for more details.  <br>**Keep it in secret, do not disclose publicly.** <br> **Datatype:** String
-| `bot_name` | Name of the bot. Passed via API to a client - can be shown to distinguish / name bots.<br> *Defaults to `freqtrade`*<br> **Datatype:** String
+| `bot_name` | Name of the bot. Passed via API to a client - can be shown to distinguish / name bots.<br> *Defaults to `trading`*<br> **Datatype:** String
 | `external_message_consumer` | Enable [Producer/Consumer mode](producer-consumer.md) for more details. <br> **Datatype:** Dict
 | | **Other**
 | `initial_state` | Defines the initial application state. If set to stopped, then the bot has to be explicitly started via `/start` RPC command. <br>*Defaults to `stopped`.* <br> **Datatype:** Enum, either `stopped` or `running`
@@ -242,7 +242,7 @@ Mandatory parameters are marked as **Required**, which means that they are requi
 | `disable_dataframe_checks` | Disable checking the OHLCV dataframe returned from the strategy methods for correctness. Only use when intentionally changing the dataframe and understand what you are doing. [Strategy Override](#parameters-in-the-strategy).<br> *Defaults to `False`*. <br> **Datatype:** Boolean
 | `internals.process_throttle_secs` | Set the process throttle, or minimum loop duration for one bot iteration loop. Value in second. <br>*Defaults to `5` seconds.* <br> **Datatype:** Positive Integer
 | `internals.heartbeat_interval` | Print heartbeat message every N seconds. Set to 0 to disable heartbeat messages. <br>*Defaults to `60` seconds.* <br> **Datatype:** Positive Integer or 0
-| `internals.sd_notify` | Enables use of the sd_notify protocol to tell systemd service manager about changes in the bot state and issue keep-alive pings. See [here](installation.md#7-optional-configure-freqtrade-as-a-systemd-service) for more details. <br> **Datatype:** Boolean
+| `internals.sd_notify` | Enables use of the sd_notify protocol to tell systemd service manager about changes in the bot state and issue keep-alive pings. See [here](installation.md#7-optional-configure-trading-as-a-systemd-service) for more details. <br> **Datatype:** Boolean
 | `strategy` | **Required** Defines Strategy class to use. Recommended to be set via `--strategy NAME`. <br> **Datatype:** ClassName
 | `strategy_path` | Adds an additional strategy lookup path (must be a directory). <br> **Datatype:** String
 | `recursive_strategy_search` | Set to `true` to recursively search sub-directories inside `user_data/strategies` for a strategy. <br> **Datatype:** Boolean
@@ -292,7 +292,7 @@ The minimum stake amount will depend on exchange and pair and is usually listed 
 Assuming the minimum tradable amount for XRP/USD is 20 XRP (given by the exchange), and the price is 0.6$, the minimum stake amount to buy this pair is `20 * 0.6 ~= 12`.
 This exchange has also a limit on USD - where all orders must be > 10$ - which however does not apply in this case.
 
-To guarantee safe execution, freqtrade will not allow buying with a stake-amount of 10.1$, instead, it'll make sure that there's enough space to place a stoploss below the pair (+ an offset, defined by `amount_reserve_percent`, which defaults to 5%).
+To guarantee safe execution, trading will not allow buying with a stake-amount of 10.1$, instead, it'll make sure that there's enough space to place a stoploss below the pair (+ an offset, defined by `amount_reserve_percent`, which defaults to 5%).
 
 With a reserve of 5%, the minimum stake amount would be ~12.6$ (`12 * (1 + 0.05)`). If we take into account a stoploss of 10% on top of that - we'd end up with a value of ~14$ (`12.6 / (1 - 0.1)`).
 
@@ -423,8 +423,8 @@ If it is not set in either Strategy or Configuration, a default of 1000% `{"0": 
 ### Understand force_entry_enable
 
 The `force_entry_enable` configuration parameter enables the usage of force-enter (`/forcelong`, `/forceshort`) commands via Telegram and REST API.
-For security reasons, it's disabled by default, and freqtrade will show a warning message on startup if enabled.
-For example, you can send `/forceenter ETH/BTC` to the bot, which will result in freqtrade buying the pair and holds it until a regular exit-signal (ROI, stoploss, /forceexit) appears.
+For security reasons, it's disabled by default, and trading will show a warning message on startup if enabled.
+For example, you can send `/forceenter ETH/BTC` to the bot, which will result in trading buying the pair and holds it until a regular exit-signal (ROI, stoploss, /forceexit) appears.
 
 This can be dangerous with some strategies, so use with care.
 
@@ -625,7 +625,7 @@ When switching to Production mode, please make sure to use a different / fresh d
 
 ### Setup your exchange account
 
-You will need to create API Keys (usually you get `key` and `secret`, some exchanges require an additional `password`) from the Exchange website and you'll need to insert this into the appropriate fields in the configuration or when asked by the `freqtrade new-config` command.
+You will need to create API Keys (usually you get `key` and `secret`, some exchanges require an additional `password`) from the Exchange website and you'll need to insert this into the appropriate fields in the configuration or when asked by the `trading new-config` command.
 API Keys are usually only required for live trading (trading for real money, bot running in "production mode", executing real orders on the exchange) and are not required for the bot running in dry-run (trade simulation) mode. When you set up the bot in dry-run mode, you may fill these fields with empty values.
 
 ### To switch your bot in production mode
@@ -658,19 +658,19 @@ You should also make sure to read the [Exchanges](exchanges.md) section of the d
 !!! Hint "Keep your secrets secret"
     To keep your secrets secret, we recommend using a 2nd configuration for your API keys.
     Simply use the above snippet in a new configuration file (e.g. `config-private.json`) and keep your settings in this file.
-    You can then start the bot with `freqtrade trade --config user_data/config.json --config user_data/config-private.json <...>` to have your keys loaded.
+    You can then start the bot with `trading trade --config user_data/config.json --config user_data/config-private.json <...>` to have your keys loaded.
 
     **NEVER** share your private configuration file or your exchange keys with anyone!
 
 ### Using proxy with Freqtrade
 
-To use a proxy with freqtrade, export your proxy settings using the variables `"HTTP_PROXY"` and `"HTTPS_PROXY"` set to the appropriate values.
+To use a proxy with trading, export your proxy settings using the variables `"HTTP_PROXY"` and `"HTTPS_PROXY"` set to the appropriate values.
 This will have the proxy settings applied to everything (telegram, coingecko, ...) **except** for exchange requests.
 
 ``` bash
 export HTTP_PROXY="http://addr:port"
 export HTTPS_PROXY="http://addr:port"
-freqtrade
+trading
 ```
 
 #### Proxy exchange requests

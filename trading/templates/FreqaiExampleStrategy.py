@@ -70,9 +70,9 @@ class FreqaiExampleStrategy(IStrategy):
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.freqtrade.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
 
-        https://www.freqtrade.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param period: period of the indicator - usage example:
@@ -132,9 +132,9 @@ class FreqaiExampleStrategy(IStrategy):
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.freqtrade.io/en/latest/freqai-parameter-table/#feature-parameters
+        https://www.trading.io/en/latest/freqai-parameter-table/#feature-parameters
 
-        https://www.freqtrade.io/en/latest/freqai-feature-engineering/#defining-the-features
+        https://www.trading.io/en/latest/freqai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -167,7 +167,7 @@ class FreqaiExampleStrategy(IStrategy):
 
         More details about feature engineering available:
 
-        https://www.freqtrade.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/freqai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -189,7 +189,7 @@ class FreqaiExampleStrategy(IStrategy):
 
         More details about feature engineering available:
 
-        https://www.freqtrade.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/freqai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the targets
         :param metadata: metadata of current pair
@@ -212,7 +212,7 @@ class FreqaiExampleStrategy(IStrategy):
         # appending more columns with '&'. User should keep in mind that multi targets
         # requires a multioutput prediction model such as
         # freqai/prediction_models/CatboostRegressorMultiTarget.py,
-        # freqtrade trade --freqaimodel CatboostRegressorMultiTarget
+        # trading trade --freqaimodel CatboostRegressorMultiTarget
 
         # df["&-s_range"] = (
         #     df["close"]

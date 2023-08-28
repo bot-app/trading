@@ -3,12 +3,12 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from freqtrade import constants
-from freqtrade.enums import ExitType
-from freqtrade.persistence import PairLocks, Trade
-from freqtrade.persistence.trade_model import Order
-from freqtrade.plugins.protectionmanager import ProtectionManager
-from tests.conftest import get_patched_freqtradebot, log_has_re
+from trading import constants
+from trading.enums import ExitType
+from trading.persistence import PairLocks, Trade
+from trading.persistence.trade_model import Order
+from trading.plugins.protectionmanager import ProtectionManager
+from tests.conftest import get_patched_tradingbot, log_has_re
 
 
 def generate_mock_trade(pair: str, fee: float, is_open: bool,
@@ -82,9 +82,9 @@ def generate_mock_trade(pair: str, fee: float, is_open: bool,
 def test_protectionmanager(mocker, default_conf):
     default_conf['protections'] = [{'method': protection}
                                    for protection in constants.AVAILABLE_PROTECTIONS]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
 
-    for handler in freqtrade.protections._protection_handlers:
+    for handler in trading.protections._protection_handlers:
         assert handler.name in constants.AVAILABLE_PROTECTIONS
         if not handler.has_global_stop:
             assert handler.global_stop(datetime.now(timezone.utc), '*') is None
@@ -128,9 +128,9 @@ def test_stoploss_guard(mocker, default_conf, fee, caplog, is_short):
         "stop_duration": 40,
         "trade_limit": 3
     }]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
     message = r"Trading stopped due to .*"
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.global_stop()
     assert not log_has_re(message, caplog)
     caplog.clear()
 
@@ -139,7 +139,7 @@ def test_stoploss_guard(mocker, default_conf, fee, caplog, is_short):
         min_ago_open=200, min_ago_close=30, is_short=is_short,
     )
 
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.global_stop()
     assert not log_has_re(message, caplog)
     caplog.clear()
     # This trade does not count, as it's closed too long ago
@@ -153,7 +153,7 @@ def test_stoploss_guard(mocker, default_conf, fee, caplog, is_short):
         min_ago_open=240, min_ago_close=30, is_short=is_short,
     )
     # 3 Trades closed - but the 2nd has been closed too long ago.
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.global_stop()
     assert not log_has_re(message, caplog)
     caplog.clear()
 
@@ -162,14 +162,14 @@ def test_stoploss_guard(mocker, default_conf, fee, caplog, is_short):
         min_ago_open=180, min_ago_close=30, is_short=is_short,
     )
 
-    assert freqtrade.protections.global_stop()
+    assert trading.protections.global_stop()
     assert log_has_re(message, caplog)
     assert PairLocks.is_global_lock()
 
     # Test 5m after lock-period - this should try and relock the pair, but end-time
     # should be the previous end-time
     end_time = PairLocks.get_pair_longest_lock('*').lock_end_time + timedelta(minutes=5)
-    freqtrade.protections.global_stop(end_time)
+    trading.protections.global_stop(end_time)
     assert not PairLocks.is_global_lock(end_time)
 
 
@@ -187,11 +187,11 @@ def test_stoploss_guard_perpair(mocker, default_conf, fee, caplog, only_per_pair
     }]
     check_side = 'long' if only_per_side else '*'
     is_short = False
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
     message = r"Trading stopped due to .*"
     pair = 'XRP/BTC'
-    assert not freqtrade.protections.stop_per_pair(pair)
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.stop_per_pair(pair)
+    assert not trading.protections.global_stop()
     assert not log_has_re(message, caplog)
     caplog.clear()
 
@@ -200,8 +200,8 @@ def test_stoploss_guard_perpair(mocker, default_conf, fee, caplog, only_per_pair
         min_ago_open=200, min_ago_close=30, profit_rate=0.9, is_short=is_short
     )
 
-    assert not freqtrade.protections.stop_per_pair(pair)
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.stop_per_pair(pair)
+    assert not trading.protections.global_stop()
     assert not log_has_re(message, caplog)
     caplog.clear()
     # This trade does not count, as it's closed too long ago
@@ -215,8 +215,8 @@ def test_stoploss_guard_perpair(mocker, default_conf, fee, caplog, only_per_pair
         min_ago_open=240, min_ago_close=30, profit_rate=0.9, is_short=is_short
     )
     # 3 Trades closed - but the 2nd has been closed too long ago.
-    assert not freqtrade.protections.stop_per_pair(pair)
-    assert freqtrade.protections.global_stop() != only_per_pair
+    assert not trading.protections.stop_per_pair(pair)
+    assert trading.protections.global_stop() != only_per_pair
     if not only_per_pair:
         assert log_has_re(message, caplog)
     else:
@@ -229,8 +229,8 @@ def test_stoploss_guard_perpair(mocker, default_conf, fee, caplog, only_per_pair
         pair, fee.return_value, False, exit_reason=ExitType.STOP_LOSS.value,
         min_ago_open=150, min_ago_close=25, profit_rate=0.9, is_short=not is_short
     )
-    freqtrade.protections.stop_per_pair(pair)
-    assert freqtrade.protections.global_stop() != only_per_pair
+    trading.protections.stop_per_pair(pair)
+    assert trading.protections.global_stop() != only_per_pair
     assert PairLocks.is_pair_locked(pair, side=check_side) != (only_per_side and only_per_pair)
     assert PairLocks.is_global_lock(side=check_side) != only_per_pair
     if only_per_side:
@@ -245,8 +245,8 @@ def test_stoploss_guard_perpair(mocker, default_conf, fee, caplog, only_per_pair
         min_ago_open=180, min_ago_close=30, profit_rate=0.9, is_short=is_short
     )
 
-    freqtrade.protections.stop_per_pair(pair)
-    assert freqtrade.protections.global_stop() != only_per_pair
+    trading.protections.stop_per_pair(pair)
+    assert trading.protections.global_stop() != only_per_pair
     assert PairLocks.is_pair_locked(pair, side=check_side)
     assert PairLocks.is_global_lock(side=check_side) != only_per_pair
     if only_per_side:
@@ -260,10 +260,10 @@ def test_CooldownPeriod(mocker, default_conf, fee, caplog):
         "method": "CooldownPeriod",
         "stop_duration": 60,
     }]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
     message = r"Trading stopped due to .*"
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
 
     assert not log_has_re(message, caplog)
     caplog.clear()
@@ -273,8 +273,8 @@ def test_CooldownPeriod(mocker, default_conf, fee, caplog):
         min_ago_open=200, min_ago_close=30,
     )
 
-    assert not freqtrade.protections.global_stop()
-    assert freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert trading.protections.stop_per_pair('XRP/BTC')
     assert PairLocks.is_pair_locked('XRP/BTC')
     assert not PairLocks.is_global_lock()
 
@@ -283,9 +283,9 @@ def test_CooldownPeriod(mocker, default_conf, fee, caplog):
         min_ago_open=205, min_ago_close=35,
     )
 
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.global_stop()
     assert not PairLocks.is_pair_locked('ETH/BTC')
-    assert freqtrade.protections.stop_per_pair('ETH/BTC')
+    assert trading.protections.stop_per_pair('ETH/BTC')
     assert PairLocks.is_pair_locked('ETH/BTC')
     assert not PairLocks.is_global_lock()
 
@@ -301,10 +301,10 @@ def test_LowProfitPairs(mocker, default_conf, fee, caplog, only_per_side):
         "required_profit": 0.0,
         "only_per_side": only_per_side,
     }]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
     message = r"Trading stopped due to .*"
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
 
     assert not log_has_re(message, caplog)
     caplog.clear()
@@ -316,8 +316,8 @@ def test_LowProfitPairs(mocker, default_conf, fee, caplog, only_per_side):
 
     Trade.commit()
     # Not locked with 1 trade
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     assert not PairLocks.is_pair_locked('XRP/BTC')
     assert not PairLocks.is_global_lock()
 
@@ -328,8 +328,8 @@ def test_LowProfitPairs(mocker, default_conf, fee, caplog, only_per_side):
 
     Trade.commit()
     # Not locked with 1 trade (first trade is outside of lookback_period)
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     assert not PairLocks.is_pair_locked('XRP/BTC')
     assert not PairLocks.is_global_lock()
 
@@ -339,7 +339,7 @@ def test_LowProfitPairs(mocker, default_conf, fee, caplog, only_per_side):
         min_ago_open=20, min_ago_close=10, profit_rate=1.15, is_short=True
     )
     Trade.commit()
-    assert freqtrade.protections.stop_per_pair('XRP/BTC') != only_per_side
+    assert trading.protections.stop_per_pair('XRP/BTC') != only_per_side
     assert not PairLocks.is_pair_locked('XRP/BTC', side='*')
     assert PairLocks.is_pair_locked('XRP/BTC', side='long') == only_per_side
 
@@ -350,8 +350,8 @@ def test_LowProfitPairs(mocker, default_conf, fee, caplog, only_per_side):
     Trade.commit()
 
     # Locks due to 2nd trade
-    assert freqtrade.protections.global_stop() != only_per_side
-    assert freqtrade.protections.stop_per_pair('XRP/BTC') != only_per_side
+    assert trading.protections.global_stop() != only_per_side
+    assert trading.protections.stop_per_pair('XRP/BTC') != only_per_side
     assert PairLocks.is_pair_locked('XRP/BTC', side='long')
     assert PairLocks.is_pair_locked('XRP/BTC', side='*') != only_per_side
     assert not PairLocks.is_global_lock()
@@ -367,11 +367,11 @@ def test_MaxDrawdown(mocker, default_conf, fee, caplog):
         "trade_limit": 3,
         "max_allowed_drawdown": 0.15
     }]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
     message = r"Trading stopped due to Max.*"
 
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     caplog.clear()
 
     generate_mock_trade(
@@ -388,16 +388,16 @@ def test_MaxDrawdown(mocker, default_conf, fee, caplog):
     )
     Trade.commit()
     # No losing trade yet ... so max_drawdown will raise exception
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
 
     generate_mock_trade(
         'XRP/BTC', fee.return_value, False, exit_reason=ExitType.STOP_LOSS.value,
         min_ago_open=500, min_ago_close=400, profit_rate=0.9,
     )
     # Not locked with one trade
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     assert not PairLocks.is_pair_locked('XRP/BTC')
     assert not PairLocks.is_global_lock()
 
@@ -408,8 +408,8 @@ def test_MaxDrawdown(mocker, default_conf, fee, caplog):
     Trade.commit()
 
     # Not locked with 1 trade (2nd trade is outside of lookback_period)
-    assert not freqtrade.protections.global_stop()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.global_stop()
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     assert not PairLocks.is_pair_locked('XRP/BTC')
     assert not PairLocks.is_global_lock()
     assert not log_has_re(message, caplog)
@@ -420,7 +420,7 @@ def test_MaxDrawdown(mocker, default_conf, fee, caplog):
         min_ago_open=320, min_ago_close=410, profit_rate=1.5,
     )
     Trade.commit()
-    assert not freqtrade.protections.global_stop()
+    assert not trading.protections.global_stop()
     assert not PairLocks.is_global_lock()
 
     caplog.clear()
@@ -431,10 +431,10 @@ def test_MaxDrawdown(mocker, default_conf, fee, caplog):
         min_ago_open=20, min_ago_close=10, profit_rate=0.8,
     )
     Trade.commit()
-    assert not freqtrade.protections.stop_per_pair('XRP/BTC')
+    assert not trading.protections.stop_per_pair('XRP/BTC')
     # local lock not supported
     assert not PairLocks.is_pair_locked('XRP/BTC')
-    assert freqtrade.protections.global_stop()
+    assert trading.protections.global_stop()
     assert PairLocks.is_global_lock()
     assert log_has_re(message, caplog)
 
@@ -484,7 +484,7 @@ def test_protection_manager_desc(mocker, default_conf, protectionconf,
                                  desc_expected, exception_expected):
 
     default_conf['protections'] = [protectionconf]
-    freqtrade = get_patched_freqtradebot(mocker, default_conf)
+    trading = get_patched_tradingbot(mocker, default_conf)
 
-    short_desc = str(freqtrade.protections.short_desc())
+    short_desc = str(trading.protections.short_desc())
     assert short_desc == desc_expected

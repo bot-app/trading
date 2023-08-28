@@ -164,8 +164,8 @@ class NameUpdater(ast_comments.NodeTransformer):
 
     def visit_ImportFrom(self, node):
         # if hasattr(node, "module"):
-        #    if node.module == "freqtrade.strategy.hyper":
-        #        node.module = "freqtrade.strategy"
+        #    if node.module == "trading.strategy.hyper":
+        #        node.module = "trading.strategy"
         return node
 
     def visit_If(self, node: ast_comments.If):

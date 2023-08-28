@@ -9,14 +9,14 @@ import pytest
 from pandas import DataFrame, Timestamp
 from pandas.testing import assert_frame_equal
 
-from freqtrade.configuration import TimeRange
-from freqtrade.constants import AVAILABLE_DATAHANDLERS
-from freqtrade.data.history.featherdatahandler import FeatherDataHandler
-from freqtrade.data.history.hdf5datahandler import HDF5DataHandler
-from freqtrade.data.history.idatahandler import IDataHandler, get_datahandler, get_datahandlerclass
-from freqtrade.data.history.jsondatahandler import JsonDataHandler, JsonGzDataHandler
-from freqtrade.data.history.parquetdatahandler import ParquetDataHandler
-from freqtrade.enums import CandleType, TradingMode
+from trading.configuration import TimeRange
+from trading.constants import AVAILABLE_DATAHANDLERS
+from trading.data.history.featherdatahandler import FeatherDataHandler
+from trading.data.history.hdf5datahandler import HDF5DataHandler
+from trading.data.history.idatahandler import IDataHandler, get_datahandler, get_datahandlerclass
+from trading.data.history.jsondatahandler import JsonDataHandler, JsonGzDataHandler
+from trading.data.history.parquetdatahandler import ParquetDataHandler
+from trading.enums import CandleType, TradingMode
 from tests.conftest import log_has, log_has_re
 
 

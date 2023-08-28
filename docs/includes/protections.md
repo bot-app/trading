@@ -153,7 +153,7 @@ The below example assumes a timeframe of 1 hour:
 * Locks all pairs for 2 candles that had a profit of below 0.01 (<1%) within the last 24h (`24 * 1h candles`), a minimum of 4 trades.
 
 ``` python
-from freqtrade.strategy import IStrategy
+from trading.strategy import IStrategy
 
 class AwesomeStrategy(IStrategy)
     timeframe = '1h'

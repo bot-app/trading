@@ -5,7 +5,7 @@ We **strongly** recommend that Windows users use [Docker](docker_quickstart.md) 
 If that is not possible, try using the Windows Linux subsystem (WSL) - for which the Ubuntu instructions should work.
 Otherwise, please follow the instructions below.
 
-## Install freqtrade manually
+## Install trading manually
 
 !!! Note "64bit Python version"
     Please make sure to use 64bit Windows and 64bit Python to avoid problems with backtesting or hyperopt due to the memory constraints 32bit applications have under Windows.
@@ -25,12 +25,12 @@ git clone https://github.com/bot-app/trading.git
 Install ta-lib according to the [ta-lib documentation](https://github.com/mrjbq7/ta-lib#windows).
 
 As compiling from source on windows has heavy dependencies (requires a partial visual studio installation), Freqtrade provides these dependencies (in the binary wheel format) for the latest 3 Python versions (3.8, 3.9, 3.10 and 3.11) and for 64bit Windows.
-These Wheels are also used by CI running on windows, and are therefore tested together with freqtrade.
+These Wheels are also used by CI running on windows, and are therefore tested together with trading.
 
 Other versions must be downloaded from the above link.
 
 ``` powershell
-cd \path\freqtrade
+cd \path\trading
 python -m venv .venv
 .venv\Scripts\activate.ps1
 # optionally install ta-lib from wheel
@@ -38,7 +38,7 @@ python -m venv .venv
 pip install --find-links build_helpers\ TA-Lib -U
 pip install -r requirements.txt
 pip install -e .
-freqtrade
+trading
 ```
 
 !!! Note "Use Powershell"

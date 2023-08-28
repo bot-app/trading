@@ -872,7 +872,7 @@ class LocalTrade:
                 return float(self._calc_base_close(amount1, rate, self.fee_close)) + funding_fees
         else:
             raise OperationalException(
-                f"{self.trading_mode.value} trading is not yet available using freqtrade")
+                f"{self.trading_mode.value} trading is not yet available using trading")
 
     def calc_profit(self, rate: float, amount: Optional[float] = None,
                     open_rate: Optional[float] = None) -> float:

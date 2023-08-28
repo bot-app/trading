@@ -10,12 +10,12 @@ import numpy as np
 import pytest
 from pandas import DataFrame
 
-from freqtrade.data.converter import ohlcv_to_dataframe
-from freqtrade.edge import Edge, PairInfo
-from freqtrade.enums import ExitType
-from freqtrade.exceptions import OperationalException
-from freqtrade.util.datetime_helpers import dt_ts, dt_utc
-from tests.conftest import EXMS, get_patched_freqtradebot, log_has
+from trading.data.converter import ohlcv_to_dataframe
+from trading.edge import Edge, PairInfo
+from trading.enums import ExitType
+from trading.exceptions import OperationalException
+from trading.util.datetime_helpers import dt_ts, dt_utc
+from tests.conftest import EXMS, get_patched_tradingbot, log_has
 from tests.optimize import (BTContainer, BTrade, _build_backtest_dataframe,
                             _get_frame_time_from_offset)
 
@@ -104,8 +104,8 @@ def test_edge_results(edge_conf, mocker, caplog, data) -> None:
     """
     run functional tests
     """
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
     frame = _build_backtest_dataframe(data.data)
     caplog.set_level(logging.DEBUG)
     edge.fee = 0
@@ -126,9 +126,9 @@ def test_edge_results(edge_conf, mocker, caplog, data) -> None:
 
 
 def test_adjust(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
-    mocker.patch('freqtrade.edge.Edge._cached_pairs', mocker.PropertyMock(
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
+    mocker.patch('trading.edge.Edge._cached_pairs', mocker.PropertyMock(
         return_value={
             'E/F': PairInfo(-0.01, 0.66, 3.71, 0.50, 1.71, 10, 60),
             'C/D': PairInfo(-0.01, 0.66, 3.71, 0.50, 1.71, 10, 60),
@@ -141,9 +141,9 @@ def test_adjust(mocker, edge_conf):
 
 
 def test_edge_get_stoploss(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
-    mocker.patch('freqtrade.edge.Edge._cached_pairs', mocker.PropertyMock(
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
+    mocker.patch('trading.edge.Edge._cached_pairs', mocker.PropertyMock(
         return_value={
             'E/F': PairInfo(-0.01, 0.66, 3.71, 0.50, 1.71, 10, 60),
             'C/D': PairInfo(-0.01, 0.66, 3.71, 0.50, 1.71, 10, 60),
@@ -155,9 +155,9 @@ def test_edge_get_stoploss(mocker, edge_conf):
 
 
 def test_nonexisting_get_stoploss(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
-    mocker.patch('freqtrade.edge.Edge._cached_pairs', mocker.PropertyMock(
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
+    mocker.patch('trading.edge.Edge._cached_pairs', mocker.PropertyMock(
         return_value={
             'E/F': PairInfo(-0.01, 0.66, 3.71, 0.50, 1.71, 10, 60),
         }
@@ -167,9 +167,9 @@ def test_nonexisting_get_stoploss(mocker, edge_conf):
 
 
 def test_edge_stake_amount(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
-    mocker.patch('freqtrade.edge.Edge._cached_pairs', mocker.PropertyMock(
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
+    mocker.patch('trading.edge.Edge._cached_pairs', mocker.PropertyMock(
         return_value={
             'E/F': PairInfo(-0.02, 0.66, 3.71, 0.50, 1.71, 10, 60),
         }
@@ -204,9 +204,9 @@ def test_edge_stake_amount(mocker, edge_conf):
 
 
 def test_nonexisting_stake_amount(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
-    mocker.patch('freqtrade.edge.Edge._cached_pairs', mocker.PropertyMock(
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
+    mocker.patch('trading.edge.Edge._cached_pairs', mocker.PropertyMock(
         return_value={
             'E/F': PairInfo(-0.11, 0.66, 3.71, 0.50, 1.71, 10, 60),
         }
@@ -216,8 +216,8 @@ def test_nonexisting_stake_amount(mocker, edge_conf):
 
 
 def test_edge_heartbeat_calculate(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    trading = get_patched_tradingbot(mocker, edge_conf)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
     heartbeat = edge_conf['edge']['process_throttle_secs']
 
     # should not recalculate if heartbeat not reached
@@ -261,11 +261,11 @@ def mocked_load_data(datadir, pairs=[], timeframe='0m',
 
 
 def test_edge_process_downloaded_data(mocker, edge_conf):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
     mocker.patch(f'{EXMS}.get_fee', MagicMock(return_value=0.001))
-    mocker.patch('freqtrade.edge.edge_positioning.refresh_data', MagicMock())
-    mocker.patch('freqtrade.edge.edge_positioning.load_data', mocked_load_data)
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    mocker.patch('trading.edge.edge_positioning.refresh_data', MagicMock())
+    mocker.patch('trading.edge.edge_positioning.load_data', mocked_load_data)
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     assert edge.calculate(edge_conf['exchange']['pair_whitelist'])
     assert len(edge._cached_pairs) == 2
@@ -273,11 +273,11 @@ def test_edge_process_downloaded_data(mocker, edge_conf):
 
 
 def test_edge_process_no_data(mocker, edge_conf, caplog):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
     mocker.patch(f'{EXMS}.get_fee', MagicMock(return_value=0.001))
-    mocker.patch('freqtrade.edge.edge_positioning.refresh_data', MagicMock())
-    mocker.patch('freqtrade.edge.edge_positioning.load_data', MagicMock(return_value={}))
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    mocker.patch('trading.edge.edge_positioning.refresh_data', MagicMock())
+    mocker.patch('trading.edge.edge_positioning.load_data', MagicMock(return_value={}))
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     assert not edge.calculate(edge_conf['exchange']['pair_whitelist'])
     assert len(edge._cached_pairs) == 0
@@ -286,13 +286,13 @@ def test_edge_process_no_data(mocker, edge_conf, caplog):
 
 
 def test_edge_process_no_trades(mocker, edge_conf, caplog):
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
     mocker.patch(f'{EXMS}.get_fee', return_value=0.001)
-    mocker.patch('freqtrade.edge.edge_positioning.refresh_data', )
-    mocker.patch('freqtrade.edge.edge_positioning.load_data', mocked_load_data)
+    mocker.patch('trading.edge.edge_positioning.refresh_data', )
+    mocker.patch('trading.edge.edge_positioning.load_data', mocked_load_data)
     # Return empty
-    mocker.patch('freqtrade.edge.Edge._find_trades_for_stoploss_range', return_value=[])
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    mocker.patch('trading.edge.Edge._find_trades_for_stoploss_range', return_value=[])
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     assert not edge.calculate(edge_conf['exchange']['pair_whitelist'])
     assert len(edge._cached_pairs) == 0
@@ -301,15 +301,15 @@ def test_edge_process_no_trades(mocker, edge_conf, caplog):
 
 def test_edge_process_no_pairs(mocker, edge_conf, caplog):
     edge_conf['exchange']['pair_whitelist'] = []
-    mocker.patch('freqtrade.freqtradebot.validate_config_consistency')
+    mocker.patch('trading.tradingbot.validate_config_consistency')
 
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
     fee_mock = mocker.patch(f'{EXMS}.get_fee', return_value=0.001)
-    mocker.patch('freqtrade.edge.edge_positioning.refresh_data')
-    mocker.patch('freqtrade.edge.edge_positioning.load_data', mocked_load_data)
+    mocker.patch('trading.edge.edge_positioning.refresh_data')
+    mocker.patch('trading.edge.edge_positioning.load_data', mocked_load_data)
     # Return empty
-    mocker.patch('freqtrade.edge.Edge._find_trades_for_stoploss_range', return_value=[])
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    mocker.patch('trading.edge.Edge._find_trades_for_stoploss_range', return_value=[])
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
     assert fee_mock.call_count == 0
     assert edge.fee is None
 
@@ -322,7 +322,7 @@ def test_edge_init_error(mocker, edge_conf,):
     edge_conf['stake_amount'] = 0.5
     mocker.patch(f'{EXMS}.get_fee', MagicMock(return_value=0.001))
     with pytest.raises(OperationalException,  match='Edge works only with unlimited stake amount'):
-        get_patched_freqtradebot(mocker, edge_conf)
+        get_patched_tradingbot(mocker, edge_conf)
 
 
 @pytest.mark.parametrize("fee,risk_reward_ratio,expectancy", [
@@ -331,13 +331,13 @@ def test_edge_init_error(mocker, edge_conf,):
 ])
 def test_process_expectancy(mocker, edge_conf, fee, risk_reward_ratio, expectancy):
     edge_conf['edge']['min_trade_number'] = 2
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
 
     def get_fee(*args, **kwargs):
         return fee
 
-    freqtrade.exchange.get_fee = get_fee
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    trading.exchange.get_fee = get_fee
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     trades = [
         {'pair': 'TEST/BTC',
@@ -398,10 +398,10 @@ def test_process_expectancy(mocker, edge_conf, fee, risk_reward_ratio, expectanc
 def test_process_expectancy_remove_pumps(mocker, edge_conf, fee,):
     edge_conf['edge']['min_trade_number'] = 2
     edge_conf['edge']['remove_pumps'] = True
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
 
-    freqtrade.exchange.get_fee = fee
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    trading.exchange.get_fee = fee
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     trades = [
         {'pair': 'TEST/BTC',
@@ -492,10 +492,10 @@ def test_process_expectancy_remove_pumps(mocker, edge_conf, fee,):
 
 def test_process_expectancy_only_wins(mocker, edge_conf, fee,):
     edge_conf['edge']['min_trade_number'] = 2
-    freqtrade = get_patched_freqtradebot(mocker, edge_conf)
+    trading = get_patched_tradingbot(mocker, edge_conf)
 
-    freqtrade.exchange.get_fee = fee
-    edge = Edge(edge_conf, freqtrade.exchange, freqtrade.strategy)
+    trading.exchange.get_fee = fee
+    edge = Edge(edge_conf, trading.exchange, trading.strategy)
 
     trades = [
         {'pair': 'TEST/BTC',

@@ -3,7 +3,7 @@
 Simple command line client for Testing/debugging
 a Freqtrade bot's message websocket
 
-Should not import anything from freqtrade,
+Should not import anything from trading,
 so it can be used as a standalone script.
 """
 import argparse

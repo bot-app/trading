@@ -74,7 +74,7 @@ This same logic will reapply a stoploss order on the exchange should you cancel 
 Stoploss on exchange on futures markets can trigger on different price types.
 The naming for these prices in exchange terminology often varies, but is usually something around "last" (or "contract price" ), "mark" and "index".
 
-Acceptable values for this setting are `"last"`, `"mark"` and `"index"` - which freqtrade will transfer automatically to the corresponding API type, and place the [stoploss on exchange](#stoploss_on_exchange-and-stoploss_on_exchange_limit_ratio) order correspondingly.
+Acceptable values for this setting are `"last"`, `"mark"` and `"index"` - which trading will transfer automatically to the corresponding API type, and place the [stoploss on exchange](#stoploss_on_exchange-and-stoploss_on_exchange_limit_ratio) order correspondingly.
 
 ### force_exit
 

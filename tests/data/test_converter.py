@@ -7,15 +7,15 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from freqtrade.configuration.timerange import TimeRange
-from freqtrade.data.converter import (convert_ohlcv_format, convert_trades_format,
+from trading.configuration.timerange import TimeRange
+from trading.data.converter import (convert_ohlcv_format, convert_trades_format,
                                       ohlcv_fill_up_missing_data, ohlcv_to_dataframe,
                                       reduce_dataframe_footprint, trades_df_remove_duplicates,
                                       trades_dict_to_list, trades_to_ohlcv, trim_dataframe)
-from freqtrade.data.history import (get_timerange, load_data, load_pair_history,
+from trading.data.history import (get_timerange, load_data, load_pair_history,
                                     validate_backtest_data)
-from freqtrade.data.history.idatahandler import IDataHandler
-from freqtrade.enums import CandleType
+from trading.data.history.idatahandler import IDataHandler
+from trading.enums import CandleType
 from tests.conftest import generate_test_data, log_has, log_has_re
 from tests.data.test_history import _clean_test_file
 

@@ -29,7 +29,7 @@ Those are set to avoid users accidentally generating false positives.
 ## Lookahead-analysis command reference
 
 ```
-usage: freqtrade lookahead-analysis [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading lookahead-analysis [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                     [-d PATH] [--userdir PATH] [-s NAME]
                                     [--strategy-path PATH]
                                     [--recursive-strategy-search]

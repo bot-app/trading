@@ -15,7 +15,7 @@ from trading.constants import PROCESS_THROTTLE_SECS, RETRY_TIMEOUT, Config
 from trading.enums import RPCMessageType, State
 from trading.exceptions import OperationalException, TemporaryError
 from trading.exchange import timeframe_to_next_date
-from trading.freqtradebot import FreqtradeBot
+from trading.tradingbot import FreqtradeBot
 
 
 logger = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ class Worker:
             self._config = Configuration(self._args, None).get_config()
 
         # Init the instance of the bot
-        self.freqtrade = FreqtradeBot(self._config)
+        self.trading = FreqtradeBot(self._config)
 
         internals_config = self._config.get('internals', {})
         self._throttle_secs = internals_config.get('process_throttle_secs',
@@ -82,21 +82,21 @@ class Worker:
         :param old_state: the previous service state from the previous call
         :return: current service state
         """
-        state = self.freqtrade.state
+        state = self.trading.state
 
         # Log state transition
         if state != old_state:
 
             if old_state != State.RELOAD_CONFIG:
-                self.freqtrade.notify_status(f'{state.name.lower()}')
+                self.trading.notify_status(f'{state.name.lower()}')
 
             logger.info(
                 f"Changing state{f' from {old_state.name}' if old_state else ''} to: {state.name}")
             if state == State.RUNNING:
-                self.freqtrade.startup()
+                self.trading.startup()
 
             if state == State.STOPPED:
-                self.freqtrade.check_for_open_trades()
+                self.trading.check_for_open_trades()
 
             # Reset heartbeat timestamp to log the heartbeat message at
             # first throttling iteration when the state changes
@@ -121,7 +121,7 @@ class Worker:
             now = time.time()
             if (now - self._heartbeat_msg) > self._heartbeat_interval:
                 version = __version__
-                strategy_version = self.freqtrade.strategy.version()
+                strategy_version = self.trading.strategy.version()
                 if (strategy_version is not None):
                     version += ', strategy_version: ' + strategy_version
                 logger.info(f"Bot heartbeat. PID={getpid()}, "
@@ -173,11 +173,11 @@ class Worker:
         time.sleep(sleep_duration)
 
     def _process_stopped(self) -> None:
-        self.freqtrade.process_stopped()
+        self.trading.process_stopped()
 
     def _process_running(self) -> None:
         try:
-            self.freqtrade.process()
+            self.trading.process()
         except TemporaryError as error:
             logger.warning(f"Error: {error}, retrying in {RETRY_TIMEOUT} seconds...")
             time.sleep(RETRY_TIMEOUT)
@@ -185,29 +185,29 @@ class Worker:
             tb = traceback.format_exc()
             hint = 'Issue `/start` if you think it is safe to restart.'
 
-            self.freqtrade.notify_status(
+            self.trading.notify_status(
                 f'*OperationalException:*\n```\n{tb}```\n {hint}',
                 msg_type=RPCMessageType.EXCEPTION
             )
 
             logger.exception('OperationalException. Stopping trader ...')
-            self.freqtrade.state = State.STOPPED
+            self.trading.state = State.STOPPED
 
     def _reconfigure(self) -> None:
         """
-        Cleans up current freqtradebot instance, reloads the configuration and
+        Cleans up current tradingbot instance, reloads the configuration and
         replaces it with the new instance
         """
         # Tell systemd that we initiated reconfiguration
         self._notify("RELOADING=1")
 
-        # Clean up current freqtrade modules
-        self.freqtrade.cleanup()
+        # Clean up current trading modules
+        self.trading.cleanup()
 
         # Load and validate config and create new instance of the bot
         self._init(True)
 
-        self.freqtrade.notify_status('config reloaded')
+        self.trading.notify_status('config reloaded')
 
         # Tell systemd that we completed reconfiguration
         self._notify("READY=1")
@@ -216,6 +216,6 @@ class Worker:
         # Tell systemd that we are exiting now
         self._notify("STOPPING=1")
 
-        if self.freqtrade:
-            self.freqtrade.notify_status('process died')
-            self.freqtrade.cleanup()
+        if self.trading:
+            self.trading.notify_status('process died')
+            self.trading.cleanup()

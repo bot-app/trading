@@ -15,10 +15,10 @@ sudo apt-get install sqlite3
 
 ### Using sqlite3 via docker
 
-The freqtrade docker image does contain sqlite3, so you can edit the database without having to install anything on the host system.
+The trading docker image does contain sqlite3, so you can edit the database without having to install anything on the host system.
 
 ``` bash
-docker compose exec freqtrade /bin/bash
+docker compose exec trading /bin/bash
 sqlite3 <database-file>.sqlite
 ```
 
@@ -106,14 +106,14 @@ DELETE FROM trades WHERE id = 31;
 Freqtrade is using SQLAlchemy, which supports multiple different database systems. As such, a multitude of database systems should be supported.
 Freqtrade does not depend or install any additional database driver. Please refer to the [SQLAlchemy docs](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls) on installation instructions for the respective database systems.
 
-The following systems have been tested and are known to work with freqtrade:
+The following systems have been tested and are known to work with trading:
 
 * sqlite (default)
 * PostgreSQL)
 * MariaDB
 
 !!! Warning
-    By using one of the below database systems, you acknowledge that you know how to manage such a system. The freqtrade team will not provide any support with setup or maintenance (or backups) of the below database systems.
+    By using one of the below database systems, you acknowledge that you know how to manage such a system. The trading team will not provide any support with setup or maintenance (or backups) of the below database systems.
 
 ### PostgreSQL
 

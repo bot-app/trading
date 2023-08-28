@@ -4,12 +4,12 @@ Besides the Live-Trade and Dry-Run run modes, the `backtesting`, `edge` and `hyp
 
 ## Create userdir
 
-Creates the directory structure to hold your files for freqtrade.
+Creates the directory structure to hold your files for trading.
 Will also create strategy and hyperopt examples for you to get started.
 Can be used multiple times - using `--reset` will reset the sample strategy and hyperopt files to their default state. 
 
 ```
-usage: freqtrade create-userdir [-h] [--userdir PATH] [--reset]
+usage: trading create-userdir [-h] [--userdir PATH] [--reset]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -39,7 +39,7 @@ optional arguments:
 Creates a new configuration file, asking some questions which are important selections for a configuration.
 
 ```
-usage: freqtrade new-config [-h] [-c PATH]
+usage: trading new-config [-h] [-c PATH]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -54,7 +54,7 @@ optional arguments:
 ### Create config examples
 
 ```
-$ freqtrade new-config --config config_binance.json
+$ trading new-config --config config_binance.json
 
 ? Do you want to enable Dry-run (simulated trades)?  Yes
 ? Please insert your stake currency: BTC
@@ -74,7 +74,7 @@ The file will be named inline with your class name, and will not overwrite exist
 Results will be located in `user_data/strategies/<strategyclassname>.py`.
 
 ``` output
-usage: freqtrade new-strategy [-h] [--userdir PATH] [-s NAME]
+usage: trading new-strategy [-h] [--userdir PATH] [-s NAME]
                               [--template {full,minimal,advanced}]
 
 optional arguments:
@@ -94,19 +94,19 @@ optional arguments:
 ### Sample usage of new-strategy
 
 ```bash
-freqtrade new-strategy --strategy AwesomeStrategy
+trading new-strategy --strategy AwesomeStrategy
 ```
 
 With custom user directory
 
 ```bash
-freqtrade new-strategy --userdir ~/.freqtrade/ --strategy AwesomeStrategy
+trading new-strategy --userdir ~/.trading/ --strategy AwesomeStrategy
 ```
 
 Using the advanced template (populates all optional functions and methods)
 
 ```bash
-freqtrade new-strategy --strategy AwesomeStrategy --template advanced
+trading new-strategy --strategy AwesomeStrategy --template advanced
 ```
 
 ## List Strategies
@@ -116,7 +116,7 @@ Use the `list-strategies` subcommand to see all strategies in one particular dir
 This subcommand is useful for finding problems in your environment with loading strategies: modules with strategies that contain errors and failed to load are printed in red (LOAD FAILED), while strategies with duplicate names are printed in yellow (DUPLICATE NAME).
 
 ```
-usage: freqtrade list-strategies [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading list-strategies [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                  [-d PATH] [--userdir PATH]
                                  [--strategy-path PATH] [-1] [--no-color]
                                  [--recursive-strategy-search]
@@ -154,19 +154,19 @@ Common arguments:
 Example: Search default strategies directories (within the default userdir).
 
 ``` bash
-freqtrade list-strategies
+trading list-strategies
 ```
 
 Example: Search strategies  directory within the userdir.
 
 ``` bash
-freqtrade list-strategies --userdir ~/.freqtrade/
+trading list-strategies --userdir ~/.trading/
 ```
 
 Example: Search dedicated strategy path.
 
 ``` bash
-freqtrade list-strategies --strategy-path ~/.freqtrade/strategies/
+trading list-strategies --strategy-path ~/.trading/strategies/
 ```
 
 ## List freqAI models
@@ -176,7 +176,7 @@ Use the `list-freqaimodels` subcommand to see all freqAI models available.
 This subcommand is useful for finding problems in your environment with loading freqAI models: modules with models that contain errors and failed to load are printed in red (LOAD FAILED), while models with duplicate names are printed in yellow (DUPLICATE NAME).
 
 ```
-usage: freqtrade list-freqaimodels [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading list-freqaimodels [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                    [-d PATH] [--userdir PATH]
                                    [--freqaimodel-path PATH] [-1] [--no-color]
 
@@ -211,7 +211,7 @@ Common arguments:
 Use the `list-exchanges` subcommand to see the exchanges available for the bot.
 
 ```
-usage: freqtrade list-exchanges [-h] [-1] [-a]
+usage: trading list-exchanges [-h] [-1] [-a]
 
 optional arguments:
   -h, --help        show this help message and exit
@@ -221,7 +221,7 @@ optional arguments:
 
 * Example: see exchanges available for the bot:
 ```
-$ freqtrade list-exchanges
+$ trading list-exchanges
 Exchanges available for Freqtrade:
 Exchange name    Valid    reason
 ---------------  -------  --------------------------------------------
@@ -294,7 +294,7 @@ zb               True     missing opt: fetchMyTrades
 
 * Example: see all exchanges supported by the ccxt library (including 'bad' ones, i.e. those that are known to not work with Freqtrade):
 ```
-$ freqtrade list-exchanges -a
+$ trading list-exchanges -a
 All exchanges supported by the ccxt library:
 Exchange name       Valid    reason
 ------------------  -------  ---------------------------------------------------------------------------------------
@@ -427,7 +427,7 @@ zb                  True     missing opt: fetchMyTrades
 Use the `list-timeframes` subcommand to see the list of timeframes available for the exchange.
 
 ```
-usage: freqtrade list-timeframes [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH] [--userdir PATH] [--exchange EXCHANGE] [-1]
+usage: trading list-timeframes [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH] [--userdir PATH] [--exchange EXCHANGE] [-1]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -451,14 +451,14 @@ Common arguments:
 * Example: see the timeframes for the 'binance' exchange, set in the configuration file:
 
 ```
-$ freqtrade list-timeframes -c config_binance.json
+$ trading list-timeframes -c config_binance.json
 ...
 Timeframes available for the exchange `binance`: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
 ```
 
 * Example: enumerate exchanges available for Freqtrade and print timeframes supported by each of them:
 ```
-$ for i in `freqtrade list-exchanges -1`; do freqtrade list-timeframes --exchange $i; done
+$ for i in `trading list-exchanges -1`; do trading list-timeframes --exchange $i; done
 ```
 
 ## List pairs/list markets
@@ -475,14 +475,14 @@ You can print info about any pair/market with these subcommands - and you can fi
 These subcommands have same usage and same set of available options:
 
 ```
-usage: freqtrade list-markets [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading list-markets [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                               [-d PATH] [--userdir PATH] [--exchange EXCHANGE]
                               [--print-list] [--print-json] [-1] [--print-csv]
                               [--base BASE_CURRENCY [BASE_CURRENCY ...]]
                               [--quote QUOTE_CURRENCY [QUOTE_CURRENCY ...]] [-a]
                               [--trading-mode {spot,margin,futures}]
 
-usage: freqtrade list-pairs [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading list-pairs [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                             [-d PATH] [--userdir PATH] [--exchange EXCHANGE]
                             [--print-list] [--print-json] [-1] [--print-csv]
                             [--base BASE_CURRENCY [BASE_CURRENCY ...]]
@@ -535,7 +535,7 @@ Pairs/markets are sorted by its symbol string in the printed output.
 configuration file (i.e. pairs on the "Bittrex" exchange) in JSON format:
 
 ```
-$ freqtrade list-pairs --quote USD --print-json
+$ trading list-pairs --quote USD --print-json
 ```
 
 * Print the list of all pairs on the exchange, specified in the `config_binance.json` configuration file
@@ -543,13 +543,13 @@ $ freqtrade list-pairs --quote USD --print-json
 human-readable list with summary:
 
 ```
-$ freqtrade list-pairs -c config_binance.json --all --base BTC ETH --quote USDT USD --print-list
+$ trading list-pairs -c config_binance.json --all --base BTC ETH --quote USDT USD --print-list
 ```
 
 * Print all markets on exchange "Kraken", in the tabular format:
 
 ```
-$ freqtrade list-markets --exchange kraken --all
+$ trading list-markets --exchange kraken --all
 ```
 
 ## Test pairlist
@@ -560,7 +560,7 @@ Requires a configuration with specified `pairlists` attribute.
 Can be used to generate static pairlists to be used during backtesting / hyperopt.
 
 ```
-usage: freqtrade test-pairlist [-h] [--userdir PATH] [-v] [-c PATH]
+usage: trading test-pairlist [-h] [--userdir PATH] [-v] [-c PATH]
                                [--quote QUOTE_CURRENCY [QUOTE_CURRENCY ...]]
                                [-1] [--print-json] [--exchange EXCHANGE]
 
@@ -588,17 +588,17 @@ optional arguments:
 Show whitelist when using a [dynamic pairlist](plugins.md#pairlists).
 
 ```
-freqtrade test-pairlist --config config.json --quote USDT BTC
+trading test-pairlist --config config.json --quote USDT BTC
 ```
 
 ## Convert database
 
-`freqtrade convert-db` can be used to convert your database from one system to another (sqlite -> postgres, postgres -> other postgres), migrating all trades, orders and Pairlocks.
+`trading convert-db` can be used to convert your database from one system to another (sqlite -> postgres, postgres -> other postgres), migrating all trades, orders and Pairlocks.
 
 Please refer to the [SQL cheatsheet](sql_cheatsheet.md#use-a-different-database-system) to learn about requirements for different database systems.
 
 ```
-usage: freqtrade convert-db [-h] [--db-url PATH] [--db-url-from PATH]
+usage: trading convert-db [-h] [--db-url PATH] [--db-url-from PATH]
 
 optional arguments:
   -h, --help          show this help message and exit
@@ -618,13 +618,13 @@ optional arguments:
     Webserver mode is an experimental mode to increase backesting and strategy development productivity.
     There may still be bugs - so if you happen to stumble across these, please report them as github issues, thanks.
 
-Run freqtrade in webserver mode.
+Run trading in webserver mode.
 Freqtrade will start the webserver and allow FreqUI to start and control backtesting processes.
 This has the advantage that data will not be reloaded between backtesting runs (as long as timeframe and timerange remain identical).
 FreqUI will also show the backtesting results.
 
 ```
-usage: freqtrade webserver [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
+usage: trading webserver [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
                            [--userdir PATH]
 
 optional arguments:
@@ -652,14 +652,14 @@ Common arguments:
 
 You can also use webserver mode via docker.
 Starting a one-off container requires the configuration of the port explicitly, as ports are not exposed by default.
-You can use `docker compose run --rm -p 127.0.0.1:8080:8080 freqtrade webserver` to start a one-off container that'll be removed once you stop it. This assumes that port 8080 is still available and no other bot is running on that port.
+You can use `docker compose run --rm -p 127.0.0.1:8080:8080 trading webserver` to start a one-off container that'll be removed once you stop it. This assumes that port 8080 is still available and no other bot is running on that port.
 
 Alternatively, you can reconfigure the docker-compose file to have the command updated:
 
 ``` yml
     command: >
       webserver
-      --config /freqtrade/user_data/config.json
+      --config /trading/user_data/config.json
 ```
 
 You can now use `docker compose up` to start the webserver.
@@ -677,7 +677,7 @@ Adding `--show-pair-list` outputs a sorted pair list you can easily copy/paste i
     Only using winning pairs can lead to an overfitted strategy, which will not work well on future data. Make sure to extensively test your strategy in dry-run before risking real money.
 
 ```
-usage: freqtrade backtesting-show [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading backtesting-show [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                   [-d PATH] [--userdir PATH]
                                   [--export-filename PATH] [--show-pair-list]
 
@@ -715,7 +715,7 @@ Advanced backtest result analysis.
 More details in the [Backtesting analysis](advanced-backtesting.md#analyze-the-buyentry-and-sellexit-tags) Section.
 
 ```
-usage: freqtrade backtesting-analysis [-h] [-v] [--logfile FILE] [-V]
+usage: trading backtesting-analysis [-h] [-v] [--logfile FILE] [-V]
                                       [-c PATH] [-d PATH] [--userdir PATH]
                                       [--export-filename PATH]
                                       [--analysis-groups {0,1,2,3,4} [{0,1,2,3,4} ...]]
@@ -784,7 +784,7 @@ Common arguments:
 You can list the hyperoptimization epochs the Hyperopt module evaluated previously with the `hyperopt-list` sub-command.
 
 ```
-usage: freqtrade hyperopt-list [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading hyperopt-list [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                [-d PATH] [--userdir PATH] [--best]
                                [--profitable] [--min-trades INT]
                                [--max-trades INT] [--min-avg-time FLOAT]
@@ -851,12 +851,12 @@ Common arguments:
 
 List all results, print details of the best result at the end:
 ```
-freqtrade hyperopt-list
+trading hyperopt-list
 ```
 
 List only epochs with positive profit. Do not print the details of the best epoch, so that the list can be iterated in a script:
 ```
-freqtrade hyperopt-list --profitable --no-details
+trading hyperopt-list --profitable --no-details
 ```
 
 ## Show details of Hyperopt results
@@ -864,7 +864,7 @@ freqtrade hyperopt-list --profitable --no-details
 You can show the details of any hyperoptimization epoch previously evaluated by the Hyperopt module with the `hyperopt-show` subcommand.
 
 ```
-usage: freqtrade hyperopt-show [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading hyperopt-show [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                [-d PATH] [--userdir PATH] [--best]
                                [--profitable] [-n INT] [--print-json]
                                [--hyperopt-filename FILENAME] [--no-header]
@@ -913,13 +913,13 @@ Common arguments:
 Print details for the epoch 168 (the number of the epoch is shown by the `hyperopt-list` subcommand or by Hyperopt itself during hyperoptimization run):
 
 ```
-freqtrade hyperopt-show -n 168
+trading hyperopt-show -n 168
 ```
 
 Prints JSON data with details for the last best epoch (i.e., the best of all epochs):
 
 ```
-freqtrade hyperopt-show --best -n -1 --print-json --no-header
+trading hyperopt-show --best -n -1 --print-json --no-header
 ```
 
 ## Show trades
@@ -927,7 +927,7 @@ freqtrade hyperopt-show --best -n -1 --print-json --no-header
 Print selected (or all) trades from database to screen.
 
 ```
-usage: freqtrade show-trades [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading show-trades [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                              [-d PATH] [--userdir PATH] [--db-url PATH]
                              [--trade-ids TRADE_IDS [TRADE_IDS ...]]
                              [--print-json]
@@ -964,7 +964,7 @@ Common arguments:
 Print trades with id 2 and 3 as json
 
 ``` bash
-freqtrade show-trades --db-url sqlite:///tradesv3.sqlite --trade-ids 2 3 --print-json
+trading show-trades --db-url sqlite:///tradesv3.sqlite --trade-ids 2 3 --print-json
 ```
 
 ## Strategy-Updater
@@ -978,7 +978,7 @@ Your original strategy will remain available in the `user_data/strategies_orig_u
     We also recommend to run a python formatter (e.g. `black`) to format results in a sane manner.
 
 ```
-usage: freqtrade strategy-updater [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading strategy-updater [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                   [-d PATH] [--userdir PATH]
                                   [--strategy-list STRATEGY_LIST [STRATEGY_LIST ...]]
 

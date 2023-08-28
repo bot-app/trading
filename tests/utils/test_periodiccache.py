@@ -1,6 +1,6 @@
 import time_machine
 
-from freqtrade.util import PeriodicCache
+from trading.util import PeriodicCache
 
 
 def test_ttl_cache():

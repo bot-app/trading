@@ -633,7 +633,7 @@ class Backtesting:
                         close_rate = price_to_precision(rate, trade.price_precision,
                                                         self.precision_mode)
                     # We can't place orders lower than current low.
-                    # freqtrade does not support this in live, and the order would fill immediately
+                    # trading does not support this in live, and the order would fill immediately
                     if trade.is_short:
                         close_rate = min(close_rate, row[HIGH_IDX])
                     else:
@@ -736,7 +736,7 @@ class Backtesting:
                 side=direction,
             )  # default value is the open rate
             # We can't place orders higher than current high (otherwise it'd be a stop limit entry)
-            # which freqtrade does not support in live.
+            # which trading does not support in live.
             if new_rate != propose_rate:
                 propose_rate = price_to_precision(new_rate, price_precision,
                                                   self.precision_mode)

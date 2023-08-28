@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
-from freqtrade.persistence.models import Order, Trade
+from trading.persistence.models import Order, Trade
 
 
 MOCK_TRADE_COUNT = 6

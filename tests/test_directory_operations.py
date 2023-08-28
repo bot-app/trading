@@ -5,9 +5,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from freqtrade.configuration.directory_operations import (chown_user_directory, copy_sample_files,
+from trading.configuration.directory_operations import (chown_user_directory, copy_sample_files,
                                                           create_datadir, create_userdata_dir)
-from freqtrade.exceptions import OperationalException
+from trading.exceptions import OperationalException
 from tests.conftest import log_has, log_has_re
 
 

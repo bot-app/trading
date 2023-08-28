@@ -3,8 +3,8 @@ from datetime import datetime, timezone
 
 import pytest
 
-from freqtrade.configuration import TimeRange
-from freqtrade.exceptions import OperationalException
+from trading.configuration import TimeRange
+from trading.exceptions import OperationalException
 
 
 def test_parse_timerange_incorrect():

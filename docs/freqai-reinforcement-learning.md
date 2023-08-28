@@ -31,7 +31,7 @@ As explained above, the agent is "trained" in an artificial trading "environment
 Setting up and running a Reinforcement Learning model is the same as running a Regressor or Classifier. The same two flags, `--freqaimodel` and `--strategy`, must be defined on the command line:
 
 ```bash
-freqtrade trade --freqaimodel ReinforcementLearner --strategy MyRLStrategy --config config.json
+trading trade --freqaimodel ReinforcementLearner --strategy MyRLStrategy --config config.json
 ```
 
 where `ReinforcementLearner` will use the templated `ReinforcementLearner` from `freqai/prediction_models/ReinforcementLearner` (or a custom user defined one located in `user_data/freqaimodels`). The strategy, on the other hand, follows the same base [feature engineering](freqai-feature-engineering.md) with `feature_engineering_*` as a typical Regressor. The difference lies in the creation of the targets, Reinforcement Learning doesn't require them. However, FreqAI requires a default (neutral) value to be set in the action column:
@@ -45,7 +45,7 @@ where `ReinforcementLearner` will use the templated `ReinforcementLearner` from 
 
         More details about feature engineering available:
 
-        https://www.freqtrade.io/en/latest/freqai-feature-engineering
+        https://www.trading.io/en/latest/freqai-feature-engineering
 
         :param df: strategy dataframe which will receive the targets
         usage example: dataframe["&-target"] = dataframe["close"].shift(-1) / dataframe["close"]
@@ -145,19 +145,19 @@ As you begin to modify the strategy and the prediction model, you will quickly r
     The best reward functions are ones that are continuously differentiable, and well scaled. In other words, adding a single large negative penalty to a rare event is not a good idea, and the neural net will not be able to learn that function. Instead, it is better to add a small negative penalty to a common event. This will help the agent learn faster. Not only this, but you can help improve the continuity of your rewards/penalties by having them scale with severity according to some linear/exponential functions. In other words, you'd slowly scale the penalty as the duration of the trade increases. This is better than a single large penalty occuring at a single point in time.
 
 ```python
-from freqtrade.freqai.prediction_models.ReinforcementLearner import ReinforcementLearner
-from freqtrade.freqai.RL.Base5ActionRLEnv import Actions, Base5ActionRLEnv, Positions
+from trading.freqai.prediction_models.ReinforcementLearner import ReinforcementLearner
+from trading.freqai.RL.Base5ActionRLEnv import Actions, Base5ActionRLEnv, Positions
 
 
 class MyCoolRLModel(ReinforcementLearner):
     """
     User created RL prediction model.
 
-    Save this file to `freqtrade/user_data/freqaimodels`
+    Save this file to `trading/user_data/freqaimodels`
 
     then use it with:
 
-    freqtrade trade --freqaimodel MyCoolRLModel --config config.json --strategy SomeCoolStrat
+    trading trade --freqaimodel MyCoolRLModel --config config.json --strategy SomeCoolStrat
 
     Here the users can override any of the functions
     available in the `IFreqaiModel` inheritance tree. Most importantly for RL, this
@@ -237,7 +237,7 @@ class MyCoolRLModel(ReinforcementLearner):
 Reinforcement Learning models benefit from tracking training metrics. FreqAI has integrated Tensorboard to allow users to track training and evaluation performance across all coins and across all retrainings. Tensorboard is activated via the following command:
 
 ```bash
-cd freqtrade
+cd trading
 tensorboard --logdir user_data/models/unique-id
 ```
 

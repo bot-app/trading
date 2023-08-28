@@ -3,9 +3,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from freqtrade.exceptions import OperationalException
-from freqtrade.optimize.hyperopt_loss.hyperopt_loss_short_trade_dur import ShortTradeDurHyperOptLoss
-from freqtrade.resolvers.hyperopt_resolver import HyperOptLossResolver
+from trading.exceptions import OperationalException
+from trading.optimize.hyperopt_loss.hyperopt_loss_short_trade_dur import ShortTradeDurHyperOptLoss
+from trading.resolvers.hyperopt_resolver import HyperOptLossResolver
 
 
 def test_hyperoptlossresolver_noname(default_conf):
@@ -19,7 +19,7 @@ def test_hyperoptlossresolver(mocker, default_conf) -> None:
 
     hl = ShortTradeDurHyperOptLoss
     mocker.patch(
-        'freqtrade.resolvers.hyperopt_resolver.HyperOptLossResolver.load_object',
+        'trading.resolvers.hyperopt_resolver.HyperOptLossResolver.load_object',
         MagicMock(return_value=hl())
     )
     default_conf.update({'hyperopt_loss': 'SharpeHyperOptLossDaily'})

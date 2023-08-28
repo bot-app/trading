@@ -12,14 +12,14 @@ Also, several other strategies are available in the [strategy repository](https:
 You will however most likely have your own idea for a strategy.
 This document intends to help you convert your strategy idea into your own strategy.
 
-To get started, use `freqtrade new-strategy --strategy AwesomeStrategy` (you can obviously use your own naming for your strategy).
+To get started, use `trading new-strategy --strategy AwesomeStrategy` (you can obviously use your own naming for your strategy).
 This will create a new strategy file from a template, which will be located under `user_data/strategies/AwesomeStrategy.py`.
 
 !!! Note
     This is just a template file, which will most likely not be profitable out of the box.
 
 ??? Hint "Different template levels"
-    `freqtrade new-strategy` has an additional parameter, `--template`, which controls the amount of pre-build information you get in the created strategy. Use `--template minimal` to get an empty strategy without any indicator examples, or `--template advanced` to get a template with most callbacks defined.
+    `trading new-strategy` has an additional parameter, `--template`, which controls the amount of pre-build information you get in the created strategy. Use `--template minimal` to get an empty strategy without any indicator examples, or `--template advanced` to get a template with most callbacks defined.
 
 ### Anatomy of a strategy
 
@@ -40,10 +40,10 @@ The current version is 3 - which is also the default when it's not set explicitl
 Future versions will require this to be set.
 
 ```bash
-freqtrade trade --strategy AwesomeStrategy
+trading trade --strategy AwesomeStrategy
 ```
 
-**For the following section we will use the [user_data/strategies/sample_strategy.py](https://github.com/bot-app/trading/blob/develop/freqtrade/templates/sample_strategy.py)
+**For the following section we will use the [user_data/strategies/sample_strategy.py](https://github.com/bot-app/trading/blob/develop/trading/templates/sample_strategy.py)
 file as reference.**
 
 !!! Note "Strategies and Backtesting"
@@ -149,16 +149,16 @@ def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame
 ```
 
 !!! Note "Want more indicator examples?"
-    Look into the [user_data/strategies/sample_strategy.py](https://github.com/bot-app/trading/blob/develop/freqtrade/templates/sample_strategy.py).
+    Look into the [user_data/strategies/sample_strategy.py](https://github.com/bot-app/trading/blob/develop/trading/templates/sample_strategy.py).
     Then uncomment indicators you need.
 
 #### Indicator libraries
 
-Out of the box, freqtrade installs the following technical libraries:
+Out of the box, trading installs the following technical libraries:
 
 * [ta-lib](http://mrjbq7.github.io/ta-lib/)
 * [pandas-ta](https://twopirllc.github.io/pandas-ta/)
-* [technical](https://github.com/freqtrade/technical/)
+* [technical](https://github.com/trading/technical/)
 
 Additional technical libraries can be installed as necessary, or custom indicators may be written / invented by the strategy author.
 
@@ -180,7 +180,7 @@ By letting the bot know how much history is needed, backtest trades can start at
     If you receive a warning like `WARNING - Using 3 calls to get OHLCV. This can result in slower operations for the bot. Please check if you really need 1500 candles for your strategy` - you should consider if you really need this much historic data for your signals.
     Having this will cause Freqtrade to make multiple calls for the same pair, which will obviously be slower than one network request.
     As a consequence, Freqtrade will take longer to refresh candles - and should therefore be avoided if possible.
-    This is capped to 5 total calls to avoid overloading the exchange, or make freqtrade too slow.
+    This is capped to 5 total calls to avoid overloading the exchange, or make trading too slow.
 
 !!! Warning
     `startup_candle_count` should be below `ohlcv_candle_limit * 5` (which is 500 * 5 for most exchanges) - since only this amount of candles will be available during Dry-Run/Live Trade operations.
@@ -190,7 +190,7 @@ By letting the bot know how much history is needed, backtest trades can start at
 Let's try to backtest 1 month (January 2019) of 5m candles using an example strategy with EMA100, as above.
 
 ``` bash
-freqtrade backtesting --timerange 20190101-20190201 --timeframe 5m
+trading backtesting --timerange 20190101-20190201 --timeframe 5m
 ```
 
 Assuming `startup_candle_count` is set to 100, backtesting knows it needs 100 candles to generate valid buy signals. It will load data from `20190101 - (100 * 5m)` - which is ~2018-12-31 15:30:00.
@@ -352,7 +352,7 @@ To use times based on candle duration (timeframe), the following snippet can be 
 This will allow you to change the timeframe for the strategy, and ROI times will still be set as candles (e.g. after 3 candles ...)
 
 ``` python
-from freqtrade.exchange import timeframe_to_minutes
+from trading.exchange import timeframe_to_minutes
 
 class AwesomeStrategy(IStrategy):
 
@@ -402,12 +402,12 @@ Instead, have a look at the [Storing information](strategy-advanced.md#Storing-i
 
 ## Strategy file loading
 
-By default, freqtrade will attempt to load strategies from all `.py` files within `user_data/strategies`.
+By default, trading will attempt to load strategies from all `.py` files within `user_data/strategies`.
 
-Assuming your strategy is called `AwesomeStrategy`, stored in the file `user_data/strategies/AwesomeStrategy.py`, then you can start freqtrade with `freqtrade trade --strategy AwesomeStrategy`.
+Assuming your strategy is called `AwesomeStrategy`, stored in the file `user_data/strategies/AwesomeStrategy.py`, then you can start trading with `trading trade --strategy AwesomeStrategy`.
 Note that we're using the class-name, not the file name.
 
-You can use `freqtrade list-strategies` to see a list of all strategies Freqtrade is able to load (all strategies in the correct folder).
+You can use `trading list-strategies` to see a list of all strategies Freqtrade is able to load (all strategies in the correct folder).
 It will also include a "status" field, highlighting potential problems.
 
 ??? Hint "Customize strategy directory"
@@ -509,8 +509,8 @@ for more information.
     ``` python
 
     from datetime import datetime
-    from freqtrade.persistence import Trade
-    from freqtrade.strategy import IStrategy, informative
+    from trading.persistence import Trade
+    from trading.strategy import IStrategy, informative
 
     class AwesomeStrategy(IStrategy):
         
@@ -663,7 +663,7 @@ informative = self.dp.get_pair_dataframe(pair=inf_pair,
 
 ### *get_analyzed_dataframe(pair, timeframe)*
 
-This method is used by freqtrade internally to determine the last signal.
+This method is used by trading internally to determine the last signal.
 It can also be used in specific callbacks to get the signal that caused the action (see [Advanced Strategy Documentation](strategy-advanced.md) for more details on available callbacks).
 
 ``` python
@@ -748,7 +748,7 @@ Notifications will only be sent in trading modes (Live/Dry-run) - so this method
 ### Complete Data-provider sample
 
 ```python
-from freqtrade.strategy import IStrategy, merge_informative_pair
+from trading.strategy import IStrategy, merge_informative_pair
 from pandas import DataFrame
 
 class SampleStrategy(IStrategy):
@@ -871,7 +871,7 @@ All columns of the informative dataframe will be available on the returning data
 
 !!! Warning "Informative timeframe < timeframe"
     Using informative timeframes smaller than the dataframe timeframe is not recommended with this method, as it will not use any of the additional information this would provide.
-    To use the more detailed information properly, more advanced methods should be applied (which are out of scope for freqtrade documentation, as it'll depend on the respective need).
+    To use the more detailed information properly, more advanced methods should be applied (which are out of scope for trading documentation, as it'll depend on the respective need).
 
 ***
 
@@ -891,8 +891,8 @@ Stoploss values returned from `custom_stoploss` must specify a percentage relati
     ``` python
 
     from datetime import datetime
-    from freqtrade.persistence import Trade
-    from freqtrade.strategy import IStrategy, stoploss_from_open
+    from trading.persistence import Trade
+    from trading.strategy import IStrategy, stoploss_from_open
 
     class AwesomeStrategy(IStrategy):
 
@@ -931,8 +931,8 @@ In some situations it may be confusing to deal with stops relative to current ra
     ``` python
 
     from datetime import datetime
-    from freqtrade.persistence import Trade
-    from freqtrade.strategy import IStrategy, stoploss_from_absolute
+    from trading.persistence import Trade
+    from trading.strategy import IStrategy, stoploss_from_absolute
 
     class AwesomeStrategy(IStrategy):
 
@@ -983,7 +983,7 @@ A history of Trades can be retrieved in the strategy by querying the database.
 At the top of the file, import Trade.
 
 ```python
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 ```
 
 The following example queries for the current pair and trades from today, however other filters can easily be added.
@@ -1029,7 +1029,7 @@ To verify if a pair is currently locked, use `self.is_pair_locked(pair)`.
 #### Pair locking example
 
 ``` python
-from freqtrade.persistence import Trade
+from trading.persistence import Trade
 from datetime import timedelta, datetime, timezone
 # Put the above lines a the top of the strategy file, next to all the other imports
 # --------
@@ -1087,7 +1087,7 @@ The following lists some common patterns which should be avoided to prevent frus
 
 ### Colliding signals
 
-When conflicting signals collide (e.g. both `'enter_long'` and `'exit_long'` are 1), freqtrade will do nothing and ignore the entry signal. This will avoid trades that enter, and exit immediately. Obviously, this can potentially lead to missed entries.
+When conflicting signals collide (e.g. both `'enter_long'` and `'exit_long'` are 1), trading will do nothing and ignore the entry signal. This will avoid trades that enter, and exit immediately. Obviously, this can potentially lead to missed entries.
 
 The following rules apply, and entry signals will be ignored if more than one of the 3 signals is set:
 

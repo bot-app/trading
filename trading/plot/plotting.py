@@ -596,7 +596,7 @@ def generate_plot_filename(pair: str, timeframe: str) -> str:
     Generate filenames per pair/timeframe to be used for storing plots
     """
     pair_s = pair_to_filename(pair)
-    file_name = 'freqtrade-plot-' + pair_s + '-' + timeframe + '.html'
+    file_name = 'trading-plot-' + pair_s + '-' + timeframe + '.html'
 
     logger.info('Generate plot file for %s', pair)
 
@@ -697,6 +697,6 @@ def plot_profit(config: Config) -> None:
                                 trades, config['timeframe'],
                                 config.get('stake_currency', ''),
                                 config.get('available_capital', config['dry_run_wallet']))
-    store_plot_file(fig, filename='freqtrade-profit-plot.html',
+    store_plot_file(fig, filename='trading-profit-plot.html',
                     directory=config['user_data_dir'] / 'plot',
                     auto_open=config.get('plot_auto_open', False))

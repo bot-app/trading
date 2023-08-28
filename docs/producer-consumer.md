@@ -1,6 +1,6 @@
 # Producer / Consumer mode
 
-freqtrade provides a mechanism whereby an instance (also called `consumer`) may listen to messages from an upstream freqtrade instance (also called `producer`) using the message websocket. Mainly, `analyzed_df` and `whitelist` messages. This allows the reuse of computed indicators (and signals) for pairs in multiple bots without needing to compute them multiple times.
+trading provides a mechanism whereby an instance (also called `consumer`) may listen to messages from an upstream trading instance (also called `producer`) using the message websocket. Mainly, `analyzed_df` and `whitelist` messages. This allows the reuse of computed indicators (and signals) for pairs in multiple bots without needing to compute them multiple times.
 
 See [Message Websocket](rest-api.md#message-websocket) in the Rest API docs for setting up the `api_server` configuration for your message websocket (this will be your producer).
 
@@ -67,7 +67,7 @@ class ProducerStrategy(IStrategy):
     #...
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         """
-        Calculate indicators in the standard freqtrade way which can then be broadcast to other instances
+        Calculate indicators in the standard trading way which can then be broadcast to other instances
         """
         dataframe['rsi'] = ta.RSI(dataframe)
         bollinger = qtpylib.bollinger_bands(qtpylib.typical_price(dataframe), window=20, stds=2)
@@ -111,7 +111,7 @@ class ConsumerStrategy(IStrategy):
 
     def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         """
-        Use the websocket api to get pre-populated indicators from another freqtrade instance.
+        Use the websocket api to get pre-populated indicators from another trading instance.
         Use `self.dp.get_producer_df(pair)` to get the dataframe
         """
         pair = metadata['pair']

@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 import ccxt
 import pytest
 
-from freqtrade.exceptions import DependencyException, InvalidOrderException
+from trading.exceptions import DependencyException, InvalidOrderException
 from tests.conftest import EXMS, get_patched_exchange
 from tests.exchange.test_exchange import ccxt_exceptionhandlers
 

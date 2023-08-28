@@ -9,7 +9,7 @@ There are two ways to train and deploy an adaptive machine learning model - live
 FreqAI can be run dry/live using the following command:
 
 ```bash
-freqtrade trade --strategy FreqaiExampleStrategy --config config_freqai.example.json --freqaimodel LightGBMRegressor
+trading trade --strategy FreqaiExampleStrategy --config config_freqai.example.json --freqaimodel LightGBMRegressor
 ```
 
 When launched, FreqAI will start training a new model, with a new `identifier`, based on the config settings. Following training, the model will be used to make predictions on incoming candles until a new model is available. New models are typically generated as often as possible, with FreqAI managing an internal queue of the coin pairs to try to keep all models equally up to date. FreqAI will always use the most recently trained model to make predictions on incoming live data. If you do not want FreqAI to retrain new models as often as possible, you can set `live_retrain_hours` to tell FreqAI to wait at least that number of hours before training a new model. Additionally, you can set `expired_hours` to tell FreqAI to avoid making predictions on models that are older than that number of hours.
@@ -52,7 +52,7 @@ This will automatically purge all models older than the two most recently traine
 The FreqAI backtesting module can be executed with the following command:
 
 ```bash
-freqtrade backtesting --strategy FreqaiExampleStrategy --strategy-path freqtrade/templates --config config_examples/config_freqai.example.json --freqaimodel LightGBMRegressor --timerange 20210501-20210701
+trading backtesting --strategy FreqaiExampleStrategy --strategy-path trading/templates --config config_examples/config_freqai.example.json --freqaimodel LightGBMRegressor --timerange 20210501-20210701
 ```
 
 If this command has never been executed with the existing config file, FreqAI will train a new model
@@ -139,7 +139,7 @@ You can choose to adopt a continual learning scheme by setting `"continual_learn
 You can hyperopt using the same command as for [typical Freqtrade hyperopt](hyperopt.md):
 
 ```bash
-freqtrade hyperopt --hyperopt-loss SharpeHyperOptLoss --strategy FreqaiExampleStrategy --freqaimodel LightGBMRegressor --strategy-path freqtrade/templates --config config_examples/config_freqai.example.json --timerange 20220428-20220507
+trading hyperopt --hyperopt-loss SharpeHyperOptLoss --strategy FreqaiExampleStrategy --freqaimodel LightGBMRegressor --strategy-path trading/templates --config config_examples/config_freqai.example.json --timerange 20220428-20220507
 ```
 
 `hyperopt` requires you to have the data pre-downloaded in the same fashion as if you were doing [backtesting](#backtesting). In addition, you must consider some restrictions when trying to hyperopt FreqAI strategies:
@@ -171,7 +171,7 @@ This specific hyperopt would help you understand the appropriate `DI_values` for
 The easiest way to use tensorboard is to ensure `freqai.activate_tensorboard` is set to `True` (default setting) in your configuration file, run FreqAI, then open a separate shell and run:
 
 ```bash
-cd freqtrade
+cd trading
 tensorboard --logdir user_data/models/unique-id
 ```
 

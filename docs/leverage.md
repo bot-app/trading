@@ -4,16 +4,16 @@
     This feature is still in it's testing phase. Should you notice something you think is wrong please let us know via Discord or via Github Issue.
 
 !!! Note "Multiple bots on one account"
-    You can't run 2 bots on the same account with leverage. For leveraged / margin trading, freqtrade assumes it's the only user of the account, and all liquidation levels are calculated based on this assumption.
+    You can't run 2 bots on the same account with leverage. For leveraged / margin trading, trading assumes it's the only user of the account, and all liquidation levels are calculated based on this assumption.
 
 !!! Danger "Trading with leverage is very risky"
     Do not trade with a leverage > 1 using a strategy that hasn't shown positive results in a live run using the spot market. Check the stoploss of your strategy. With a leverage of 2, a stoploss of 0.5 (50%) would be too low, and these trades would be liquidated before reaching that stoploss.
     We do not assume any responsibility for eventual losses that occur from using this software or this mode.
 
-    Please only use advanced trading modes when you know how freqtrade (and your strategy) works.
+    Please only use advanced trading modes when you know how trading (and your strategy) works.
     Also, never risk more than what you can afford to lose.
 
-If you already have an existing strategy, please read the [strategy migration guide](strategy_migration.md#strategy-migration-between-v2-and-v3) to migrate your strategy from a freqtrade v2 strategy, to strategy of version 3 which can short and trade futures.
+If you already have an existing strategy, please read the [strategy migration guide](strategy_migration.md#strategy-migration-between-v2-and-v3) to migrate your strategy from a trading v2 strategy, to strategy of version 3 which can short and trade futures.
 
 ## Shorting
 
@@ -55,7 +55,7 @@ Perpetual swaps (also known as Perpetual Futures) are contracts traded at a pric
 In addition to the gains/losses from the change in price of the futures contract, traders also exchange _funding fees_, which are gains/losses worth an amount that is derived from the difference in price between the futures contract and the underlying asset. The difference in price between a futures contract and the underlying asset varies between exchanges.
 
 To trade in futures markets, you'll have to set `trading_mode` to "futures".
-You will also have to pick a "margin mode" (explanation below) - with freqtrade currently only supporting isolated margin.
+You will also have to pick a "margin mode" (explanation below) - with trading currently only supporting isolated margin.
 
 ``` json
 "trading_mode": "futures",
@@ -70,7 +70,7 @@ A futures pair will therefore have the naming of `base/quote:settle` (e.g. `ETH/
 ### Margin mode
 
 On top of `trading_mode` - you will also have to configure your `margin_mode`.
-While freqtrade currently only supports one margin mode, this will change, and by configuring it now you're all set for future updates.
+While trading currently only supports one margin mode, this will change, and by configuring it now you're all set for future updates.
 
 The possible values are: `isolated`, or `cross`(*currently unavailable*).
 
@@ -95,7 +95,7 @@ Please read the [exchange specific notes](exchanges.md) for exchanges that suppo
 ## Set leverage to use
 
 Different strategies and risk profiles will require different levels of leverage.
-While you could configure one static leverage value - freqtrade offers you the flexibility to adjust this via [strategy leverage callback](strategy-callbacks.md#leverage-callback) - which allows you to use different leverages by pair, or based on some other factor benefitting your strategy result.
+While you could configure one static leverage value - trading offers you the flexibility to adjust this via [strategy leverage callback](strategy-callbacks.md#leverage-callback) - which allows you to use different leverages by pair, or based on some other factor benefitting your strategy result.
 
 If not implemented, leverage defaults to 1x (no leverage).
 
@@ -109,7 +109,7 @@ If not implemented, leverage defaults to 1x (no leverage).
 A ratio specifying how large of a safety net to place between the liquidation price and the stoploss to prevent a position from reaching the liquidation price.
 This artificial liquidation price is calculated as:
 
-`freqtrade_liquidation_price = liquidation_price ± (abs(open_rate - liquidation_price) * liquidation_buffer)`
+`trading_liquidation_price = liquidation_price ± (abs(open_rate - liquidation_price) * liquidation_buffer)`
 
 - `±` = `+` for long trades
 - `±` = `-` for short trades

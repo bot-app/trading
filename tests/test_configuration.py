@@ -8,19 +8,19 @@ from unittest.mock import MagicMock
 import pytest
 from jsonschema import ValidationError
 
-from freqtrade.commands import Arguments
-from freqtrade.configuration import Configuration, validate_config_consistency
-from freqtrade.configuration.config_validation import validate_config_schema
-from freqtrade.configuration.deprecated_settings import (check_conflicting_settings,
+from trading.commands import Arguments
+from trading.configuration import Configuration, validate_config_consistency
+from trading.configuration.config_validation import validate_config_schema
+from trading.configuration.deprecated_settings import (check_conflicting_settings,
                                                          process_deprecated_setting,
                                                          process_removed_setting,
                                                          process_temporary_deprecated_settings)
-from freqtrade.configuration.environment_vars import flat_vars_to_nested_dict
-from freqtrade.configuration.load_config import (load_config_file, load_file, load_from_files,
+from trading.configuration.environment_vars import flat_vars_to_nested_dict
+from trading.configuration.load_config import (load_config_file, load_file, load_from_files,
                                                  log_config_error_range)
-from freqtrade.constants import DEFAULT_DB_DRYRUN_URL, DEFAULT_DB_PROD_URL, ENV_VAR_PREFIX
-from freqtrade.enums import RunMode
-from freqtrade.exceptions import OperationalException
+from trading.constants import DEFAULT_DB_DRYRUN_URL, DEFAULT_DB_PROD_URL, ENV_VAR_PREFIX
+from trading.enums import RunMode
+from trading.exceptions import OperationalException
 from tests.conftest import (CURRENT_TEST_STRATEGY, log_has, log_has_re,
                             patched_configuration_load_config_file)
 
@@ -56,7 +56,7 @@ def test_load_config_incorrect_stake_amount(default_conf) -> None:
 def test_load_config_file(default_conf, mocker, caplog) -> None:
     del default_conf['user_data_dir']
     default_conf['datadir'] = str(default_conf['datadir'])
-    file_mock = mocker.patch('freqtrade.configuration.load_config.Path.open', mocker.mock_open(
+    file_mock = mocker.patch('trading.configuration.load_config.Path.open', mocker.mock_open(
         read_data=json.dumps(default_conf)
     ))
 
@@ -70,7 +70,7 @@ def test_load_config_file_error(default_conf, mocker, caplog) -> None:
     default_conf['datadir'] = str(default_conf['datadir'])
     filedata = json.dumps(default_conf).replace(
         '"stake_amount": 0.001,', '"stake_amount": .001,')
-    mocker.patch('freqtrade.configuration.load_config.Path.open',
+    mocker.patch('trading.configuration.load_config.Path.open',
                  mocker.mock_open(read_data=filedata))
     mocker.patch.object(Path, "read_text", MagicMock(return_value=filedata))
 
@@ -162,7 +162,7 @@ def test_load_config_combine_dicts(default_conf, mocker, caplog) -> None:
 
     configsmock = MagicMock(side_effect=config_files)
     mocker.patch(
-        'freqtrade.configuration.load_config.load_config_file',
+        'trading.configuration.load_config.load_config_file',
         configsmock
     )
 
@@ -190,10 +190,10 @@ def test_from_config(default_conf, mocker, caplog) -> None:
     conf2['exchange']['pair_whitelist'] += ['NANO/BTC']
     conf2['fiat_display_currency'] = "EUR"
     config_files = [conf1, conf2]
-    mocker.patch('freqtrade.configuration.configuration.create_datadir', lambda c, x: x)
+    mocker.patch('trading.configuration.configuration.create_datadir', lambda c, x: x)
 
     configsmock = MagicMock(side_effect=config_files)
-    mocker.patch('freqtrade.configuration.load_config.load_config_file', configsmock)
+    mocker.patch('trading.configuration.load_config.load_config_file', configsmock)
 
     validated_conf = Configuration.from_files(['test_conf.json', 'test2_conf.json'])
 
@@ -243,8 +243,8 @@ def test_print_config(default_conf, mocker, caplog) -> None:
     config_files = [conf1]
 
     configsmock = MagicMock(side_effect=config_files)
-    mocker.patch('freqtrade.configuration.configuration.create_datadir', lambda c, x: x)
-    mocker.patch('freqtrade.configuration.configuration.load_from_files', configsmock)
+    mocker.patch('trading.configuration.configuration.create_datadir', lambda c, x: x)
+    mocker.patch('trading.configuration.configuration.load_from_files', configsmock)
 
     validated_conf = Configuration.from_files(['test_conf.json'])
 
@@ -270,7 +270,7 @@ def test_load_config_max_open_trades_minus_one(default_conf, mocker, caplog) -> 
 
 def test_load_config_file_exception(mocker) -> None:
     mocker.patch(
-        'freqtrade.configuration.configuration.Path.open',
+        'trading.configuration.configuration.Path.open',
         MagicMock(side_effect=FileNotFoundError('File not found'))
     )
 
@@ -461,11 +461,11 @@ def test_setup_configuration_without_arguments(mocker, default_conf, caplog) -> 
 def test_setup_configuration_with_arguments(mocker, default_conf, caplog) -> None:
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch(
-        'freqtrade.configuration.configuration.create_datadir',
+        'trading.configuration.configuration.create_datadir',
         lambda c, x: x
     )
     mocker.patch(
-        'freqtrade.configuration.configuration.create_userdata_dir',
+        'trading.configuration.configuration.create_userdata_dir',
         lambda x, *args, **kwargs: Path(x)
     )
     arglist = [
@@ -473,7 +473,7 @@ def test_setup_configuration_with_arguments(mocker, default_conf, caplog) -> Non
         '--config', 'config.json',
         '--strategy', CURRENT_TEST_STRATEGY,
         '--datadir', '/foo/bar',
-        '--userdir', "/tmp/freqtrade",
+        '--userdir', "/tmp/trading",
         '--timeframe', '1m',
         '--enable-position-stacking',
         '--disable-max-market-positions',
@@ -493,7 +493,7 @@ def test_setup_configuration_with_arguments(mocker, default_conf, caplog) -> Non
     assert 'pair_whitelist' in config['exchange']
     assert 'datadir' in config
     assert log_has('Using data directory: {} ...'.format("/foo/bar"), caplog)
-    assert log_has('Using user-data directory: {} ...'.format(Path("/tmp/freqtrade")), caplog)
+    assert log_has('Using user-data directory: {} ...'.format(Path("/tmp/trading")), caplog)
     assert 'user_data_dir' in config
 
     assert 'timeframe' in config
@@ -590,7 +590,7 @@ def test_cli_verbose_with_params(default_conf, mocker, caplog) -> None:
     patched_configuration_load_config_file(mocker, default_conf)
 
     # Prevent setting loggers
-    mocker.patch('freqtrade.loggers.set_loggers', MagicMock)
+    mocker.patch('trading.loggers.set_loggers', MagicMock)
     arglist = ['trade', '-vvv']
     args = Arguments(arglist).get_parsed_arg()
 
@@ -1148,7 +1148,7 @@ def test_pairlist_resolving_with_config_pl_not_exists(mocker, default_conf):
 def test_pairlist_resolving_fallback(mocker, tmpdir):
     mocker.patch.object(Path, "exists", MagicMock(return_value=True))
     mocker.patch.object(Path, "open", MagicMock(return_value=MagicMock()))
-    mocker.patch("freqtrade.configuration.configuration.load_file",
+    mocker.patch("trading.configuration.configuration.load_file",
                  MagicMock(return_value=['XRP/BTC', 'ETH/BTC']))
     arglist = [
         'download-data',
@@ -1429,11 +1429,11 @@ def test_flat_vars_to_nested_dict(caplog):
 def test_setup_hyperopt_freqai(mocker, default_conf, caplog) -> None:
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch(
-        'freqtrade.configuration.configuration.create_datadir',
+        'trading.configuration.configuration.create_datadir',
         lambda c, x: x
     )
     mocker.patch(
-        'freqtrade.configuration.configuration.create_userdata_dir',
+        'trading.configuration.configuration.create_userdata_dir',
         lambda x, *args, **kwargs: Path(x)
     )
     arglist = [
@@ -1462,11 +1462,11 @@ def test_setup_hyperopt_freqai(mocker, default_conf, caplog) -> None:
 def test_setup_freqai_backtesting(mocker, default_conf, caplog) -> None:
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch(
-        'freqtrade.configuration.configuration.create_datadir',
+        'trading.configuration.configuration.create_datadir',
         lambda c, x: x
     )
     mocker.patch(
-        'freqtrade.configuration.configuration.create_userdata_dir',
+        'trading.configuration.configuration.create_userdata_dir',
         lambda x, *args, **kwargs: Path(x)
     )
     arglist = [

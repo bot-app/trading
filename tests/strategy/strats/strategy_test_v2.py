@@ -3,13 +3,13 @@
 import talib.abstract as ta
 from pandas import DataFrame
 
-import freqtrade.vendor.qtpylib.indicators as qtpylib
-from freqtrade.strategy import IStrategy
+import trading.vendor.qtpylib.indicators as qtpylib
+from trading.strategy import IStrategy
 
 
 class StrategyTestV2(IStrategy):
     """
-    Strategy used by tests freqtrade bot.
+    Strategy used by tests trading bot.
     Please do not modify this strategy, it's  intended for internal use only.
     Please look at the SampleStrategy in the user_data/strategy directory
     or strategy repository https://github.com/bot-app/trading-strategies

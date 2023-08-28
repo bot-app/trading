@@ -156,8 +156,8 @@ def show_config(rpc: Optional[RPC] = Depends(get_rpc_optional), config=Depends(g
     state = ''
     strategy_version = None
     if rpc:
-        state = rpc._freqtrade.state
-        strategy_version = rpc._freqtrade.strategy.version()
+        state = rpc._trading.state
+        strategy_version = rpc._trading.strategy.version()
     resp = RPC._rpc_show_config(config, state, strategy_version)
     resp['api_version'] = API_VERSION
     return resp

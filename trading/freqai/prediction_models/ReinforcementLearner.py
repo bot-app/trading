@@ -21,14 +21,14 @@ class ReinforcementLearner(BaseReinforcementLearningModel):
     environment/training controls. Define the file as follows:
 
     ```
-    from freqtrade.freqai.prediction_models.ReinforcementLearner import ReinforcementLearner
+    from trading.freqai.prediction_models.ReinforcementLearner import ReinforcementLearner
 
     class MyCoolRLModel(ReinforcementLearner):
     ```
 
     Save the file to `user_data/freqaimodels`, then run it with:
 
-    freqtrade trade --freqaimodel MyCoolRLModel --config config.json --strategy SomeCoolStrat
+    trading trade --freqaimodel MyCoolRLModel --config config.json --strategy SomeCoolStrat
 
     Here the users can override any of the functions
     available in the `IFreqaiModel` inheritance tree. Most importantly for RL, this

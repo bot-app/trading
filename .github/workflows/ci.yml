@@ -66,7 +66,7 @@ jobs:
 
     - name: Tests
       run: |
-        pytest --random-order --cov=freqtrade --cov-config=.coveragerc
+        pytest --random-order --cov=trading --cov-config=.coveragerc
 
     - name: Coveralls
       if: (runner.os == 'Linux' && matrix.python-version == '3.10' && matrix.os == 'ubuntu-22.04')
@@ -91,16 +91,16 @@ jobs:
     - name: Backtesting (multi)
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade new-strategy -s AwesomeStrategy
-        freqtrade new-strategy -s AwesomeStrategyMin --template minimal
-        freqtrade backtesting --datadir tests/testdata --strategy-list AwesomeStrategy AwesomeStrategyMin -i 5m
+        trading create-userdir --userdir user_data
+        trading new-strategy -s AwesomeStrategy
+        trading new-strategy -s AwesomeStrategyMin --template minimal
+        trading backtesting --datadir tests/testdata --strategy-list AwesomeStrategy AwesomeStrategyMin -i 5m
 
     - name: Hyperopt
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade hyperopt --datadir tests/testdata -e 6 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
+        trading create-userdir --userdir user_data
+        trading hyperopt --datadir tests/testdata -e 6 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
 
     - name: Sort imports (isort)
       run: |
@@ -112,7 +112,7 @@ jobs:
 
     - name: Mypy
       run: |
-        mypy freqtrade scripts tests
+        mypy trading scripts tests
 
     - name: Discord notification
       uses: rjstone/discord-webhook-notify@v1
@@ -201,15 +201,15 @@ jobs:
     - name: Backtesting
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade new-strategy -s AwesomeStrategyAdv --template advanced
-        freqtrade backtesting --datadir tests/testdata --strategy AwesomeStrategyAdv
+        trading create-userdir --userdir user_data
+        trading new-strategy -s AwesomeStrategyAdv --template advanced
+        trading backtesting --datadir tests/testdata --strategy AwesomeStrategyAdv
 
     - name: Hyperopt
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade hyperopt --datadir tests/testdata -e 5 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
+        trading create-userdir --userdir user_data
+        trading hyperopt --datadir tests/testdata -e 5 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
 
     - name: Sort imports (isort)
       run: |
@@ -221,7 +221,7 @@ jobs:
 
     - name: Mypy
       run: |
-        mypy freqtrade scripts
+        mypy trading scripts
 
     - name: Discord notification
       uses: rjstone/discord-webhook-notify@v1
@@ -276,14 +276,14 @@ jobs:
     - name: Backtesting
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade backtesting --datadir tests/testdata --strategy SampleStrategy
+        trading create-userdir --userdir user_data
+        trading backtesting --datadir tests/testdata --strategy SampleStrategy
 
     - name: Hyperopt
       run: |
         cp config_examples/config_bittrex.example.json config.json
-        freqtrade create-userdir --userdir user_data
-        freqtrade hyperopt --datadir tests/testdata -e 5 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
+        trading create-userdir --userdir user_data
+        trading hyperopt --datadir tests/testdata -e 5 --strategy SampleStrategy --hyperopt-loss SharpeHyperOptLossDaily --print-all
 
     - name: Run Ruff
       run: |
@@ -291,7 +291,7 @@ jobs:
 
     - name: Mypy
       run: |
-        mypy freqtrade scripts tests
+        mypy trading scripts tests
 
     - name: Discord notification
       uses: rjstone/discord-webhook-notify@v1
@@ -399,7 +399,7 @@ jobs:
       env:
         CI_WEB_PROXY: http://152.67.78.211:13128
       run: |
-        pytest --random-order --cov=freqtrade --cov-config=.coveragerc --longrun
+        pytest --random-order --cov=trading --cov-config=.coveragerc --longrun
 
 
   # Notify only once - when CI completes (and after deploy) in case it's successfull

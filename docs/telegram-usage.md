@@ -21,7 +21,7 @@ Choose the public name of your bot (e.x. `Freqtrade bot`)
 
 > Good. Now let's choose a username for your bot. It must end in `bot`. Like this, for example: TetrisBot or tetris_bot.
 
-Choose the name id of your bot and send it to the BotFather (e.g. "`My_own_freqtrade_bot`")
+Choose the name id of your bot and send it to the BotFather (e.g. "`My_own_trading_bot`")
 
 *BotFather response:*
 
@@ -59,7 +59,7 @@ For the Freqtrade configuration, you can then use the the full value (including 
    "chat_id": "-1001332619709"
 ```
 !!! Warning "Using telegram groups"
-    When using telegram groups, you're giving every member of the telegram group access to your freqtrade bot and to all commands possible via telegram. Please make sure that you can trust everyone in the telegram group to avoid unpleasent surprises.
+    When using telegram groups, you're giving every member of the telegram group access to your trading bot and to all commands possible via telegram. Please make sure that you can trust everyone in the telegram group to avoid unpleasent surprises.
 
 ## Control telegram noise
 

@@ -6,7 +6,7 @@ All contributions, bug reports, bug fixes, documentation improvements, enhanceme
 
 ## Documentation
 
-Documentation is available at [https://freqtrade.io](https://www.freqtrade.io/) and needs to be provided with every new feature PR.
+Documentation is available at [https://trading.io](https://www.trading.io/) and needs to be provided with every new feature PR.
 
 Special fields for the documentation (like Note boxes, ...) can be found [here](https://squidfunk.github.io/mkdocs-material/reference/admonitions/).
 
@@ -34,7 +34,7 @@ Before opening a pull request, please familiarize yourself with our [Contributin
 ### Devcontainer setup
 
 The fastest and easiest way to get started is to use [VSCode](https://code.visualstudio.com/) with the Remote container extension.
-This gives developers the ability to start the bot with all required dependencies *without* needing to install any freqtrade specific dependencies on your local machine.
+This gives developers the ability to start the bot with all required dependencies *without* needing to install any trading specific dependencies on your local machine.
 
 #### Devcontainer dependencies
 
@@ -77,15 +77,15 @@ def test_method_to_test(caplog):
 
 ### Debug configuration
 
-To debug freqtrade, we recommend VSCode (with the Python extension) with the following launch configuration (located in `.vscode/launch.json`).
+To debug trading, we recommend VSCode (with the Python extension) with the following launch configuration (located in `.vscode/launch.json`).
 Details will obviously vary between setups - but this should work to get you started.
 
 ``` json
 {
-    "name": "freqtrade trade",
+    "name": "trading trade",
     "type": "python",
     "request": "launch",
-    "module": "freqtrade",
+    "module": "trading",
     "console": "integratedTerminal",
     "args": [
         "trade",
@@ -100,7 +100,7 @@ Details will obviously vary between setups - but this should work to get you sta
 Command line arguments can be added in the `"args"` array.
 This method can also be used to debug a strategy, by setting the breakpoints within the strategy.
 
-A similar setup can also be taken for Pycharm - using `freqtrade` as module name, and setting the command line arguments as "parameters".
+A similar setup can also be taken for Pycharm - using `trading` as module name, and setting the command line arguments as "parameters".
 
 ??? Tip "Correct venv usage"
     When using a virtual environment (which you should), make sure that your Editor is using the correct virtual environment to avoid problems or "unknown import" errors.
@@ -160,7 +160,7 @@ Hopefully you also want to contribute this back upstream.
 
 Whatever your motivations are - This should get you off the ground in trying to develop a new Pairlist Handler.
 
-First of all, have a look at the [VolumePairList](https://github.com/bot-app/trading/blob/develop/freqtrade/pairlist/VolumePairList.py) Handler, and best copy this file with a name of your new Pairlist Handler.
+First of all, have a look at the [VolumePairList](https://github.com/bot-app/trading/blob/develop/trading/pairlist/VolumePairList.py) Handler, and best copy this file with a name of your new Pairlist Handler.
 
 This is a simple Handler, which however serves as a good example on how to start developing.
 
@@ -306,7 +306,7 @@ Most exchanges supported by CCXT should work out of the box.
 To quickly test the public endpoints of an exchange, add a configuration for your exchange to `test_ccxt_compat.py` and run these tests with `pytest --longrun tests/exchange/test_ccxt_compat.py`.
 Completing these tests successfully a good basis point (it's a requirement, actually), however these won't guarantee correct exchange functioning, as this only tests public endpoints, but no private endpoint (like generate order or similar).
 
-Also try to use `freqtrade download-data` for an extended timerange (multiple months) and verify that the data downloaded correctly (no holes, the specified timerange was actually downloaded).
+Also try to use `trading download-data` for an extended timerange (multiple months) and verify that the data downloaded correctly (no holes, the specified timerange was actually downloaded).
 
 These are prerequisites to have an exchange listed as either Supported or Community tested (listed on the homepage).
 The below are "extras", which will make an exchange better (feature-complete) - but are not absolutely necessary for either of the 2 categories.
@@ -341,7 +341,7 @@ To check how the new exchange behaves, you can use the following snippet:
 ``` python
 import ccxt
 from datetime import datetime, timezone
-from freqtrade.data.converter import ohlcv_to_dataframe
+from trading.data.converter import ohlcv_to_dataframe
 ct = ccxt.binance()  # Use the exchange you're testing
 timeframe = "1d"
 pair = "BTC/USDT"  # Make sure to use a pair that exists on that exchange!
@@ -383,7 +383,7 @@ _ = exchange.load_markets()
 lev_tiers = exchange.fetch_leverage_tiers()
 
 # Assumes this is running in the root of the repository.
-file = Path('freqtrade/exchange/binance_leverage_tiers.json')
+file = Path('trading/exchange/binance_leverage_tiers.json')
 json.dump(dict(sorted(lev_tiers.items())), file.open('w'), indent=2)
 
 ```
@@ -395,8 +395,8 @@ This file should then be contributed upstream, so others can benefit from this, 
 To keep the jupyter notebooks aligned with the documentation, the following should be ran after updating a example notebook.
 
 ``` bash
-jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace freqtrade/templates/strategy_analysis_example.ipynb
-jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to markdown freqtrade/templates/strategy_analysis_example.ipynb --stdout > docs/strategy_analysis_example.md
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace trading/templates/strategy_analysis_example.ipynb
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to markdown trading/templates/strategy_analysis_example.ipynb --stdout > docs/strategy_analysis_example.md
 ```
 
 ## Continuous integration
@@ -428,7 +428,7 @@ git checkout -b new_release <commitid>
 Determine if crucial bugfixes have been made between this commit and the current state, and eventually cherry-pick these.
 
 * Merge the release branch (stable) into this branch.
-* Edit `freqtrade/__init__.py` and add the version matching the current date (for example `2019.7` for July 2019). Minor versions can be `2019.7.1` should we need to do a second release that month. Version numbers must follow allowed versions from PEP0440 to avoid failures pushing to pypi.
+* Edit `trading/__init__.py` and add the version matching the current date (for example `2019.7` for July 2019). Minor versions can be `2019.7.1` should we need to do a second release that month. Version numbers must follow allowed versions from PEP0440 to avoid failures pushing to pypi.
 * Commit this part.
 * push that branch to the remote and create a PR against the stable branch.
 * Update develop version to next version following the pattern `2019.8-dev`.

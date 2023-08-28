@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 import pandas as pd
 import pytest
 
-from freqtrade.misc import (dataframe_to_json, decimals_per_coin, deep_merge_dicts, file_dump_json,
+from trading.misc import (dataframe_to_json, decimals_per_coin, deep_merge_dicts, file_dump_json,
                             file_load_json, is_file_in_dir, json_to_dataframe, pair_to_filename,
                             parse_db_uri_for_logging, plural, round_coin_value, safe_value_fallback,
                             safe_value_fallback2)
@@ -38,12 +38,12 @@ def test_round_coin_value():
 
 
 def test_file_dump_json(mocker) -> None:
-    file_open = mocker.patch('freqtrade.misc.Path.open', MagicMock())
+    file_open = mocker.patch('trading.misc.Path.open', MagicMock())
     json_dump = mocker.patch('rapidjson.dump', MagicMock())
     file_dump_json(Path('somefile'), [1, 2, 3])
     assert file_open.call_count == 1
     assert json_dump.call_count == 1
-    file_open = mocker.patch('freqtrade.misc.gzip.open', MagicMock())
+    file_open = mocker.patch('trading.misc.gzip.open', MagicMock())
     json_dump = mocker.patch('rapidjson.dump', MagicMock())
     file_dump_json(Path('somefile'), [1, 2, 3], True)
     assert file_open.call_count == 1
@@ -185,8 +185,8 @@ def test_plural() -> None:
      "mariadb+mariadbconnector://app_user:*****@127.0.0.1:3306/company"),
     ("mysql+pymysql://user:pass@some_mariadb/dbname?charset=utf8mb4",
      "mysql+pymysql://user:*****@some_mariadb/dbname?charset=utf8mb4"),
-    ("sqlite:////freqtrade/user_data/tradesv3.sqlite",
-     "sqlite:////freqtrade/user_data/tradesv3.sqlite"),
+    ("sqlite:////trading/user_data/tradesv3.sqlite",
+     "sqlite:////trading/user_data/tradesv3.sqlite"),
 ])
 def test_parse_db_uri_for_logging(conn_url, expected) -> None:
 

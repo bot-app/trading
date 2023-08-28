@@ -61,7 +61,7 @@ def create_userdata_dir(directory: str, create_dir: bool = False) -> Path:
         else:
             raise OperationalException(
                 f"Directory `{folder}` does not exist. "
-                "Please use `freqtrade create-userdir` to create a user directory")
+                "Please use `trading create-userdir` to create a user directory")
 
     # Create required subdirectories
     for f in sub_dirs:

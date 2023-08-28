@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 import time_machine
 
-from freqtrade.util import (dt_floor_day, dt_from_ts, dt_humanize, dt_now, dt_ts, dt_utc,
+from trading.util import (dt_floor_day, dt_from_ts, dt_humanize, dt_now, dt_ts, dt_utc,
                             format_ms_time, shorten_date)
 
 

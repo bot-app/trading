@@ -38,7 +38,7 @@ pip install -r requirements-hyperopt.txt
 ## Hyperopt command reference
 
 ```
-usage: freqtrade hyperopt [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
+usage: trading hyperopt [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
                           [--userdir PATH] [-s NAME] [--strategy-path PATH]
                           [--recursive-strategy-search] [--freqaimodel NAME]
                           [--freqaimodel-path PATH] [-i TIMEFRAME]
@@ -187,7 +187,7 @@ Rarely you may also need to create a [nested class](advanced-hyperopt.md#overrid
 
     ``` bash
     # Have a working strategy at hand.
-    freqtrade hyperopt --hyperopt-loss SharpeHyperOptLossDaily --spaces roi stoploss trailing --strategy MyWorkingStrategy --config config.json -e 100
+    trading hyperopt --hyperopt-loss SharpeHyperOptLossDaily --spaces roi stoploss trailing --strategy MyWorkingStrategy --config config.json -e 100
     ```
 
 ### Hyperopt execution logic
@@ -196,7 +196,7 @@ Hyperopt will first load your data into memory and will then run `populate_indic
 
 Hyperopt will then spawn into different processes (number of processors, or `-j <n>`), and run backtesting over and over again, changing the parameters that are part of the `--spaces` defined.
 
-For every new set of parameters, freqtrade will run first `populate_entry_trend()` followed by `populate_exit_trend()`, and then run the regular backtesting process to simulate trades.
+For every new set of parameters, trading will run first `populate_entry_trend()` followed by `populate_exit_trend()`, and then run the regular backtesting process to simulate trades.
 
 After backtesting, the results are passed into the [loss function](#loss-functions), which will evaluate if this result was better or worse than previous results.  
 Based on the loss function result, hyperopt will determine the next set of parameters to try in the next round of backtesting.
@@ -349,7 +349,7 @@ There are four parameter types each suited for different purposes.
 ## Optimizing an indicator parameter
 
 Assuming you have a simple strategy in mind - a EMA cross strategy (2 Moving averages crossing) - and you'd like to find the ideal parameters for this strategy.
-By default, we assume a stoploss of 5% - and a take-profit (`minimal_roi`) of 10% - which means freqtrade will sell the trade once 10% profit has been reached.
+By default, we assume a stoploss of 5% - and a take-profit (`minimal_roi`) of 10% - which means trading will sell the trade once 10% profit has been reached.
 
 ``` python
 from pandas import DataFrame
@@ -357,9 +357,9 @@ from functools import reduce
 
 import talib.abstract as ta
 
-from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
+from trading.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
                                 IStrategy, IntParameter)
-import freqtrade.vendor.qtpylib.indicators as qtpylib
+import trading.vendor.qtpylib.indicators as qtpylib
 
 class MyAwesomeStrategy(IStrategy):
     stoploss = -0.05
@@ -455,9 +455,9 @@ from functools import reduce
 
 import talib.abstract as ta
 
-from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
+from trading.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
                                 IStrategy, IntParameter)
-import freqtrade.vendor.qtpylib.indicators as qtpylib
+import trading.vendor.qtpylib.indicators as qtpylib
 
 class MyAwesomeStrategy(IStrategy):
     stoploss = -0.05
@@ -493,7 +493,7 @@ class MyAwesomeStrategy(IStrategy):
 ```
 
 You can then run hyperopt as follows:
-`freqtrade hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy MyAwesomeStrategy --spaces protection`
+`trading hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy MyAwesomeStrategy --spaces protection`
 
 !!! Note
     The protection space is not part of the default space, and is only available with the Parameters Hyperopt interface, not with the legacy hyperopt interface (which required separate hyperopt files).
@@ -545,9 +545,9 @@ from functools import reduce
 
 import talib.abstract as ta
 
-from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
+from trading.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, 
                                 IStrategy, IntParameter)
-import freqtrade.vendor.qtpylib.indicators as qtpylib
+import trading.vendor.qtpylib.indicators as qtpylib
 
 class MyAwesomeStrategy(IStrategy):
     stoploss = -0.05
@@ -605,7 +605,7 @@ Because hyperopt tries a lot of combinations to find the best parameters it will
 We strongly recommend to use `screen` or `tmux` to prevent any connection loss.
 
 ```bash
-freqtrade hyperopt --config config.json --hyperopt-loss <hyperoptlossname> --strategy <strategyname> -e 500 --spaces all
+trading hyperopt --config config.json --hyperopt-loss <hyperoptlossname> --strategy <strategyname> -e 500 --spaces all
 ```
 
 The `-e` option will set how many evaluations hyperopt will do. Since hyperopt uses Bayesian search, running too many epochs at once may not produce greater results. Experience has shown that best results are usually not improving much after 500-1000 epochs.  
@@ -631,7 +631,7 @@ For example, to use one month of data, pass `--timerange 20210101-20210201` (fro
 Full command:
 
 ```bash
-freqtrade hyperopt --strategy <strategyname> --timerange 20210101-20210201
+trading hyperopt --strategy <strategyname> --timerange 20210101-20210201
 ```
 
 ### Running Hyperopt with Smaller Search Space

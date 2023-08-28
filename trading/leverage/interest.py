@@ -24,7 +24,7 @@ def interest(
     :param hours: The time in hours that the currency has been borrowed for
 
     Raises:
-        OperationalException: Raised if freqtrade does
+        OperationalException: Raised if trading does
         not support margin trading for this exchange
 
     Returns: The amount of interest owed (currency matches borrowed)
@@ -36,4 +36,4 @@ def interest(
         # Rounded based on https://kraken-fees-calculator.github.io/
         return borrowed * rate * (one + FtPrecise(ceil(hours / four)))
     else:
-        raise OperationalException(f"Leverage not available on {exchange_name} with freqtrade")
+        raise OperationalException(f"Leverage not available on {exchange_name} with trading")

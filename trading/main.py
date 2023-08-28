@@ -20,7 +20,7 @@ from trading.exceptions import FreqtradeException, OperationalException
 from trading.loggers import setup_logging_pre
 
 
-logger = logging.getLogger('freqtrade')
+logger = logging.getLogger('trading')
 
 
 def main(sysargv: Optional[List[str]] = None) -> None:
@@ -37,7 +37,7 @@ def main(sysargv: Optional[List[str]] = None) -> None:
 
         # Call subcommand.
         if 'func' in args:
-            logger.info(f'freqtrade {__version__}')
+            logger.info(f'trading {__version__}')
             gc_set_threshold()
             return_code = args['func'](args)
         else:
@@ -46,9 +46,9 @@ def main(sysargv: Optional[List[str]] = None) -> None:
                 "Usage of Freqtrade requires a subcommand to be specified.\n"
                 "To have the bot executing trades in live/dry-run modes, "
                 "depending on the value of the `dry_run` setting in the config, run Freqtrade "
-                "as `freqtrade trade [options...]`.\n"
+                "as `trading trade [options...]`.\n"
                 "To see the full list of options available, please use "
-                "`freqtrade --help` or `freqtrade <command> --help`."
+                "`trading --help` or `trading <command> --help`."
             )
 
     except SystemExit as e:  # pragma: no cover

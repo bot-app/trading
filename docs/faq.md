@@ -22,7 +22,7 @@ Futures trading is supported for selected exchanges. Please refer to the [docume
 
 ## Freqtrade common questions
 
-### Can freqtrade open multiple positions on the same pair in parallel?
+### Can trading open multiple positions on the same pair in parallel?
 
 No. Freqtrade will only open one position per pair at a time.
 You can however use the [`adjust_trade_position()` callback](strategy-callbacks.md#adjust-trade-position) to adjust an open position.
@@ -31,7 +31,7 @@ Backtesting provides an option for this in `--eps` - however this is only there 
 
 ### The bot does not start
 
-Running the bot with `freqtrade trade --config config.json` shows the output `freqtrade: command not found`.
+Running the bot with `trading trade --config config.json` shows the output `trading: command not found`.
 
 This could be caused by the following reasons:
 
@@ -71,8 +71,8 @@ As COIN is trading in full lot sizes (1COIN steps), you cannot sell 0.9 COIN (or
 
 This is not a bot-problem, but will also happen while manual trading.
 
-While freqtrade can handle this (it'll sell 99 COIN), fees are often below the minimum tradable lot-size (you can only trade full COIN, not 0.9 COIN).
-Leaving the dust (0.9 COIN) on the exchange makes usually sense, as the next time freqtrade buys COIN, it'll eat into the remaining small balance, this time selling everything it bought, and therefore slowly declining the dust balance (although it most likely will never reach exactly 0).
+While trading can handle this (it'll sell 99 COIN), fees are often below the minimum tradable lot-size (you can only trade full COIN, not 0.9 COIN).
+Leaving the dust (0.9 COIN) on the exchange makes usually sense, as the next time trading buys COIN, it'll eat into the remaining small balance, this time selling everything it bought, and therefore slowly declining the dust balance (although it most likely will never reach exactly 0).
 
 Where possible (e.g. on binance), the use of the exchange's dedicated fee currency will fix this.
 On binance, it's sufficient to have BNB in your account, and have "Pay fees in BNB" enabled in your profile. Your BNB balance will slowly decline (as it's used to pay fees) - but you'll no longer encounter dust (Freqtrade will include the fees in the profit calculations).
@@ -98,7 +98,7 @@ You can use the `/stopentry` command in Telegram to prevent future trade entry, 
 
 ### I want to run multiple bots on the same machine
 
-Please look at the [advanced setup documentation Page](advanced-setup.md#running-multiple-instances-of-freqtrade).
+Please look at the [advanced setup documentation Page](advanced-setup.md#running-multiple-instances-of-trading).
 
 ### I'm getting "Missing data fillup" messages in the log
 
@@ -163,22 +163,22 @@ By default, the bot writes its log into stderr stream. This is implemented this 
 
 * In unix shells, this normally can be done as simple as:
 ```shell
-$ freqtrade --some-options 2>&1 >/dev/null | grep 'something'
+$ trading --some-options 2>&1 >/dev/null | grep 'something'
 ```
 (note, `2>&1` and `>/dev/null` should be written in this order)
 
 * Bash interpreter also supports so called process substitution syntax, you can grep the log for a string with it as:
 ```shell
-$ freqtrade --some-options 2> >(grep 'something') >/dev/null
+$ trading --some-options 2> >(grep 'something') >/dev/null
 ```
 or
 ```shell
-$ freqtrade --some-options 2> >(grep -v 'something' 1>&2)
+$ trading --some-options 2> >(grep -v 'something' 1>&2)
 ```
 
 * You can also write the copy of Freqtrade log messages to a file with the `--logfile` option:
 ```shell
-$ freqtrade --logfile /path/to/mylogfile.log --some-options
+$ trading --logfile /path/to/mylogfile.log --some-options
 ```
 and then grep it as:
 ```shell
@@ -197,12 +197,12 @@ On Windows, the `--logfile` option is also supported by Freqtrade and you can us
 
 ## Hyperopt module
 
-### Why does freqtrade not have GPU support?
+### Why does trading not have GPU support?
 
 First of all, most indicator libraries don't have GPU support - as such, there would be little benefit for indicator calculations.
 The GPU improvements would only apply to pandas-native calculations - or ones written by yourself.
 
-For hyperopt, freqtrade is using scikit-optimize, which is built on top of scikit-learn.
+For hyperopt, trading is using scikit-optimize, which is built on top of scikit-learn.
 Their statement about GPU support is [pretty clear](https://scikit-learn.org/stable/faq.html#will-you-add-gpu-support).
 
 GPU's also are only good at crunching numbers (floating point operations).
@@ -226,12 +226,12 @@ Since hyperopt uses Bayesian search, running for too many epochs may not produce
 It's therefore recommended to run between 500-1000 epochs over and over until you hit at least 10000 epochs in total (or are satisfied with the result). You can best judge by looking at the results - if the bot keeps discovering better strategies, it's best to keep on going.
 
 ```bash
-freqtrade hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy SampleStrategy -e 1000
+trading hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy SampleStrategy -e 1000
 ```
 
 ### Why does it take a long time to run hyperopt?
 
-* Discovering a great strategy with Hyperopt takes time. Study www.freqtrade.io, the Freqtrade Documentation page, join the Freqtrade [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
+* Discovering a great strategy with Hyperopt takes time. Study www.trading.io, the Freqtrade Documentation page, join the Freqtrade [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
 
 * If you wonder why it can take from 20 minutes to days to do 1000 epochs here are some answers:
 
@@ -252,13 +252,13 @@ of the search space, assuming that the bot never tests the same parameters more 
 Example: 4% profit 650 times vs 0,3% profit a trade 10000 times in a year. If we assume you set the --timerange to 365 days.
 
 Example:
-`freqtrade --config config.json --strategy SampleStrategy --hyperopt SampleHyperopt -e 1000 --timerange 20190601-20200601`
+`trading --config config.json --strategy SampleStrategy --hyperopt SampleHyperopt -e 1000 --timerange 20190601-20200601`
 
 ## Edge module
 
 ### Edge implements interesting approach for controlling position size, is there any theory behind it?
 
-The Edge module is mostly a result of brainstorming of [@mishaker](https://github.com/mishaker) and [@creslinux](https://github.com/creslinux) freqtrade team members.
+The Edge module is mostly a result of brainstorming of [@mishaker](https://github.com/mishaker) and [@creslinux](https://github.com/creslinux) trading team members.
 
 You can find further info on expectancy, win rate, risk management and position size in the following sources:
 
@@ -273,16 +273,16 @@ You can find further info on expectancy, win rate, risk management and position 
 Freqtrade is using exclusively the following official channels:
 
 * [Freqtrade discord server](https://discord.gg/p7nuUNVfP7)
-* [Freqtrade documentation (https://freqtrade.io)](https://freqtrade.io)
-* [Freqtrade github organization](https://github.com/freqtrade)
+* [Freqtrade documentation (https://trading.io)](https://trading.io)
+* [Freqtrade github organization](https://github.com/trading)
 
-Nobody affiliated with the freqtrade project will ask you about your exchange keys or anything else exposing your funds to exploitation.
+Nobody affiliated with the trading project will ask you about your exchange keys or anything else exposing your funds to exploitation.
 Should you be asked to expose your exchange keys or send funds to some random wallet, then please don't follow these instructions.
 
-Failing to follow these guidelines will not be responsibility of freqtrade.
+Failing to follow these guidelines will not be responsibility of trading.
 
 ## "Freqtrade token"
 
 Freqtrade does not have a Crypto token offering.
 
-Token offerings you find on the internet referring Freqtrade, FreqAI or freqUI must be considered to be a scam, trying to exploit freqtrade's popularity for their own, nefarious gains.
+Token offerings you find on the internet referring Freqtrade, FreqAI or freqUI must be considered to be a scam, trying to exploit trading's popularity for their own, nefarious gains.

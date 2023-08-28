@@ -2,12 +2,12 @@
 
 from pandas import DataFrame
 
-from freqtrade.strategy import IStrategy, informative, merge_informative_pair
+from trading.strategy import IStrategy, informative, merge_informative_pair
 
 
 class InformativeDecoratorTest(IStrategy):
     """
-    Strategy used by tests freqtrade bot.
+    Strategy used by tests trading bot.
     Please do not modify this strategy, it's  intended for internal use only.
     Please look at the SampleStrategy in the user_data/strategy directory
     or strategy repository https://github.com/bot-app/trading-strategies

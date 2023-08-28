@@ -2,23 +2,23 @@
 
 ## Getting data for backtesting and hyperopt
 
-To download data (candles / OHLCV) needed for backtesting and hyperoptimization use the `freqtrade download-data` command.
+To download data (candles / OHLCV) needed for backtesting and hyperoptimization use the `trading download-data` command.
 
-If no additional parameter is specified, freqtrade will download data for `"1m"` and `"5m"` timeframes for the last 30 days.
+If no additional parameter is specified, trading will download data for `"1m"` and `"5m"` timeframes for the last 30 days.
 Exchange and pairs will come from `config.json` (if specified using `-c/--config`).
 Without provided configuration, `--exchange` becomes mandatory.
 
 You can use a relative timerange (`--days 20`) or an absolute starting point (`--timerange 20200101-`). For incremental downloads, the relative approach should be used.
 
 !!! Tip "Tip: Updating existing data"
-    If you already have backtesting data available in your data-directory and would like to refresh this data up to today, freqtrade will automatically calculate the data missing for the existing pairs and the download will occur from the latest available point until "now", neither --days or --timerange parameters are required. Freqtrade will keep the available data and only download the missing data.
+    If you already have backtesting data available in your data-directory and would like to refresh this data up to today, trading will automatically calculate the data missing for the existing pairs and the download will occur from the latest available point until "now", neither --days or --timerange parameters are required. Freqtrade will keep the available data and only download the missing data.
     If you are updating existing data after inserting new pairs that you have no data for, use `--new-pairs-days xx` parameter. Specified number of days will be downloaded for new pairs while old pairs will be updated with missing data only.
-    If you use `--days xx` parameter alone - data for specified number of days will be downloaded for _all_ pairs. Be careful, if specified number of days is smaller than gap between now and last downloaded candle - freqtrade will delete all existing data to avoid gaps in candle data.
+    If you use `--days xx` parameter alone - data for specified number of days will be downloaded for _all_ pairs. Be careful, if specified number of days is smaller than gap between now and last downloaded candle - trading will delete all existing data to avoid gaps in candle data.
 
 ### Usage
 
 ```
-usage: freqtrade download-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading download-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                [-d PATH] [--userdir PATH]
                                [-p PAIRS [PAIRS ...]] [--pairs-file FILE]
                                [--days INT] [--new-pairs-days INT]
@@ -85,7 +85,7 @@ Common arguments:
 
 !!! Tip "Downloading all data for one quote currency"
     Often, you'll want to download data for all pairs of a specific quote-currency. In such cases, you can use the following shorthand:
-    `freqtrade download-data --exchange binance --pairs .*/USDT <...>`. The provided "pairs" string will be expanded to contain all active pairs on the exchange.
+    `trading download-data --exchange binance --pairs .*/USDT <...>`. The provided "pairs" string will be expanded to contain all active pairs on the exchange.
     To also download data for inactive (delisted) pairs, add `--include-inactive-pairs` to the command.
 
 !!! Note "Startup period"
@@ -98,7 +98,7 @@ Common arguments:
 A very simple command (assuming an available `config.json` file) can look as follows.
 
 ```bash
-freqtrade download-data --exchange binance
+trading download-data --exchange binance
 ```
 
 This will download historical candle (OHLCV) data for all the currency pairs defined in the configuration.
@@ -106,13 +106,13 @@ This will download historical candle (OHLCV) data for all the currency pairs def
 Alternatively, specify the pairs directly
 
 ```bash
-freqtrade download-data --exchange binance --pairs ETH/USDT XRP/USDT BTC/USDT
+trading download-data --exchange binance --pairs ETH/USDT XRP/USDT BTC/USDT
 ```
 
 or as regex (in this case, to download all active USDT pairs)
 
 ```bash
-freqtrade download-data --exchange binance --pairs .*/USDT
+trading download-data --exchange binance --pairs .*/USDT
 ```
 
 ### Other Notes
@@ -144,7 +144,7 @@ Assuming you downloaded all data from 2022 (`--timerange 20220101-`) - but you'd
 You can do so by using the `--prepend` flag, combined with `--timerange` - specifying an end-date.
 
 ``` bash
-freqtrade download-data --exchange binance --pairs ETH/USDT XRP/USDT BTC/USDT --prepend --timerange 20210101-20220101
+trading download-data --exchange binance --pairs ETH/USDT XRP/USDT BTC/USDT --prepend --timerange 20210101-20220101
 ```
 
 !!! Note
@@ -198,7 +198,7 @@ Found 6 pair / timeframe combinations.
 Timings have been taken in a not very scientific way with the following command, which forces reading the data into memory.
 
 ``` bash
-time freqtrade list-data --show-timerange --data-format-ohlcv <dataformat>
+time trading list-data --show-timerange --data-format-ohlcv <dataformat>
 ```
 
 |  Format | Size | timing |
@@ -245,7 +245,7 @@ Mixing different stake-currencies is allowed for this file, since it's only used
 ## Sub-command convert data
 
 ```
-usage: freqtrade convert-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading convert-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                               [-d PATH] [--userdir PATH]
                               [-p PAIRS [PAIRS ...]] --format-from
                               {json,jsongz,hdf5,feather,parquet} --format-to
@@ -296,17 +296,17 @@ Common arguments:
 
 ### Example converting data
 
-The following command will convert all candle (OHLCV) data available in `~/.freqtrade/data/binance` from json to jsongz, saving diskspace in the process.
+The following command will convert all candle (OHLCV) data available in `~/.trading/data/binance` from json to jsongz, saving diskspace in the process.
 It'll also remove original json data files (`--erase` parameter).
 
 ``` bash
-freqtrade convert-data --format-from json --format-to jsongz --datadir ~/.freqtrade/data/binance -t 5m 15m --erase
+trading convert-data --format-from json --format-to jsongz --datadir ~/.trading/data/binance -t 5m 15m --erase
 ```
 
 ## Sub-command convert trade data
 
 ```
-usage: freqtrade convert-trade-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading convert-trade-data [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                     [-d PATH] [--userdir PATH]
                                     [-p PAIRS [PAIRS ...]] --format-from
                                     {json,jsongz,hdf5,feather,parquet}
@@ -348,11 +348,11 @@ Common arguments:
 
 ### Example converting trades
 
-The following command will convert all available trade-data in `~/.freqtrade/data/kraken` from jsongz to json.
+The following command will convert all available trade-data in `~/.trading/data/kraken` from jsongz to json.
 It'll also remove original jsongz data files (`--erase` parameter).
 
 ``` bash
-freqtrade convert-trade-data --format-from jsongz --format-to json --datadir ~/.freqtrade/data/kraken --erase
+trading convert-trade-data --format-from jsongz --format-to json --datadir ~/.trading/data/kraken --erase
 ```
 
 ## Sub-command trades to ohlcv
@@ -361,7 +361,7 @@ When you need to use `--dl-trades` (kraken only) to download data, conversion of
 This command will allow you to repeat this last step for additional timeframes without re-downloading the data.
 
 ```
-usage: freqtrade trades-to-ohlcv [-h] [-v] [--logfile FILE] [-V] [-c PATH]
+usage: trading trades-to-ohlcv [-h] [-v] [--logfile FILE] [-V] [-c PATH]
                                  [-d PATH] [--userdir PATH]
                                  [-p PAIRS [PAIRS ...]]
                                  [-t TIMEFRAMES [TIMEFRAMES ...]]
@@ -407,7 +407,7 @@ Common arguments:
 ### Example trade-to-ohlcv conversion
 
 ``` bash
-freqtrade trades-to-ohlcv --exchange kraken -t 5m 1h 1d --pairs BTC/EUR ETH/EUR
+trading trades-to-ohlcv --exchange kraken -t 5m 1h 1d --pairs BTC/EUR ETH/EUR
 ```
 
 ## Sub-command list-data
@@ -415,7 +415,7 @@ freqtrade trades-to-ohlcv --exchange kraken -t 5m 1h 1d --pairs BTC/EUR ETH/EUR
 You can get a list of downloaded data using the `list-data` sub-command.
 
 ```
-usage: freqtrade list-data [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
+usage: trading list-data [-h] [-v] [--logfile FILE] [-V] [-c PATH] [-d PATH]
                            [--userdir PATH] [--exchange EXCHANGE]
                            [--data-format-ohlcv {json,jsongz,hdf5,feather,parquet}]
                            [-p PAIRS [PAIRS ...]]
@@ -458,7 +458,7 @@ Common arguments:
 ### Example list-data
 
 ```bash
-> freqtrade list-data --userdir ~/.freqtrade/user_data/
+> trading list-data --userdir ~/.trading/user_data/
 
 Found 33 pair / timeframe combinations.
 pairs       timeframe
@@ -484,7 +484,7 @@ To use this mode, simply add `--dl-trades` to your call. This will swap the down
 Example call:
 
 ```bash
-freqtrade download-data --exchange kraken --pairs XRP/EUR ETH/EUR --days 20 --dl-trades
+trading download-data --exchange kraken --pairs XRP/EUR ETH/EUR --days 20 --dl-trades
 ```
 
 !!! Note

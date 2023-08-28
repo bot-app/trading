@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from freqtrade.persistence import Trade
-from freqtrade.util.binance_mig import migrate_binance_futures_data, migrate_binance_futures_names
+from trading.persistence import Trade
+from trading.util.binance_mig import migrate_binance_futures_data, migrate_binance_futures_names
 from tests.conftest import create_mock_trades_usdt, log_has
 
 

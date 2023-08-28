@@ -2,15 +2,15 @@
 
 ## FreqUI
 
-Freqtrade provides a builtin webserver, which can serve [FreqUI](https://github.com/freqtrade/frequi), the freqtrade UI.
+Freqtrade provides a builtin webserver, which can serve [FreqUI](https://github.com/trading/frequi), the trading UI.
 
-By default, the UI is not included in the installation (except for docker images), and must be installed explicitly with `freqtrade install-ui`.
+By default, the UI is not included in the installation (except for docker images), and must be installed explicitly with `trading install-ui`.
 This same command can also be used to update freqUI, should there be a new release.
 
-Once the bot is started in trade / dry-run mode (with `freqtrade trade`) - the UI will be available under the configured port below (usually `http://127.0.0.1:8080`).
+Once the bot is started in trade / dry-run mode (with `trading trade`) - the UI will be available under the configured port below (usually `http://127.0.0.1:8080`).
 
 !!! Note "developers"
-    Developers should not use this method, but instead use the method described in the [freqUI repository](https://github.com/freqtrade/frequi) to get the source-code of freqUI.
+    Developers should not use this method, but instead use the method described in the [freqUI repository](https://github.com/trading/frequi) to get the source-code of freqUI.
 
 ## Configuration
 
@@ -328,7 +328,7 @@ whitelist
 
 ### Message WebSocket
 
-The API Server includes a websocket endpoint for subscribing to RPC messages from the freqtrade Bot.
+The API Server includes a websocket endpoint for subscribing to RPC messages from the trading Bot.
 This can be used to consume real-time data from your bot, such as entry/exit fill messages, whitelist changes, populated indicators for pairs, and more.
 
 This is also used to setup [Producer/Consumer mode](producer-consumer.md) in Freqtrade.
@@ -378,7 +378,7 @@ Once connected to the WebSocket, the bot will broadcast RPC messages to anyone w
 }
 ```
 
-For a list of message types, please refer to the RPCMessageType enum in `freqtrade/enums/rpcmessagetype.py`
+For a list of message types, please refer to the RPCMessageType enum in `trading/enums/rpcmessagetype.py`
 
 Now anytime those types of RPC messages are sent in the bot, you will receive them through the WebSocket as long as the connection is active. They typically take the same form as the request:
 
@@ -397,7 +397,7 @@ Now anytime those types of RPC messages are sent in the bot, you will receive th
 
 When using [Nginx](https://nginx.org/en/docs/), the following configuration is required for WebSockets to work (Note this configuration is incomplete, it's missing some information and can not be used as is):
 
-Please make sure to replace `<freqtrade_listen_ip>` (and the subsequent port) with the IP and Port matching your configuration/setup.
+Please make sure to replace `<trading_listen_ip>` (and the subsequent port) with the IP and Port matching your configuration/setup.
 
 ```
 http {
@@ -413,7 +413,7 @@ http {
 
         location / {
             proxy_http_version 1.1;
-            proxy_pass http://<freqtrade_listen_ip>:8080;
+            proxy_pass http://<trading_listen_ip>:8080;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
             proxy_set_header Host $host;
@@ -429,7 +429,7 @@ To properly configure your reverse proxy (securely), please consult it's documen
 
 !!! Tip "SSL certificates"
     You can use tools like certbot to setup ssl certificates to access your bot's UI through encrypted connection by using any fo the above reverse proxies.
-    While this will protect your data in transit, we do not recommend to run the freqtrade API outside of your private network (VPN, SSH tunnel).
+    While this will protect your data in transit, we do not recommend to run the trading API outside of your private network (VPN, SSH tunnel).
 
 ### OpenAPI interface
 
@@ -473,13 +473,13 @@ This whole section is only necessary in cross-origin cases (where you multiple b
 Users can allow access from different origin URL's to the bot API via the `CORS_origins` configuration setting.
 It consists of a list of allowed URL's that are allowed to consume resources from the bot's API.
 
-Assuming your application is deployed as `https://frequi.freqtrade.io/home/` - this would mean that the following configuration becomes necessary:
+Assuming your application is deployed as `https://frequi.trading.io/home/` - this would mean that the following configuration becomes necessary:
 
 ```jsonc
 {
     //...
     "jwt_secret_key": "somethingrandom",
-    "CORS_origins": ["https://frequi.freqtrade.io"],
+    "CORS_origins": ["https://frequi.trading.io"],
     //...
 }
 ```

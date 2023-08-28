@@ -2,9 +2,9 @@
 
 import pytest
 
-from freqtrade.enums import RunMode
-from freqtrade.exceptions import OperationalException
-from freqtrade.exchange.check_exchange import check_exchange
+from trading.enums import RunMode
+from trading.exceptions import OperationalException
+from trading.exchange.check_exchange import check_exchange
 from tests.conftest import log_has_re
 
 

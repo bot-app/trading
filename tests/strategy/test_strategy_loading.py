@@ -6,10 +6,10 @@ from pathlib import Path
 import pytest
 from pandas import DataFrame
 
-from freqtrade.configuration import Configuration
-from freqtrade.exceptions import OperationalException
-from freqtrade.resolvers import StrategyResolver
-from freqtrade.strategy.interface import IStrategy
+from trading.configuration import Configuration
+from trading.exceptions import OperationalException
+from trading.resolvers import StrategyResolver
+from trading.strategy.interface import IStrategy
 from tests.conftest import CURRENT_TEST_STRATEGY, log_has, log_has_re
 
 
@@ -57,7 +57,7 @@ def test_search_all_strategies_with_failed():
 
 def test_load_strategy(default_conf, dataframe_1m):
     default_conf.update({'strategy': 'SampleStrategy',
-                         'strategy_path': str(Path(__file__).parents[2] / 'freqtrade/templates')
+                         'strategy_path': str(Path(__file__).parents[2] / 'trading/templates')
                          })
     strategy = StrategyResolver.load_strategy(default_conf)
     assert isinstance(strategy.__source__, str)
@@ -67,7 +67,7 @@ def test_load_strategy(default_conf, dataframe_1m):
 
 
 def test_load_strategy_base64(dataframe_1m, caplog, default_conf):
-    filepath = Path(__file__).parents[2] / 'freqtrade/templates/sample_strategy.py'
+    filepath = Path(__file__).parents[2] / 'trading/templates/sample_strategy.py'
     encoded_string = urlsafe_b64encode(filepath.read_bytes()).decode("utf-8")
     default_conf.update({'strategy': f'SampleStrategy:{encoded_string}'})
 
@@ -488,7 +488,7 @@ def test_strategy_interface_versioning(dataframe_1m, default_conf):
 def test_strategy_ft_load_params_from_file(mocker, default_conf):
     default_conf.update({'strategy': 'StrategyTestV2'})
     del default_conf['max_open_trades']
-    mocker.patch('freqtrade.strategy.hyper.HyperStrategyMixin.load_params_from_file',
+    mocker.patch('trading.strategy.hyper.HyperStrategyMixin.load_params_from_file',
                  return_value={
                      'params': {
                          'max_open_trades':  {

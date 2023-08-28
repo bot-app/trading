@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from freqtrade.persistence.key_value_store import KeyValueStore, set_startup_time
+from trading.persistence.key_value_store import KeyValueStore, set_startup_time
 from tests.conftest import create_mock_trades_usdt
 
 

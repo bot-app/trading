@@ -53,7 +53,7 @@ class ExchangeResolver(IResolver):
     def _load_exchange(exchange_name: str, kwargs: dict) -> Exchange:
         """
         Loads the specified exchange.
-        Only checks for exchanges exported in freqtrade.exchanges
+        Only checks for exchanges exported in trading.exchanges
         :param exchange_name: name of the module to import
         :return: Exchange instance or None
         """
@@ -93,6 +93,6 @@ class ExchangeResolver(IResolver):
                     'name': exchange_name,
                     'class': exchange,
                     'location': exchange.__module__,
-                    'location_rel: ': exchange.__module__.replace('freqtrade.', ''),
+                    'location_rel: ': exchange.__module__.replace('trading.', ''),
                 })
         return result
