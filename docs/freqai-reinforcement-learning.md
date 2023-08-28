@@ -45,7 +45,7 @@ where `ReinforcementLearner` will use the templated `ReinforcementLearner` from 
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering
 
         :param df: strategy dataframe which will receive the targets
         usage example: dataframe["&-target"] = dataframe["close"].shift(-1) / dataframe["close"]

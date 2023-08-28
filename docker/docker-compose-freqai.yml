@@ -22,7 +22,7 @@ services:
     volumes:
       - "./user_data:/trading/user_data"
     # Expose api on port 8080 (localhost only)
-    # Please read the https://www.trading.io/en/stable/rest-api/ documentation
+    # Please read the https://bot-app.github.io/trading/en/stable/rest-api/ documentation
     # for more information.
     ports:
       - "127.0.0.1:8080:8080"

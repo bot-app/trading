@@ -593,9 +593,9 @@ Features will now expand automatically. As such, the expansion loops, as well as
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
+        https://bot-app.github.io/trading/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param df: strategy dataframe which will receive the features
         :param period: period of the indicator - usage example:
@@ -656,9 +656,9 @@ Basic features. Make sure to remove the `{pair}` part from your features.
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
+        https://bot-app.github.io/trading/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param df: strategy dataframe which will receive the features
         dataframe["%-pct-change"] = dataframe["close"].pct_change()
@@ -689,7 +689,7 @@ Basic features. Make sure to remove the `{pair}` part from your features.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering
 
         :param df: strategy dataframe which will receive the features
         usage example: dataframe["%-day_of_week"] = (dataframe["date"].dt.dayofweek + 1) / 7
@@ -712,7 +712,7 @@ Targets now get their own, dedicated method.
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering
 
         :param df: strategy dataframe which will receive the targets
         usage example: dataframe["&-target"] = dataframe["close"].shift(-1) / dataframe["close"]

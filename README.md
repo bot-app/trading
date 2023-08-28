@@ -3,7 +3,7 @@
 [![Trading CI](https://github.com/bot-app/trading/workflows/Trading%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04864/status.svg)](https://doi.org/10.21105/joss.04864)
 [![Coverage Status](https://coveralls.io/repos/github/bot-app/trading/badge.svg?branch=develop&service=github)](https://coveralls.io/github/bot-app/trading?branch=develop)
-[![Documentation](https://readthedocs.org/projects/trading/badge/)](https://www.trading.io)
+[![Documentation](https://readthedocs.org/projects/trading/badge/)](https://bot-app.github.io/trading)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5737e6d668200b7518ff/maintainability)](https://codeclimate.com/github/bot-app/trading/maintainability)
 
 Trading is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
@@ -55,7 +55,7 @@ Exchanges confirmed working by the community:
 
 We invite you to read the bot documentation to ensure you understand how the bot is working.
 
-Please find the complete documentation on the [trading website](https://www.trading.io).
+Please find the complete documentation on the [trading website](https://bot-app.github.io/trading).
 
 ## Features
 
@@ -64,8 +64,8 @@ Please find the complete documentation on the [trading website](https://www.trad
 - [x] **Dry-run**: Run the bot without paying money.
 - [x] **Backtesting**: Run a simulation of your buy/sell strategy.
 - [x] **Strategy Optimization by machine learning**: Use machine learning to optimize your buy/sell strategy parameters with real exchange data.
-- [X] **Adaptive prediction modeling**: Build a smart strategy with TradingAI that self-trains to the market via adaptive machine learning methods. [Learn more](https://www.trading.io/en/stable/tradingai/)
-- [x] **Edge position sizing** Calculate your win rate, risk reward ratio, the best stoploss and adjust your position size before taking a position for each specific market. [Learn more](https://www.trading.io/en/stable/edge/).
+- [X] **Adaptive prediction modeling**: Build a smart strategy with TradingAI that self-trains to the market via adaptive machine learning methods. [Learn more](https://bot-app.github.io/trading/en/stable/tradingai/)
+- [x] **Edge position sizing** Calculate your win rate, risk reward ratio, the best stoploss and adjust your position size before taking a position for each specific market. [Learn more](https://bot-app.github.io/trading/en/stable/edge/).
 - [x] **Whitelist crypto-currencies**: Select which crypto-currency you want to trade or use dynamic whitelists.
 - [x] **Blacklist crypto-currencies**: Select which crypto-currency you want to avoid.
 - [x] **Builtin WebUI**: Builtin web UI to manage your bot.
@@ -75,9 +75,9 @@ Please find the complete documentation on the [trading website](https://www.trad
 
 ## Quick start
 
-Please refer to the [Docker Quickstart documentation](https://www.trading.io/en/stable/docker_quickstart/) on how to get started quickly.
+Please refer to the [Docker Quickstart documentation](https://bot-app.github.io/trading/en/stable/docker_quickstart/) on how to get started quickly.
 
-For further (native) installation methods, please refer to the [Installation documentation page](https://www.trading.io/en/stable/installation/).
+For further (native) installation methods, please refer to the [Installation documentation page](https://bot-app.github.io/trading/en/stable/installation/).
 
 ## Basic Usage
 
@@ -127,7 +127,7 @@ optional arguments:
 
 ### Telegram RPC commands
 
-Telegram is not mandatory. However, this is a great way to control your bot. More details and the full command list on the [documentation](https://www.trading.io/en/latest/telegram-usage/)
+Telegram is not mandatory. However, this is a great way to control your bot. More details and the full command list on the [documentation](https://bot-app.github.io/trading/en/latest/telegram-usage/)
 
 - `/start`: Starts the trader.
 - `/stop`: Stops the trader.

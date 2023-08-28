@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Literal, Tuple
 from trading.enums import CandleType, PriceType, RPCMessageType
 
 
-DOCS_LINK = "https://www.trading.io/en/stable"
+DOCS_LINK = "https://bot-app.github.io/trading/en/stable"
 DEFAULT_CONFIG = 'config.json'
 PROCESS_THROTTLE_SECS = 5  # sec
 HYPEROPT_EPOCH = 100  # epochs

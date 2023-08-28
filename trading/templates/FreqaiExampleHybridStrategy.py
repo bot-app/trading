@@ -112,9 +112,9 @@ class FreqaiExampleHybridStrategy(IStrategy):
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
+        https://bot-app.github.io/trading/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param period: period of the indicator - usage example:
@@ -170,9 +170,9 @@ class FreqaiExampleHybridStrategy(IStrategy):
         More details on how these config defined parameters accelerate feature engineering
         in the documentation at:
 
-        https://www.trading.io/en/latest/tradingai-parameter-table/#feature-parameters
+        https://bot-app.github.io/trading/en/latest/tradingai-parameter-table/#feature-parameters
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering/#defining-the-features
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering/#defining-the-features
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -201,7 +201,7 @@ class FreqaiExampleHybridStrategy(IStrategy):
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the features
         :param metadata: metadata of current pair
@@ -219,7 +219,7 @@ class FreqaiExampleHybridStrategy(IStrategy):
 
         More details about feature engineering available:
 
-        https://www.trading.io/en/latest/tradingai-feature-engineering
+        https://bot-app.github.io/trading/en/latest/tradingai-feature-engineering
 
         :param dataframe: strategy dataframe which will receive the targets
         :param metadata: metadata of current pair

@@ -7,7 +7,7 @@
 TradingAI is a software designed to automate a variety of tasks associated with training a predictive machine learning model to generate market forecasts given a set of input signals. In general, TradingAI aims to be a sandbox for easily deploying robust machine learning libraries on real-time data ([details](#tradingai-position-in-open-source-machine-learning-landscape)).
 
 !!! Note
-    TradingAI is, and always will be, a not-for-profit, open-source project. TradingAI does *not* have a crypto token, TradingAI does *not* sell signals, and TradingAI does not have a domain besides the present [trading documentation](https://www.trading.io/en/latest/tradingai/).
+    TradingAI is, and always will be, a not-for-profit, open-source project. TradingAI does *not* have a crypto token, TradingAI does *not* sell signals, and TradingAI does not have a domain besides the present [trading documentation](https://bot-app.github.io/trading/en/latest/tradingai/).
 
 Features include:
 

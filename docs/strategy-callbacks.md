@@ -185,7 +185,7 @@ class AwesomeStrategy(IStrategy):
         e.g. returning -0.05 would create a stoploss 5% below current_rate.
         The custom stoploss can never be below self.stoploss, which serves as a hard maximum loss.
 
-        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
+        For full documentation please go to https://bot-app.github.io/trading/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns the initial stoploss value
         Only called when use_custom_stoploss is set to True.
@@ -547,7 +547,7 @@ class AwesomeStrategy(IStrategy):
         Timing for this function is critical, so avoid doing heavy computations or
         network requests in this method.
 
-        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
+        For full documentation please go to https://bot-app.github.io/trading/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns True (always confirming).
 
@@ -596,7 +596,7 @@ class AwesomeStrategy(IStrategy):
         Timing for this function is critical, so avoid doing heavy computations or
         network requests in this method.
 
-        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
+        For full documentation please go to https://bot-app.github.io/trading/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns True (always confirming).
 
@@ -703,7 +703,7 @@ class DigDeeperStrategy(IStrategy):
         This means extra buy or sell orders with additional fees.
         Only called when `position_adjustment_enable` is set to True.
 
-        For full documentation please go to https://www.trading.io/en/latest/strategy-advanced/
+        For full documentation please go to https://bot-app.github.io/trading/en/latest/strategy-advanced/
 
         When not implemented by a strategy, returns None
 

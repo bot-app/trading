@@ -6,7 +6,7 @@ All contributions, bug reports, bug fixes, documentation improvements, enhanceme
 
 ## Documentation
 
-Documentation is available at [https://trading.io](https://www.trading.io/) and needs to be provided with every new feature PR.
+Documentation is available at [https://trading.io](https://bot-app.github.io/trading/) and needs to be provided with every new feature PR.
 
 Special fields for the documentation (like Note boxes, ...) can be found [here](https://squidfunk.github.io/mkdocs-material/reference/admonitions/).
 

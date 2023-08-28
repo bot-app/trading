@@ -1,5 +1,5 @@
 site_name: Trading
-site_url: https://www.trading.io/
+site_url: https://bot-app.github.io/trading/
 repo_url: https://github.com/bot-app/trading
 edit_uri: edit/develop/docs/
 use_directory_urls: True
