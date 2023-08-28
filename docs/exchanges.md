@@ -4,7 +4,7 @@ This page combines common gotchas and Information which are exchange-specific an
 
 ## Exchange configuration
 
-Freqtrade is based on [CCXT library](https://github.com/ccxt/ccxt) that supports over 100 cryptocurrency
+Trading is based on [CCXT library](https://github.com/ccxt/ccxt) that supports over 100 cryptocurrency
 exchange markets and trading APIs. The complete up-to-date list can be found in the
 [CCXT repo homepage](https://github.com/ccxt/ccxt/tree/master/python).
 However, the bot was tested by the development team with only a few exchanges.
@@ -77,7 +77,7 @@ Binance has been split into 2, and users must use the correct ccxt exchange ID f
 
 ### Binance RSA keys
 
-Freqtrade supports binance RSA API keys.
+Trading supports binance RSA API keys.
 
 We recommend to use them as environment variable.
 
@@ -123,7 +123,7 @@ These settings will be checked on startup, and trading will show an error if thi
 
 ![Binance futures settings](assets/binance_futures_settings.png)
 
-Freqtrade will not attempt to change these settings.
+Trading will not attempt to change these settings.
 
 ## Kraken
 
@@ -133,7 +133,7 @@ Freqtrade will not attempt to change these settings.
 
 ### Historic Kraken data
 
-The Kraken API does only provide 720 historic candles, which is sufficient for Freqtrade dry-run and live trade modes, but is a problem for backtesting.
+The Kraken API does only provide 720 historic candles, which is sufficient for Trading dry-run and live trade modes, but is a problem for backtesting.
 To download data for the Kraken exchange, using `--dl-trades` is mandatory, otherwise the bot will download the same 720 candles over and over, and you'll not have enough backtest data.
 
 Due to the heavy rate-limiting applied by Kraken, the following configuration section should be used to download data:
@@ -173,7 +173,7 @@ Read more in the [pairlist documentation](plugins.md#volumepairlist-advanced-mod
 Bittrex split its exchange into US and International versions.
 The International version has more pairs available, however the API always returns all pairs, so there is currently no automated way to detect if you're affected by the restriction.
 
-If you have restricted pairs in your whitelist, you'll get a warning message in the log on Freqtrade startup for each restricted pair.
+If you have restricted pairs in your whitelist, you'll get a warning message in the log on Trading startup for each restricted pair.
 
 The warning message will look similar to the following:
 
@@ -244,7 +244,7 @@ OKX requires a passphrase for each api key, you will therefore need to add this 
 
 !!! Warning "Futures"
     OKX Futures has the concept of "position mode" - which can be "Buy/Sell" or long/short (hedge mode).
-    Freqtrade supports both modes (we recommend to use Buy/Sell mode) - but changing the mode mid-trading is not supported and will lead to exceptions and failures to place trades.
+    Trading supports both modes (we recommend to use Buy/Sell mode) - but changing the mode mid-trading is not supported and will lead to exceptions and failures to place trades.
     OKX also only provides MARK candles for the past ~3 months. Backtesting futures prior to that date will therefore lead to slight deviations, as funding-fees cannot be calculated correctly without this data.
 
 ## Gate.io
@@ -289,15 +289,15 @@ $ pip3 install web3
 ### Getting latest price / Incomplete candles
 
 Most exchanges return current incomplete candle via their OHLCV/klines API interface.
-By default, Freqtrade assumes that incomplete candle is fetched from the exchange and removes the last candle assuming it's the incomplete candle.
+By default, Trading assumes that incomplete candle is fetched from the exchange and removes the last candle assuming it's the incomplete candle.
 
 Whether your exchange returns incomplete candles or not can be checked using [the helper script](developer.md#Incomplete-candles) from the Contributor documentation.
 
-Due to the danger of repainting, Freqtrade does not allow you to use this incomplete candle.
+Due to the danger of repainting, Trading does not allow you to use this incomplete candle.
 
 However, if it is based on the need for the latest price for your strategy - then this requirement can be acquired using the [data provider](strategy-customization.md#possible-options-for-dataprovider) from within the strategy.
 
-### Advanced Freqtrade Exchange configuration
+### Advanced Trading Exchange configuration
 
 Advanced options can be configured using the `_ft_has_params` setting, which will override Defaults and exchange-specific behavior.
 

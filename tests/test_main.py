@@ -8,8 +8,8 @@ import pytest
 
 from trading.commands import Arguments
 from trading.enums import State
-from trading.exceptions import FreqtradeException, OperationalException
-from trading.tradingbot import FreqtradeBot
+from trading.exceptions import TradingException, OperationalException
+from trading.tradingbot import TradingBot
 from trading.main import main
 from trading.worker import Worker
 from tests.conftest import (log_has, log_has_re, patch_exchange,
@@ -19,7 +19,7 @@ from tests.conftest import (log_has, log_has_re, patch_exchange,
 def test_parse_args_None(caplog) -> None:
     with pytest.raises(SystemExit):
         main([])
-    assert log_has_re(r"Usage of Freqtrade requires a subcommand.*", caplog)
+    assert log_has_re(r"Usage of Trading requires a subcommand.*", caplog)
 
 
 def test_parse_args_backtesting(mocker) -> None:
@@ -61,7 +61,7 @@ def test_main_start_hyperopt(mocker) -> None:
 
 def test_main_fatal_exception(mocker, default_conf, caplog) -> None:
     patch_exchange(mocker)
-    mocker.patch('trading.tradingbot.FreqtradeBot.cleanup', MagicMock())
+    mocker.patch('trading.tradingbot.TradingBot.cleanup', MagicMock())
     mocker.patch('trading.worker.Worker._worker', MagicMock(side_effect=Exception))
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch('trading.tradingbot.RPCManager', MagicMock())
@@ -78,7 +78,7 @@ def test_main_fatal_exception(mocker, default_conf, caplog) -> None:
 
 def test_main_keyboard_interrupt(mocker, default_conf, caplog) -> None:
     patch_exchange(mocker)
-    mocker.patch('trading.tradingbot.FreqtradeBot.cleanup', MagicMock())
+    mocker.patch('trading.tradingbot.TradingBot.cleanup', MagicMock())
     mocker.patch('trading.worker.Worker._worker', MagicMock(side_effect=KeyboardInterrupt))
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch('trading.tradingbot.RPCManager', MagicMock())
@@ -96,10 +96,10 @@ def test_main_keyboard_interrupt(mocker, default_conf, caplog) -> None:
 
 def test_main_operational_exception(mocker, default_conf, caplog) -> None:
     patch_exchange(mocker)
-    mocker.patch('trading.tradingbot.FreqtradeBot.cleanup', MagicMock())
+    mocker.patch('trading.tradingbot.TradingBot.cleanup', MagicMock())
     mocker.patch(
         'trading.worker.Worker._worker',
-        MagicMock(side_effect=FreqtradeException('Oh snap!'))
+        MagicMock(side_effect=TradingException('Oh snap!'))
     )
     patched_configuration_load_config_file(mocker, default_conf)
     mocker.patch('trading.wallets.Wallets.update', MagicMock())
@@ -143,7 +143,7 @@ def test_main_operational_exception1(mocker, default_conf, caplog) -> None:
 
 def test_main_reload_config(mocker, default_conf, caplog) -> None:
     patch_exchange(mocker)
-    mocker.patch('trading.tradingbot.FreqtradeBot.cleanup', MagicMock())
+    mocker.patch('trading.tradingbot.TradingBot.cleanup', MagicMock())
     # Simulate Running, reload, running workflow
     worker_mock = MagicMock(side_effect=[State.RUNNING,
                                          State.RELOAD_CONFIG,
@@ -169,12 +169,12 @@ def test_main_reload_config(mocker, default_conf, caplog) -> None:
     assert log_has('Using config: config_examples/config_bittrex.example.json ...', caplog)
     assert worker_mock.call_count == 4
     assert reconfigure_mock.call_count == 1
-    assert isinstance(worker.trading, FreqtradeBot)
+    assert isinstance(worker.trading, TradingBot)
 
 
 def test_reconfigure(mocker, default_conf) -> None:
     patch_exchange(mocker)
-    mocker.patch('trading.tradingbot.FreqtradeBot.cleanup', MagicMock())
+    mocker.patch('trading.tradingbot.TradingBot.cleanup', MagicMock())
     mocker.patch(
         'trading.worker.Worker._worker',
         MagicMock(side_effect=OperationalException('Oh snap!'))

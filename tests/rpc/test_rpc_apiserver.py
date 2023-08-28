@@ -160,13 +160,13 @@ def test_api_ui_version(botclient, mocker):
 
 def test_api_auth():
     with pytest.raises(ValueError):
-        create_token({'identity': {'u': 'Freqtrade'}}, 'secret1234', token_type="NotATokenType")
+        create_token({'identity': {'u': 'Trading'}}, 'secret1234', token_type="NotATokenType")
 
-    token = create_token({'identity': {'u': 'Freqtrade'}}, 'secret1234')
+    token = create_token({'identity': {'u': 'Trading'}}, 'secret1234')
     assert isinstance(token, str)
 
     u = get_user_from_token(token, 'secret1234')
-    assert u == 'Freqtrade'
+    assert u == 'Trading'
     with pytest.raises(HTTPException):
         get_user_from_token(token, 'secret1234', token_type='refresh')
     # Create invalid token
@@ -192,7 +192,7 @@ def test_api_ws_auth(botclient):
         pass
 
     jwt_secret = ftbot.config['api_server'].get('jwt_secret_key', 'super-secret')
-    jwt_token = create_token({'identity': {'u': 'Freqtrade'}}, jwt_secret)
+    jwt_token = create_token({'identity': {'u': 'Trading'}}, jwt_secret)
     with client.websocket_connect(url(jwt_token)) as websocket:
         pass
 

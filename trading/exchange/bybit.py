@@ -18,11 +18,11 @@ logger = logging.getLogger(__name__)
 
 class Bybit(Exchange):
     """
-    Bybit exchange class. Contains adjustments needed for Freqtrade to work
+    Bybit exchange class. Contains adjustments needed for Trading to work
     with this exchange.
 
     Please note that this exchange is not included in the list of exchanges
-    officially supported by the Freqtrade development team. So some features
+    officially supported by the Trading development team. So some features
     may still not work as expected.
     """
 
@@ -173,7 +173,7 @@ class Bybit(Exchange):
 
             if market['inverse']:
                 raise OperationalException(
-                    "Freqtrade does not yet support inverse contracts")
+                    "Trading does not yet support inverse contracts")
             initial_margin_rate = 1 / leverage
 
             # See docstring - ignores extra margin!
@@ -184,7 +184,7 @@ class Bybit(Exchange):
 
         else:
             raise OperationalException(
-                "Freqtrade only supports isolated futures for leverage trading")
+                "Trading only supports isolated futures for leverage trading")
 
     def get_funding_fees(
             self, pair: str, amount: float, is_short: bool, open_date: datetime) -> float:

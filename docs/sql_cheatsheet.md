@@ -103,8 +103,8 @@ DELETE FROM trades WHERE id = 31;
 
 ## Use a different database system
 
-Freqtrade is using SQLAlchemy, which supports multiple different database systems. As such, a multitude of database systems should be supported.
-Freqtrade does not depend or install any additional database driver. Please refer to the [SQLAlchemy docs](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls) on installation instructions for the respective database systems.
+Trading is using SQLAlchemy, which supports multiple different database systems. As such, a multitude of database systems should be supported.
+Trading does not depend or install any additional database driver. Please refer to the [SQLAlchemy docs](https://docs.sqlalchemy.org/en/14/core/engines.html#database-urls) on installation instructions for the respective database systems.
 
 The following systems have been tested and are known to work with trading:
 
@@ -123,13 +123,13 @@ Installation:
 Usage:
 `... --db-url postgresql+psycopg2://<username>:<password>@localhost:5432/<database>`
 
-Freqtrade will automatically create the tables necessary upon startup.
+Trading will automatically create the tables necessary upon startup.
 
-If you're running different instances of Freqtrade, you must either setup one database per Instance or use different users / schemas for your connections.
+If you're running different instances of Trading, you must either setup one database per Instance or use different users / schemas for your connections.
 
 ### MariaDB / MySQL
 
-Freqtrade supports MariaDB by using SQLAlchemy, which supports multiple different database systems.
+Trading supports MariaDB by using SQLAlchemy, which supports multiple different database systems.
 
 Installation:
 `pip install pymysql`

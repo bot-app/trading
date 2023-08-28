@@ -188,7 +188,7 @@ class Binance(Exchange):
             )
         else:
             raise OperationalException(
-                "Freqtrade only supports isolated futures for leverage trading")
+                "Trading only supports isolated futures for leverage trading")
 
     @retrier
     def load_leverage_tiers(self) -> Dict[str, List[Dict]]:

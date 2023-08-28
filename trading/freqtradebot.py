@@ -1,5 +1,5 @@
 """
-Freqtrade is the main module of this bot. It contains the class Freqtrade()
+Trading is the main module of this bot. It contains the class Trading()
 """
 import logging
 import traceback
@@ -45,9 +45,9 @@ from trading.wallets import Wallets
 logger = logging.getLogger(__name__)
 
 
-class FreqtradeBot(LoggingMixin):
+class TradingBot(LoggingMixin):
     """
-    Freqtrade is the main class of the bot.
+    Trading is the main class of the bot.
     This is from here the bot start its logic.
     """
 
@@ -85,8 +85,8 @@ class FreqtradeBot(LoggingMixin):
         self.pairlists = PairListManager(self.exchange, self.config)
 
         # RPC runs in separate threads, can start handling external commands just after
-        # initialization, even before Freqtradebot has a chance to start its throttling,
-        # so anything in the Freqtradebot instance should be ready (initialized), including
+        # initialization, even before Tradingbot has a chance to start its throttling,
+        # so anything in the Tradingbot instance should be ready (initialized), including
         # the initial state of the bot.
         # Keep this at the end of this initialization method.
         self.rpc: RPCManager = RPCManager(self)

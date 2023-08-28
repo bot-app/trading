@@ -1,6 +1,6 @@
 # Development Help
 
-This page is intended for developers of Freqtrade, people who want to contribute to the Freqtrade codebase or documentation, or people who want to understand the source code of the application they're running.
+This page is intended for developers of Trading, people who want to contribute to the Trading codebase or documentation, or people who want to understand the source code of the application they're running.
 
 All contributions, bug reports, bug fixes, documentation improvements, enhancements and ideas are welcome. We [track issues](https://github.com/bot-app/trading/issues) on [GitHub](https://github.com) and also have a dev channel on [discord](https://discord.gg/p7nuUNVfP7) where you can ask questions.
 
@@ -47,7 +47,7 @@ For more information about the [Remote container extension](https://code.visuals
 ### Tests
 
 New code should be covered by basic unittests. Depending on the complexity of the feature, Reviewers may request more in-depth unittests.
-If necessary, the Freqtrade team can assist and give guidance with writing good tests (however please don't expect anyone to write the tests for you).
+If necessary, the Trading team can assist and give guidance with writing good tests (however please don't expect anyone to write the tests for you).
 
 #### How to run tests
 
@@ -58,7 +58,7 @@ Use `pytest` in root folder to run all available testcases and confirm your loca
 
 #### Checking log content in tests
 
-Freqtrade uses 2 main methods to check log content in tests, `log_has()` and `log_has_re()` (to check using regex, in case of dynamic log-messages).
+Trading uses 2 main methods to check log content in tests, `log_has()` and `log_has_re()` (to check using regex, in case of dynamic log-messages).
 These are available from `conftest.py` and can be imported in any test module.
 
 A sample check looks as follows:
@@ -120,13 +120,13 @@ A similar setup can also be taken for Pycharm - using `trading` as module name, 
 
 ## ErrorHandling
 
-Freqtrade Exceptions all inherit from `FreqtradeException`.
+Trading Exceptions all inherit from `TradingException`.
 This general class of error should however not be used directly. Instead, multiple specialized sub-Exceptions exist.
 
 Below is an outline of exception inheritance hierarchy:
 
 ```
-+ FreqtradeException
++ TradingException
 |
 +---+ OperationalException
 |
@@ -294,7 +294,7 @@ The `IProtection` parent class provides a helper method for this in `calculate_l
 ## Implement a new Exchange (WIP)
 
 !!! Note
-    This section is a Work in Progress and is not a complete guide on how to test a new exchange with Freqtrade.
+    This section is a Work in Progress and is not a complete guide on how to test a new exchange with Trading.
 
 !!! Note
     Make sure to use an up-to-date version of CCXT before running any of the below tests.

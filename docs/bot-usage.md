@@ -141,7 +141,7 @@ See more details on this technique with examples in the documentation page on
 
 ### Where to store custom data
 
-Freqtrade allows the creation of a user-data directory using `trading create-userdir --userdir someDirectory`.
+Trading allows the creation of a user-data directory using `trading create-userdir --userdir someDirectory`.
 This directory will look as follows:
 
 ```

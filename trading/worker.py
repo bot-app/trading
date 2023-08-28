@@ -1,5 +1,5 @@
 """
-Main Freqtrade worker class.
+Main Trading worker class.
 """
 import logging
 import time
@@ -15,7 +15,7 @@ from trading.constants import PROCESS_THROTTLE_SECS, RETRY_TIMEOUT, Config
 from trading.enums import RPCMessageType, State
 from trading.exceptions import OperationalException, TemporaryError
 from trading.exchange import timeframe_to_next_date
-from trading.tradingbot import FreqtradeBot
+from trading.tradingbot import TradingBot
 
 
 logger = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 class Worker:
     """
-    Freqtradebot worker class
+    Tradingbot worker class
     """
 
     def __init__(self, args: Dict[str, Any], config: Optional[Config] = None) -> None:
@@ -50,7 +50,7 @@ class Worker:
             self._config = Configuration(self._args, None).get_config()
 
         # Init the instance of the bot
-        self.trading = FreqtradeBot(self._config)
+        self.trading = TradingBot(self._config)
 
         internals_config = self._config.get('internals', {})
         self._throttle_secs = internals_config.get('process_throttle_secs',

@@ -1,16 +1,16 @@
-# Freqtrade FAQ
+# Trading FAQ
 
 ## Supported Markets
 
-Freqtrade supports spot trading, as well as (isolated) futures trading for some selected exchanges. Please refer to the [documentation start page](index.md#supported-futures-exchanges-experimental) for an uptodate list of supported exchanges.
+Trading supports spot trading, as well as (isolated) futures trading for some selected exchanges. Please refer to the [documentation start page](index.md#supported-futures-exchanges-experimental) for an uptodate list of supported exchanges.
 
 ### Can my bot open short positions?
 
-Freqtrade can open short positions in futures markets.
+Trading can open short positions in futures markets.
 This requires the strategy to be made for this - and `"trading_mode": "futures"` in the configuration.
 Please make sure to read the [relevant documentation page](leverage.md) first.
 
-In spot markets, you can in some cases use leveraged spot tokens, which reflect an inverted pair (eg. BTCUP/USD, BTCDOWN/USD, ETHBULL/USD, ETHBEAR/USD,...) which can be traded with Freqtrade.
+In spot markets, you can in some cases use leveraged spot tokens, which reflect an inverted pair (eg. BTCUP/USD, BTCDOWN/USD, ETHBULL/USD, ETHBEAR/USD,...) which can be traded with Trading.
 
 ### Can my bot trade options or futures?
 
@@ -18,13 +18,13 @@ Futures trading is supported for selected exchanges. Please refer to the [docume
 
 ## Beginner Tips & Tricks
 
-* When you work with your strategy & hyperopt file you should use a proper code editor like VSCode or PyCharm. A good code editor will provide syntax highlighting as well as line numbers, making it easy to find syntax errors (most likely pointed out by Freqtrade during startup).
+* When you work with your strategy & hyperopt file you should use a proper code editor like VSCode or PyCharm. A good code editor will provide syntax highlighting as well as line numbers, making it easy to find syntax errors (most likely pointed out by Trading during startup).
 
-## Freqtrade common questions
+## Trading common questions
 
 ### Can trading open multiple positions on the same pair in parallel?
 
-No. Freqtrade will only open one position per pair at a time.
+No. Trading will only open one position per pair at a time.
 You can however use the [`adjust_trade_position()` callback](strategy-callbacks.md#adjust-trade-position) to adjust an open position.
 
 Backtesting provides an option for this in `--eps` - however this is only there to highlight "hidden" signals, and will not work in live.
@@ -75,12 +75,12 @@ While trading can handle this (it'll sell 99 COIN), fees are often below the min
 Leaving the dust (0.9 COIN) on the exchange makes usually sense, as the next time trading buys COIN, it'll eat into the remaining small balance, this time selling everything it bought, and therefore slowly declining the dust balance (although it most likely will never reach exactly 0).
 
 Where possible (e.g. on binance), the use of the exchange's dedicated fee currency will fix this.
-On binance, it's sufficient to have BNB in your account, and have "Pay fees in BNB" enabled in your profile. Your BNB balance will slowly decline (as it's used to pay fees) - but you'll no longer encounter dust (Freqtrade will include the fees in the profit calculations).
+On binance, it's sufficient to have BNB in your account, and have "Pay fees in BNB" enabled in your profile. Your BNB balance will slowly decline (as it's used to pay fees) - but you'll no longer encounter dust (Trading will include the fees in the profit calculations).
 Other exchanges don't offer such possibilities, where it's simply something you'll have to accept or move to a different exchange.
 
 ### I deposited more funds to the exchange, but my bot doesn't recognize this
 
-Freqtrade will update the exchange balance when necessary (Before placing an order).
+Trading will update the exchange balance when necessary (Before placing an order).
 RPC calls (Telegram's `/balance`, API calls to `/balance`) can trigger an update at max. once per hour.
 
 If `adjust_trade_position` is enabled (and the bot has open trades eligible for position adjustments) - then the wallets will be refreshed once per hour.
@@ -88,7 +88,7 @@ To force an immediate update, you can use `/reload_config` - which will restart 
 
 ### I want to use incomplete candles
 
-Freqtrade will not provide incomplete candles to strategies. Using incomplete candles will lead to repainting and consequently to strategies with "ghost" buys, which are impossible to both backtest, and verify after they happened.
+Trading will not provide incomplete candles to strategies. Using incomplete candles will lead to repainting and consequently to strategies with "ghost" buys, which are impossible to both backtest, and verify after they happened.
 
 You can use "current" market data by using the [dataprovider](strategy-customization.md#orderbookpair-maximum)'s orderbook or ticker methods - which however cannot be used during backtesting.
 
@@ -108,7 +108,7 @@ On low volume pairs, this is a rather common occurrence.
 
 If this happens for all pairs in the pairlist, this might indicate a recent exchange downtime. Please check your exchange's public channels for details.
 
-Irrespectively of the reason, Freqtrade will fill up these candles with "empty" candles, where open, high, low and close are set to the previous candle close - and volume is empty. In a chart, this will look like a `_` - and is aligned with how exchanges usually represent 0 volume candles.
+Irrespectively of the reason, Trading will fill up these candles with "empty" candles, where open, high, low and close are set to the previous candle close - and volume is empty. In a chart, this will look like a `_` - and is aligned with how exchanges usually represent 0 volume candles.
 
 ### I'm getting "Price jump between 2 candles detected"
 
@@ -119,7 +119,7 @@ This message is often accompanied by ["Missing data fillup"](#im-getting-missing
 ### I'm getting "Outdated history for pair xxx" in the log
 
 The bot is trying to tell you that it got an outdated last candle (not the last complete candle).
-As a consequence, Freqtrade will not enter a trade for this pair - as trading on old information is usually not what is desired.
+As a consequence, Trading will not enter a trade for this pair - as trading on old information is usually not what is desired.
 
 This warning can point to one of the below problems:
 
@@ -159,7 +159,7 @@ Futures will usually have to be enabled specifically.
 
 ### How do I search the bot logs for something?
 
-By default, the bot writes its log into stderr stream. This is implemented this way so that you can easily separate the bot's diagnostics messages from Backtesting, Edge and Hyperopt results, output from other various Freqtrade utility sub-commands, as well as from the output of your custom `print()`'s you may have inserted into your strategy. So if you need to search the log messages with the grep utility, you need to redirect stderr to stdout and disregard stdout.
+By default, the bot writes its log into stderr stream. This is implemented this way so that you can easily separate the bot's diagnostics messages from Backtesting, Edge and Hyperopt results, output from other various Trading utility sub-commands, as well as from the output of your custom `print()`'s you may have inserted into your strategy. So if you need to search the log messages with the grep utility, you need to redirect stderr to stdout and disregard stdout.
 
 * In unix shells, this normally can be done as simple as:
 ```shell
@@ -176,7 +176,7 @@ or
 $ trading --some-options 2> >(grep -v 'something' 1>&2)
 ```
 
-* You can also write the copy of Freqtrade log messages to a file with the `--logfile` option:
+* You can also write the copy of Trading log messages to a file with the `--logfile` option:
 ```shell
 $ trading --logfile /path/to/mylogfile.log --some-options
 ```
@@ -190,7 +190,7 @@ $ tail -f /path/to/mylogfile.log | grep 'something'
 ```
 from a separate terminal window.
 
-On Windows, the `--logfile` option is also supported by Freqtrade and you can use the `findstr` command to search the log for the string of interest:
+On Windows, the `--logfile` option is also supported by Trading and you can use the `findstr` command to search the log for the string of interest:
 ```
 > type \path\to\mylogfile.log | findstr "something"
 ```
@@ -231,7 +231,7 @@ trading hyperopt --hyperopt-loss SharpeHyperOptLossDaily --strategy SampleStrate
 
 ### Why does it take a long time to run hyperopt?
 
-* Discovering a great strategy with Hyperopt takes time. Study www.trading.io, the Freqtrade Documentation page, join the Freqtrade [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
+* Discovering a great strategy with Hyperopt takes time. Study www.trading.io, the Trading Documentation page, join the Trading [discord community](https://discord.gg/p7nuUNVfP7). While you patiently wait for the most advanced, free crypto bot in the world, to hand you a possible golden strategy specially designed just for you.
 
 * If you wonder why it can take from 20 minutes to days to do 1000 epochs here are some answers:
 
@@ -270,19 +270,19 @@ You can find further info on expectancy, win rate, risk management and position 
 
 ## Official channels
 
-Freqtrade is using exclusively the following official channels:
+Trading is using exclusively the following official channels:
 
-* [Freqtrade discord server](https://discord.gg/p7nuUNVfP7)
-* [Freqtrade documentation (https://trading.io)](https://trading.io)
-* [Freqtrade github organization](https://github.com/trading)
+* [Trading discord server](https://discord.gg/p7nuUNVfP7)
+* [Trading documentation (https://trading.io)](https://trading.io)
+* [Trading github organization](https://github.com/trading)
 
 Nobody affiliated with the trading project will ask you about your exchange keys or anything else exposing your funds to exploitation.
 Should you be asked to expose your exchange keys or send funds to some random wallet, then please don't follow these instructions.
 
 Failing to follow these guidelines will not be responsibility of trading.
 
-## "Freqtrade token"
+## "Trading token"
 
-Freqtrade does not have a Crypto token offering.
+Trading does not have a Crypto token offering.
 
-Token offerings you find on the internet referring Freqtrade, FreqAI or freqUI must be considered to be a scam, trying to exploit trading's popularity for their own, nefarious gains.
+Token offerings you find on the internet referring Trading, FreqAI or freqUI must be considered to be a scam, trying to exploit trading's popularity for their own, nefarious gains.

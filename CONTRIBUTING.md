@@ -125,11 +125,11 @@ Exceptions:
 
 Contributors may be given commit privileges. Preference will be given to those with:
 
-1. Past contributions to Freqtrade and other related open-source projects. Contributions to Freqtrade include both code (both accepted and pending) and friendly participation in the issue tracker and Pull request reviews. Quantity and quality are considered.
+1. Past contributions to Trading and other related open-source projects. Contributions to Trading include both code (both accepted and pending) and friendly participation in the issue tracker and Pull request reviews. Quantity and quality are considered.
 1. A coding style that the other core committers find simple, minimal, and clean.
 1. Access to resources for cross-platform development and testing.
 1. Time to devote to the project regularly.
 
-Being a Committer does not grant write permission on `develop` or `stable` for security reasons (Users trust Freqtrade with their Exchange API keys).
+Being a Committer does not grant write permission on `develop` or `stable` for security reasons (Users trust Trading with their Exchange API keys).
 
 After being Committer for some time, a Committer may be named Core Committer and given full repository access.

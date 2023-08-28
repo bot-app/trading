@@ -19,7 +19,7 @@ from trading.edge import PairInfo
 from trading.enums import CandleType, MarginMode, RunMode, SignalDirection, TradingMode
 from trading.exchange import Exchange
 from trading.exchange.exchange import timeframe_to_minutes
-from trading.tradingbot import FreqtradeBot
+from trading.tradingbot import TradingBot
 from trading.persistence import LocalTrade, Order, Trade, init_db
 from trading.resolvers import ExchangeResolver
 from trading.util import dt_ts
@@ -195,7 +195,7 @@ def patch_wallet(mocker, free=999.9) -> None:
 
 
 def patch_whitelist(mocker, conf) -> None:
-    mocker.patch('trading.tradingbot.FreqtradeBot._refresh_active_whitelist',
+    mocker.patch('trading.tradingbot.TradingBot._refresh_active_whitelist',
                  MagicMock(return_value=conf['exchange']['pair_whitelist']))
 
 
@@ -233,15 +233,15 @@ def patch_tradingbot(mocker, config) -> None:
     mocker.patch('trading.configuration.config_validation._validate_consumers')
 
 
-def get_patched_tradingbot(mocker, config) -> FreqtradeBot:
+def get_patched_tradingbot(mocker, config) -> TradingBot:
     """
     This function patches _init_modules() to not call dependencies
     :param mocker: a Mocker object to apply patches
     :param config: Config to pass to the bot
-    :return: FreqtradeBot
+    :return: TradingBot
     """
     patch_tradingbot(mocker, config)
-    return FreqtradeBot(config)
+    return TradingBot(config)
 
 
 def get_patched_worker(mocker, config) -> Worker:
@@ -256,7 +256,7 @@ def get_patched_worker(mocker, config) -> Worker:
 
 
 def patch_get_signal(
-    trading: FreqtradeBot,
+    trading: TradingBot,
     enter_long=True,
     exit_long=False,
     enter_short=False,

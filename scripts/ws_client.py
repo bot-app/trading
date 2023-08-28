@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simple command line client for Testing/debugging
-a Freqtrade bot's message websocket
+a Trading bot's message websocket
 
 Should not import anything from trading,
 so it can be used as a standalone script.

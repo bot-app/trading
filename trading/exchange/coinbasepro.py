@@ -10,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 class Coinbasepro(Exchange):
     """
-    CoinbasePro exchange class. Contains adjustments needed for Freqtrade to work
+    CoinbasePro exchange class. Contains adjustments needed for Trading to work
     with this exchange.
 
     Please note that this exchange is not included in the list of exchanges
-    officially supported by the Freqtrade development team. So some features
+    officially supported by the Trading development team. So some features
     may still not work as expected.
     """
 

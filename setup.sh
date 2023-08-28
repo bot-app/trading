@@ -100,7 +100,7 @@ function updateenv() {
     fi
     ${PYTHON} -m pip install -e .
     if [ $? -ne 0 ]; then
-        echo "Failed installing Freqtrade"
+        echo "Failed installing Trading"
         exit 1
     fi
 

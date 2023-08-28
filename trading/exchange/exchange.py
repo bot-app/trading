@@ -395,7 +395,7 @@ class Exchange:
 
     def market_is_tradable(self, market: Dict[str, Any]) -> bool:
         """
-        Check if the market symbol is tradable by Freqtrade.
+        Check if the market symbol is tradable by Trading.
         Ensures that Configured mode aligns to
         """
         return (
@@ -589,7 +589,7 @@ class Exchange:
                 f"Invalid timeframe '{timeframe}'. This exchange supports: {self.timeframes}")
 
         if timeframe and timeframe_to_minutes(timeframe) < 1:
-            raise OperationalException("Timeframes < 1m are currently not supported by Freqtrade.")
+            raise OperationalException("Timeframes < 1m are currently not supported by Trading.")
 
     def validate_ordertypes(self, order_types: Dict) -> None:
         """
@@ -687,7 +687,7 @@ class Exchange:
         ):
             mm_value = margin_mode and margin_mode.value
             raise OperationalException(
-                f"Freqtrade does not support {mm_value} {trading_mode.value} on {self.name}"
+                f"Trading does not support {mm_value} {trading_mode.value} on {self.name}"
             )
 
     def get_option(self, param: str, default: Optional[Any] = None) -> Any:
@@ -2917,7 +2917,7 @@ class Exchange:
 
             if market['inverse']:
                 raise OperationalException(
-                    "Freqtrade does not yet support inverse contracts")
+                    "Trading does not yet support inverse contracts")
 
             value = wallet_balance / amount
 
@@ -2928,7 +2928,7 @@ class Exchange:
                 return (open_rate - value) / (1 - mm_ratio_taker)
         else:
             raise OperationalException(
-                "Freqtrade only supports isolated futures for leverage trading")
+                "Trading only supports isolated futures for leverage trading")
 
     def get_maintenance_ratio_and_amt(
         self,

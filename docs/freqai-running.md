@@ -106,7 +106,7 @@ a float to indicate sub-daily retraining in live/dry mode). In the presented [ex
 
 ## Defining model expirations
 
-During dry/live mode, FreqAI trains each coin pair sequentially (on separate threads/GPU from the main Freqtrade bot). This means that there is always an age discrepancy between models. If you are training on 50 pairs, and each pair requires 5 minutes to train, the oldest model will be over 4 hours old. This may be undesirable if the characteristic time scale (the trade duration target) for a strategy is less than 4 hours. You can decide to only make trade entries if the model is less than a certain number of hours old by setting the `expiration_hours` in the config file:
+During dry/live mode, FreqAI trains each coin pair sequentially (on separate threads/GPU from the main Trading bot). This means that there is always an age discrepancy between models. If you are training on 50 pairs, and each pair requires 5 minutes to train, the oldest model will be over 4 hours old. This may be undesirable if the characteristic time scale (the trade duration target) for a strategy is less than 4 hours. You can decide to only make trade entries if the model is less than a certain number of hours old by setting the `expiration_hours` in the config file:
 
 ```json
     "freqai": {
@@ -136,7 +136,7 @@ You can choose to adopt a continual learning scheme by setting `"continual_learn
 
 ## Hyperopt
 
-You can hyperopt using the same command as for [typical Freqtrade hyperopt](hyperopt.md):
+You can hyperopt using the same command as for [typical Trading hyperopt](hyperopt.md):
 
 ```bash
 trading hyperopt --hyperopt-loss SharpeHyperOptLoss --strategy FreqaiExampleStrategy --freqaimodel LightGBMRegressor --strategy-path trading/templates --config config_examples/config_freqai.example.json --timerange 20220428-20220507
@@ -162,7 +162,7 @@ This specific hyperopt would help you understand the appropriate `DI_values` for
 ## Using Tensorboard
 
 !!! note "Availability"
-    FreqAI includes tensorboard for a variety of models, including XGBoost, all PyTorch models, Reinforcement Learning, and Catboost. If you would like to see Tensorboard integrated into another model type, please open an issue on the [Freqtrade GitHub](https://github.com/bot-app/trading/issues)
+    FreqAI includes tensorboard for a variety of models, including XGBoost, all PyTorch models, Reinforcement Learning, and Catboost. If you would like to see Tensorboard integrated into another model type, please open an issue on the [Trading GitHub](https://github.com/bot-app/trading/issues)
 
 !!! danger "Requirements"
     Tensorboard logging requires the FreqAI torch installation/docker image.

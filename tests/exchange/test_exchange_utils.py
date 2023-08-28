@@ -9,35 +9,35 @@ from tests.conftest import log_has_re
 
 
 def test_check_exchange(default_conf, caplog) -> None:
-    # Test an officially supported by Freqtrade team exchange
+    # Test an officially supported by Trading team exchange
     default_conf['runmode'] = RunMode.DRY_RUN
     default_conf.get('exchange').update({'name': 'BITTREX'})
     assert check_exchange(default_conf)
-    assert log_has_re(r"Exchange .* is officially supported by the Freqtrade development team\.",
+    assert log_has_re(r"Exchange .* is officially supported by the Trading development team\.",
                       caplog)
     caplog.clear()
 
-    # Test an officially supported by Freqtrade team exchange
+    # Test an officially supported by Trading team exchange
     default_conf.get('exchange').update({'name': 'binance'})
     assert check_exchange(default_conf)
     assert log_has_re(
-        r"Exchange \"binance\" is officially supported by the Freqtrade development team\.",
+        r"Exchange \"binance\" is officially supported by the Trading development team\.",
         caplog)
     caplog.clear()
 
-    # Test an officially supported by Freqtrade team exchange
+    # Test an officially supported by Trading team exchange
     default_conf.get('exchange').update({'name': 'binanceus'})
     assert check_exchange(default_conf)
     assert log_has_re(
-        r"Exchange \"binanceus\" is officially supported by the Freqtrade development team\.",
+        r"Exchange \"binanceus\" is officially supported by the Trading development team\.",
         caplog)
     caplog.clear()
 
-    # Test an officially supported by Freqtrade team exchange - with remapping
+    # Test an officially supported by Trading team exchange - with remapping
     default_conf.get('exchange').update({'name': 'okex'})
     assert check_exchange(default_conf)
     assert log_has_re(
-        r"Exchange \"okex\" is officially supported by the Freqtrade development team\.",
+        r"Exchange \"okex\" is officially supported by the Trading development team\.",
         caplog)
     caplog.clear()
     # Test an available exchange, supported by ccxt
@@ -45,13 +45,13 @@ def test_check_exchange(default_conf, caplog) -> None:
     assert check_exchange(default_conf)
     assert log_has_re(r"Exchange .* is known to the the ccxt library, available for the bot, "
                       r"but not officially supported "
-                      r"by the Freqtrade development team\. .*", caplog)
+                      r"by the Trading development team\. .*", caplog)
     caplog.clear()
 
     # Test a 'bad' exchange, which known to have serious problems
     default_conf.get('exchange').update({'name': 'bitmex'})
     with pytest.raises(OperationalException,
-                       match=r"Exchange .* will not work with Freqtrade\..*"):
+                       match=r"Exchange .* will not work with Trading\..*"):
         check_exchange(default_conf)
     caplog.clear()
 
@@ -60,7 +60,7 @@ def test_check_exchange(default_conf, caplog) -> None:
     assert check_exchange(default_conf, False)
     assert log_has_re(r"Exchange .* is known to the the ccxt library, available for the bot, "
                       r"but not officially supported "
-                      r"by the Freqtrade development team\. .*", caplog)
+                      r"by the Trading development team\. .*", caplog)
     caplog.clear()
 
     # Test an invalid exchange

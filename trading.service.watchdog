@@ -1,5 +1,5 @@
 [Unit]
-Description=Freqtrade Daemon
+Description=Trading Daemon
 After=network.target
 
 [Service]

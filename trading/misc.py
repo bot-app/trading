@@ -1,5 +1,5 @@
 """
-Various tool function for Freqtrade and scripts
+Various tool function for Trading and scripts
 """
 import gzip
 import logging

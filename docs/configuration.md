@@ -1,11 +1,11 @@
 # Configure the bot
 
-Freqtrade has many configurable features and possibilities.
+Trading has many configurable features and possibilities.
 By default, these settings are configured via the configuration file (see below).
 
-## The Freqtrade configuration file
+## The Trading configuration file
 
-The bot uses a set of configuration parameters during its operation that all together conform to the bot configuration. It normally reads its configuration from a file (Freqtrade configuration file).
+The bot uses a set of configuration parameters during its operation that all together conform to the bot configuration. It normally reads its configuration from a file (Trading configuration file).
 
 Per default, the bot loads the configuration from the `config.json` file, located in the current working directory.
 
@@ -16,7 +16,7 @@ the bot, the installation script should have already created the default configu
 
 If the default configuration file is not created we recommend to use `trading new-config --config config.json` to generate a basic configuration file.
 
-The Freqtrade configuration file is to be written in JSON format.
+The Trading configuration file is to be written in JSON format.
 
 Additionally to the standard JSON syntax, you may use one-line `// ...` and multi-line `/* ... */` comments in your configuration files and trailing commas in the lists of parameters.
 
@@ -24,7 +24,7 @@ Do not worry if you are not familiar with JSON format -- simply open the configu
 
 ### Environment variables
 
-Set options in the Freqtrade configuration via environment variables.
+Set options in the Trading configuration via environment variables.
 This takes priority over the corresponding value in configuration or strategy.
 
 Environment variables must be prefixed with  `FREQTRADE__` to be loaded to the trading configuration.
@@ -117,7 +117,7 @@ This is similar to using multiple `--config` parameters, but simpler in usage as
 
 The table below will list all configuration parameters available.
 
-Freqtrade can also load many options via command line (CLI) arguments (check out the commands `--help` output for details).
+Trading can also load many options via command line (CLI) arguments (check out the commands `--help` output for details).
 
 ### Configuration option prevalence
 
@@ -299,12 +299,12 @@ With a reserve of 5%, the minimum stake amount would be ~12.6$ (`12 * (1 + 0.05)
 To limit this calculation in case of large stoploss values, the calculated minimum stake-limit will never be more than 50% above the real limit.
 
 !!! Warning
-    Since the limits on exchanges are usually stable and are not updated often, some pairs can show pretty high minimum limits, simply because the price increased a lot since the last limit adjustment by the exchange. Freqtrade adjusts the stake-amount to this value, unless it's > 30% more than the calculated/desired stake-amount - in which case the trade is rejected.
+    Since the limits on exchanges are usually stable and are not updated often, some pairs can show pretty high minimum limits, simply because the price increased a lot since the last limit adjustment by the exchange. Trading adjusts the stake-amount to this value, unless it's > 30% more than the calculated/desired stake-amount - in which case the trade is rejected.
 
 #### Tradable balance
 
 By default, the bot assumes that the `complete amount - 1%` is at it's disposal, and when using [dynamic stake amount](#dynamic-stake-amount), it will split the complete balance into `max_open_trades` buckets per trade.
-Freqtrade will reserve 1% for eventual fees when entering a trade and will therefore not touch that by default.
+Trading will reserve 1% for eventual fees when entering a trade and will therefore not touch that by default.
 
 You can configure the "untouched" amount by using the `tradable_balance_ratio` setting.
 
@@ -662,7 +662,7 @@ You should also make sure to read the [Exchanges](exchanges.md) section of the d
 
     **NEVER** share your private configuration file or your exchange keys with anyone!
 
-### Using proxy with Freqtrade
+### Using proxy with Trading
 
 To use a proxy with trading, export your proxy settings using the variables `"HTTP_PROXY"` and `"HTTPS_PROXY"` set to the appropriate values.
 This will have the proxy settings applied to everything (telegram, coingecko, ...) **except** for exchange requests.

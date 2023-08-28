@@ -1,4 +1,4 @@
-# Freqtrade rules
+# Trading rules
 config*.json
 *.sqlite
 *.sqlite-shm

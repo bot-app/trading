@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Bittrex(Exchange):
     """
-    Bittrex exchange class. Contains adjustments needed for Freqtrade to work
+    Bittrex exchange class. Contains adjustments needed for Trading to work
     with this exchange.
     """
 

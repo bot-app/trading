@@ -82,7 +82,7 @@ def test_list_exchanges(capsys):
 
     start_list_exchanges(get_args(args))
     captured = capsys.readouterr()
-    assert re.match(r"Exchanges available for Freqtrade.*", captured.out)
+    assert re.match(r"Exchanges available for Trading.*", captured.out)
     assert re.search(r".*binance.*", captured.out)
     assert re.search(r".*bittrex.*", captured.out)
 

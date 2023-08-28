@@ -15,7 +15,7 @@ Send the message `/newbot`.
 
 > Alright, a new bot. How are we going to call it? Please choose a name for your bot.
 
-Choose the public name of your bot (e.x. `Freqtrade bot`)
+Choose the public name of your bot (e.x. `Trading bot`)
 
 *BotFather response:*
 
@@ -53,7 +53,7 @@ You can use bots in telegram groups by just adding them to the group. You can fi
 }
 ```
 
-For the Freqtrade configuration, you can then use the the full value (including `-` if it's there) as string:
+For the Trading configuration, you can then use the the full value (including `-` if it's there) as string:
 
 ```json
    "chat_id": "-1001332619709"
@@ -63,7 +63,7 @@ For the Freqtrade configuration, you can then use the the full value (including 
 
 ## Control telegram noise
 
-Freqtrade provides means to control the verbosity of your telegram bot.
+Trading provides means to control the verbosity of your telegram bot.
 Each setting has the following possible values:
 
 * `on` - Messages will be sent, and user will be notified.

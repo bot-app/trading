@@ -25,7 +25,7 @@ from trading.edge import PairInfo
 from trading.enums import (ExitType, MarketDirection, RPCMessageType, RunMode, SignalDirection,
                              State)
 from trading.exceptions import OperationalException
-from trading.tradingbot import FreqtradeBot
+from trading.tradingbot import TradingBot
 from trading.loggers import setup_logging
 from trading.persistence import PairLocks, Trade
 from trading.persistence.models import Order
@@ -197,7 +197,7 @@ async def test_authorized_only(default_conf, mocker, caplog, update) -> None:
     patch_exchange(mocker)
     caplog.set_level(logging.DEBUG)
     default_conf['telegram']['enabled'] = False
-    bot = FreqtradeBot(default_conf)
+    bot = TradingBot(default_conf)
     rpc = RPC(bot)
     dummy = DummyCls(rpc, default_conf)
 
@@ -217,7 +217,7 @@ async def test_authorized_only_unauthorized(default_conf, mocker, caplog) -> Non
     update = Update(randint(1, 100), message=message)
 
     default_conf['telegram']['enabled'] = False
-    bot = FreqtradeBot(default_conf)
+    bot = TradingBot(default_conf)
     rpc = RPC(bot)
     dummy = DummyCls(rpc, default_conf)
 
@@ -234,7 +234,7 @@ async def test_authorized_only_exception(default_conf, mocker, caplog, update) -
 
     default_conf['telegram']['enabled'] = False
 
-    bot = FreqtradeBot(default_conf)
+    bot = TradingBot(default_conf)
     rpc = RPC(bot)
     dummy = DummyCls(rpc, default_conf)
     patch_get_signal(bot)
@@ -1022,7 +1022,7 @@ async def test_telegram_forceexit_handle(default_conf, update, ticker, fee,
         _dry_is_price_crossed=MagicMock(return_value=True),
     )
 
-    tradingbot = FreqtradeBot(default_conf)
+    tradingbot = TradingBot(default_conf)
     rpc = RPC(tradingbot)
     telegram = Telegram(rpc, default_conf)
     patch_get_signal(tradingbot)
@@ -1091,7 +1091,7 @@ async def test_telegram_force_exit_down_handle(default_conf, update, ticker, fee
         _dry_is_price_crossed=MagicMock(return_value=True),
     )
 
-    tradingbot = FreqtradeBot(default_conf)
+    tradingbot = TradingBot(default_conf)
     rpc = RPC(tradingbot)
     telegram = Telegram(rpc, default_conf)
     patch_get_signal(tradingbot)
@@ -1162,7 +1162,7 @@ async def test_forceexit_all_handle(default_conf, update, ticker, fee, mocker) -
         _dry_is_price_crossed=MagicMock(return_value=True),
     )
     default_conf['max_open_trades'] = 4
-    tradingbot = FreqtradeBot(default_conf)
+    tradingbot = TradingBot(default_conf)
     rpc = RPC(tradingbot)
     telegram = Telegram(rpc, default_conf)
     patch_get_signal(tradingbot)

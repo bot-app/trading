@@ -2,7 +2,7 @@
 
 ## FreqUI
 
-Freqtrade provides a builtin webserver, which can serve [FreqUI](https://github.com/trading/frequi), the trading UI.
+Trading provides a builtin webserver, which can serve [FreqUI](https://github.com/trading/frequi), the trading UI.
 
 By default, the UI is not included in the installation (except for docker images), and must be installed explicitly with `trading install-ui`.
 This same command can also be used to update freqUI, should there be a new release.
@@ -27,7 +27,7 @@ Sample configuration:
         "enable_openapi": false,
         "jwt_secret_key": "somethingrandom",
         "CORS_origins": [],
-        "username": "Freqtrader",
+        "username": "Tradingr",
         "password": "SuperSecret1!",
         "ws_token": "sercet_Ws_t0ken"
     },
@@ -75,7 +75,7 @@ If you run your bot using docker, you'll need to have the bot listen to incoming
         "enabled": true,
         "listen_ip_address": "0.0.0.0",
         "listen_port": 8080,
-        "username": "Freqtrader",
+        "username": "Tradingr",
         "password": "SuperSecret1!",
         //...
     },
@@ -96,7 +96,7 @@ Make sure that the following 2 lines are available in your docker-compose file:
 ### Consuming the API
 
 You can consume the API by using the script `scripts/rest_client.py`.
-The client script only requires the `requests` module, so Freqtrade does not need to be installed on the system.
+The client script only requires the `requests` module, so Trading does not need to be installed on the system.
 
 ``` bash
 python3 scripts/rest_client.py <command> [optional parameters]
@@ -112,7 +112,7 @@ By default, the script assumes `127.0.0.1` (localhost) and port `8080` to be use
         "enabled": true,
         "listen_ip_address": "0.0.0.0",
         "listen_port": 8080,
-        "username": "Freqtrader",
+        "username": "Tradingr",
         "password": "SuperSecret1!",
         //...
     }
@@ -331,7 +331,7 @@ whitelist
 The API Server includes a websocket endpoint for subscribing to RPC messages from the trading Bot.
 This can be used to consume real-time data from your bot, such as entry/exit fill messages, whitelist changes, populated indicators for pairs, and more.
 
-This is also used to setup [Producer/Consumer mode](producer-consumer.md) in Freqtrade.
+This is also used to setup [Producer/Consumer mode](producer-consumer.md) in Trading.
 
 Assuming your rest API is set to `127.0.0.1` on port `8080`, the endpoint is available at `http://localhost:8080/api/v1/message/ws`.
 
@@ -356,7 +356,7 @@ You would then add that token under `ws_token` in your `api_server` config. Like
     "enable_openapi": false,
     "jwt_secret_key": "somethingrandom",
     "CORS_origins": [],
-    "username": "Freqtrader",
+    "username": "Tradingr",
     "password": "SuperSecret1!",
     "ws_token": "hZ-y58LXyX_HZ8O1cJzVyN6ePWrLpNQv4Q" // <-----
 },
@@ -439,13 +439,13 @@ This will enable the Swagger UI at the `/docs` endpoint. By default, that's runn
 ### Advanced API usage using JWT tokens
 
 !!! Note
-    The below should be done in an application (a Freqtrade REST API client, which fetches info via API), and is not intended to be used on a regular basis.
+    The below should be done in an application (a Trading REST API client, which fetches info via API), and is not intended to be used on a regular basis.
 
-Freqtrade's REST API also offers JWT (JSON Web Tokens).
+Trading's REST API also offers JWT (JSON Web Tokens).
 You can login using the following command, and subsequently use the resulting access_token.
 
 ``` bash
-> curl -X POST --user Freqtrader http://localhost:8080/api/v1/token/login
+> curl -X POST --user Tradingr http://localhost:8080/api/v1/token/login
 {"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODkxMTk2ODEsIm5iZiI6MTU4OTExOTY4MSwianRpIjoiMmEwYmY0NWUtMjhmOS00YTUzLTlmNzItMmM5ZWVlYThkNzc2IiwiZXhwIjoxNTg5MTIwNTgxLCJpZGVudGl0eSI6eyJ1IjoiRnJlcXRyYWRlciJ9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.qt6MAXYIa-l556OM7arBvYJ0SDI9J8bIk3_glDujF5g","refresh_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODkxMTk2ODEsIm5iZiI6MTU4OTExOTY4MSwianRpIjoiZWQ1ZWI3YjAtYjMwMy00YzAyLTg2N2MtNWViMjIxNWQ2YTMxIiwiZXhwIjoxNTkxNzExNjgxLCJpZGVudGl0eSI6eyJ1IjoiRnJlcXRyYWRlciJ9LCJ0eXBlIjoicmVmcmVzaCJ9.d1AT_jYICyTAjD0fiQAr52rkRqtxCjUGEMwlNuuzgNQ"}
 
 > access_token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODkxMTk2ODEsIm5iZiI6MTU4OTExOTY4MSwianRpIjoiMmEwYmY0NWUtMjhmOS00YTUzLTlmNzItMmM5ZWVlYThkNzc2IiwiZXhwIjoxNTg5MTIwNTgxLCJpZGVudGl0eSI6eyJ1IjoiRnJlcXRyYWRlciJ9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.qt6MAXYIa-l556OM7arBvYJ0SDI9J8bIk3_glDujF5g"
@@ -467,7 +467,7 @@ This whole section is only necessary in cross-origin cases (where you multiple b
 
 ??? info "Technical explanation"
     All web-based front-ends are subject to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) - Cross-Origin Resource Sharing.
-    Since most of the requests to the Freqtrade API must be authenticated, a proper CORS policy is key to avoid security problems.
+    Since most of the requests to the Trading API must be authenticated, a proper CORS policy is key to avoid security problems.
     Also, the standard disallows `*` CORS policies for requests with credentials, so this setting must be set appropriately.
 
 Users can allow access from different origin URL's to the bot API via the `CORS_origins` configuration setting.

@@ -167,7 +167,7 @@ class HyperoptTools:
             if total_epochs == 0 and epochs_tmp[0].get('is_best') is None:
                 raise OperationalException(
                     "The file with HyperoptTools results is incompatible with this version "
-                    "of Freqtrade and cannot be loaded.")
+                    "of Trading and cannot be loaded.")
             total_epochs += len(epochs_tmp)
             epochs += hyperopt_filter_epochs(epochs_tmp, filteroptions, log=False)
 

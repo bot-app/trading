@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class Huobi(Exchange):
     """
-    Huobi exchange class. Contains adjustments needed for Freqtrade to work
+    Huobi exchange class. Contains adjustments needed for Trading to work
     with this exchange.
     """
 

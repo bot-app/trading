@@ -1,7 +1,7 @@
 # Advanced Strategies
 
 This page explains some advanced concepts available for strategies.
-If you're just getting started, please familiarize yourself with the [Freqtrade basics](bot-basics.md) and methods described in [Strategy Customization](strategy-customization.md) first.
+If you're just getting started, please familiarize yourself with the [Trading basics](bot-basics.md) and methods described in [Strategy Customization](strategy-customization.md) first.
 
 The call sequence of the methods described here is covered under [bot execution logic](bot-basics.md#bot-execution-logic). Those docs are also helpful in deciding which method is most suitable for your customisation needs.
 
@@ -177,7 +177,7 @@ While keeping the subclass in the same file is technically possible, it can lead
 
 ## Embedding Strategies
 
-Freqtrade provides you with an easy way to embed the strategy into your configuration file.
+Trading provides you with an easy way to embed the strategy into your configuration file.
 This is done by utilizing BASE64 encoding and providing this string at the strategy configuration field,
 in your chosen config file.
 
@@ -231,4 +231,4 @@ for val in self.buy_ema_short.range:
 dataframe = pd.concat(frames, axis=1)
 ```
 
-Freqtrade does however also counter this by running `dataframe.copy()` on the dataframe right after the `populate_indicators()` method - so performance implications of this should be low to non-existant.
+Trading does however also counter this by running `dataframe.copy()` on the dataframe right after the `populate_indicators()` method - so performance implications of this should be low to non-existant.

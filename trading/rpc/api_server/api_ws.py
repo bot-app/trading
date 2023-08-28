@@ -7,7 +7,7 @@ from fastapi.websockets import WebSocket
 from pydantic import ValidationError
 
 from trading.enums import RPCMessageType, RPCRequestType
-from trading.exceptions import FreqtradeException
+from trading.exceptions import TradingException
 from trading.rpc.api_server.api_auth import validate_ws_token
 from trading.rpc.api_server.deps import get_message_stream, get_rpc
 from trading.rpc.api_server.ws.channel import WebSocketChannel, create_channel
@@ -31,7 +31,7 @@ async def channel_reader(channel: WebSocketChannel, rpc: RPC):
     async for message in channel:
         try:
             await _process_consumer_request(message, channel, rpc)
-        except FreqtradeException:
+        except TradingException:
             logger.exception(f"Error processing request from {channel}")
             response = WSErrorMessage(data='Error processing request')
 

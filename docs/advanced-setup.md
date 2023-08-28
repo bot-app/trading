@@ -4,7 +4,7 @@ This page explains some advanced tasks and configuration options that can be per
 
 If you do not know what things mentioned here mean, you probably do not need it.
 
-## Running multiple instances of Freqtrade
+## Running multiple instances of Trading
 
 This section will show you how to run multiple bots at the same time, on the same machine.
 
@@ -12,13 +12,13 @@ This section will show you how to run multiple bots at the same time, on the sam
 
 * Use different database files.
 * Use different Telegram bots (requires multiple different configuration files; applies only when Telegram is enabled).
-* Use different ports (applies only when Freqtrade REST API webserver is enabled).
+* Use different ports (applies only when Trading REST API webserver is enabled).
 
 ### Different database files
 
 In order to keep track of your trades, profits, etc., trading is using a SQLite database where it stores various types of information such as the trades you performed in the past and the current position(s) you are holding at any time. This allows you to keep track of your profits, but most importantly, keep track of ongoing activity if the bot process would be restarted or would be terminated unexpectedly.
 
-Freqtrade will, by default, use separate database files for dry-run and live bots (this assumes no database-url is given in either configuration nor via command line argument).
+Trading will, by default, use separate database files for dry-run and live bots (this assumes no database-url is given in either configuration nor via command line argument).
 For live trading mode, the default database will be `tradesv3.sqlite` and for dry-run it will be `tradesv3.dryrun.sqlite`.
 
 The optional argument to the trade command used to specify the path of these files is `--db-url`, which requires a valid SQLAlchemy url.
@@ -154,7 +154,7 @@ On many Linux systems the bot can be configured to send its log messages to `sys
 
 ### Logging to syslog
 
-To send Freqtrade log messages to a local or remote `syslog` service use the `--logfile` command line option with the value in the following format:
+To send Trading log messages to a local or remote `syslog` service use the `--logfile` command line option with the value in the following format:
 
 * `--logfile syslog:<syslog_address>` -- send log messages to `syslog` service using the `<syslog_address>` as the syslog address.
 
@@ -194,13 +194,13 @@ $RepeatedMsgReduction on
 
 This needs the `cysystemd` python package installed as dependency (`pip install cysystemd`), which is not available on Windows. Hence, the whole journald logging functionality is not available for a bot running on Windows.
 
-To send Freqtrade log messages to `journald` system service use the `--logfile` command line option with the value in the following format:
+To send Trading log messages to `journald` system service use the `--logfile` command line option with the value in the following format:
 
 * `--logfile journald` -- send log messages to `journald`.
 
 Log messages are send to `journald` with the `user` facility. So you can see them with the following commands:
 
-* `journalctl -f` -- shows Freqtrade log messages sent to `journald` along with other log messages fetched by `journald`.
+* `journalctl -f` -- shows Trading log messages sent to `journald` along with other log messages fetched by `journald`.
 * `journalctl -f -u trading.service` -- this command can be used when the bot is run as a `systemd` service.
 
 There are many other options in the `journalctl` utility to filter the messages, see manual pages for this utility.

@@ -2,7 +2,7 @@
 
 This page explains how to customize your strategies, add new indicators and set up trading rules.
 
-Please familiarize yourself with [Freqtrade basics](bot-basics.md) first, which provides overall info on how the bot operates.
+Please familiarize yourself with [Trading basics](bot-basics.md) first, which provides overall info on how the bot operates.
 
 ## Develop your own strategy
 
@@ -59,7 +59,7 @@ file as reference.**
 
 ### Dataframe
 
-Freqtrade uses [pandas](https://pandas.pydata.org/) to store/provide the candlestick (OHLCV) data.
+Trading uses [pandas](https://pandas.pydata.org/) to store/provide the candlestick (OHLCV) data.
 Pandas is a great library developed for processing large amounts of data.
 
 Each row in a dataframe corresponds to one candle on a chart, with the latest candle always being the last in the dataframe (sorted by date).
@@ -164,7 +164,7 @@ Additional technical libraries can be installed as necessary, or custom indicato
 
 ### Strategy startup period
 
-Most indicators have an instable startup period, in which they are either not available (NaN), or the calculation is incorrect. This can lead to inconsistencies, since Freqtrade does not know how long this instable period should be.
+Most indicators have an instable startup period, in which they are either not available (NaN), or the calculation is incorrect. This can lead to inconsistencies, since Trading does not know how long this instable period should be.
 To account for this, the strategy can be assigned the `startup_candle_count` attribute.
 This should be set to the maximum number of candles that the strategy requires to calculate stable indicators. In the case where a user includes higher timeframes with informative pairs, the `startup_candle_count` does not necessarily change. The value is the maximum period (in candles) that any of the informatives timeframes need to compute stable indicators.
 
@@ -178,8 +178,8 @@ By letting the bot know how much history is needed, backtest trades can start at
 
 !!! Warning "Using x calls to get OHLCV"
     If you receive a warning like `WARNING - Using 3 calls to get OHLCV. This can result in slower operations for the bot. Please check if you really need 1500 candles for your strategy` - you should consider if you really need this much historic data for your signals.
-    Having this will cause Freqtrade to make multiple calls for the same pair, which will obviously be slower than one network request.
-    As a consequence, Freqtrade will take longer to refresh candles - and should therefore be avoided if possible.
+    Having this will cause Trading to make multiple calls for the same pair, which will obviously be slower than one network request.
+    As a consequence, Trading will take longer to refresh candles - and should therefore be avoided if possible.
     This is capped to 5 total calls to avoid overloading the exchange, or make trading too slow.
 
 !!! Warning
@@ -407,7 +407,7 @@ By default, trading will attempt to load strategies from all `.py` files within 
 Assuming your strategy is called `AwesomeStrategy`, stored in the file `user_data/strategies/AwesomeStrategy.py`, then you can start trading with `trading trade --strategy AwesomeStrategy`.
 Note that we're using the class-name, not the file name.
 
-You can use `trading list-strategies` to see a list of all strategies Freqtrade is able to load (all strategies in the correct folder).
+You can use `trading list-strategies` to see a list of all strategies Trading is able to load (all strategies in the correct folder).
 It will also include a "status" field, highlighting potential problems.
 
 ??? Hint "Customize strategy directory"
@@ -1004,7 +1004,7 @@ For a full list of available methods, please consult the [Trade object](trade-ob
 
 ## Prevent trades from happening for a specific pair
 
-Freqtrade locks pairs automatically for the current candle (until that candle is over) when a pair is sold, preventing an immediate re-buy of that pair.
+Trading locks pairs automatically for the current candle (until that candle is over) when a pair is sold, preventing an immediate re-buy of that pair.
 
 Locked pairs will show the message `Pair <pair> is currently locked.`.
 
@@ -1012,7 +1012,7 @@ Locked pairs will show the message `Pair <pair> is currently locked.`.
 
 Sometimes it may be desired to lock a pair after certain events happen (e.g. multiple losing trades in a row).
 
-Freqtrade has an easy method to do this from within the strategy, by calling `self.lock_pair(pair, until, [reason])`.
+Trading has an easy method to do this from within the strategy, by calling `self.lock_pair(pair, until, [reason])`.
 `until` must be a datetime object in the future, after which trading will be re-enabled for that pair, while `reason` is an optional string detailing why the pair was locked.
 
 Locks can also be lifted manually, by calling `self.unlock_pair(pair)` or `self.unlock_reason(<reason>)` - providing reason the pair was locked with.

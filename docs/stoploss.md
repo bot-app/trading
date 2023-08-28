@@ -10,7 +10,7 @@ Most of the strategy files already include the optimal `stoploss` value.
     All stoploss properties mentioned in this file can be set in the Strategy, or in the configuration.  
     <ins>Configuration values will override the strategy values.</ins>
 
-## Stop Loss On-Exchange/Freqtrade
+## Stop Loss On-Exchange/Trading
 
 Those stoploss modes can be *on exchange* or *off exchange*.
 
@@ -68,7 +68,7 @@ This same logic will reapply a stoploss order on the exchange should you cancel 
 
 !!! Warning "Only applies to futures"
     `stoploss_price_type` only applies to futures markets (on exchanges where it's available).
-    Freqtrade will perform a validation of this setting on startup, failing to start if an invalid setting for your exchange has been selected.
+    Trading will perform a validation of this setting on startup, failing to start if an invalid setting for your exchange has been selected.
     Supported price types are gonna differs between each exchanges. Please check with your exchange on which price types it supports.
 
 Stoploss on exchange on futures markets can trigger on different price types.

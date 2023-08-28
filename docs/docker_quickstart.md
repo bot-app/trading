@@ -1,4 +1,4 @@
-# Using Freqtrade with Docker
+# Using Trading with Docker
 
 This page explains how to run the bot with Docker. It is not meant to work out of the box. You'll still need to read through the documentation and understand how to properly configure it.
 
@@ -11,15 +11,15 @@ Start by downloading and installing Docker / Docker Desktop for your platform:
 * [Linux](https://docs.docker.com/install/)
 
 !!! Info "Docker compose install"
-    Freqtrade documentation assumes the use of Docker desktop (or the docker compose plugin).  
+    Trading documentation assumes the use of Docker desktop (or the docker compose plugin).  
     While the docker-compose standalone installation still works, it will require changing all `docker compose` commands from `docker compose` to `docker-compose` to work (e.g. `docker compose up -d` will become `docker-compose up -d`).
 
 ??? Warning "Docker on windows"
     If you just installed docker on a windows system, make sure to reboot your system, otherwise you might encounter unexplainable Problems related to network connectivity to docker containers.
 
-## Freqtrade with docker
+## Trading with docker
 
-Freqtrade provides an official Docker image on [Dockerhub](https://hub.docker.com/r/tradingorg/trading/), as well as a [docker compose file](https://github.com/bot-app/trading/blob/stable/docker-compose.yml) ready for usage.
+Trading provides an official Docker image on [Dockerhub](https://hub.docker.com/r/tradingorg/trading/), as well as a [docker compose file](https://github.com/bot-app/trading/blob/stable/docker-compose.yml) ready for usage.
 
 !!! Note
     - The following section assumes that `docker` is installed and available to the logged in user.
@@ -186,7 +186,7 @@ The output will be stored in the `user_data/plot` directory, and can be opened w
 
 ### Data analysis using docker compose
 
-Freqtrade provides a docker-compose file which starts up a jupyter lab server.
+Trading provides a docker-compose file which starts up a jupyter lab server.
 You can run this server using the following command:
 
 ``` bash

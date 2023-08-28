@@ -1,8 +1,8 @@
-# Freqtrade basics
+# Trading basics
 
-This page provides you some basic concepts on how Freqtrade works and operates.
+This page provides you some basic concepts on how Trading works and operates.
 
-## Freqtrade terminology
+## Trading terminology
 
 * **Strategy**: Your trading strategy, telling the bot what to do.
 * **Trade**: Open position.
@@ -18,11 +18,11 @@ This page provides you some basic concepts on how Freqtrade works and operates.
 
 ## Fee handling
 
-All profit calculations of Freqtrade include fees. For Backtesting / Hyperopt / Dry-run modes, the exchange default fee is used (lowest tier on the exchange). For live operations, fees are used as applied by the exchange (this includes BNB rebates etc.).
+All profit calculations of Trading include fees. For Backtesting / Hyperopt / Dry-run modes, the exchange default fee is used (lowest tier on the exchange). For live operations, fees are used as applied by the exchange (this includes BNB rebates etc.).
 
 ## Pair naming
 
-Freqtrade follows the [ccxt naming convention](https://docs.ccxt.com/#/README?id=consistency-of-base-and-quote-currencies) for currencies.
+Trading follows the [ccxt naming convention](https://docs.ccxt.com/#/README?id=consistency-of-base-and-quote-currencies) for currencies.
 Using the wrong naming convention in the wrong market will usually result in the bot not recognizing the pair, usually resulting in errors like "this pair is not available".
 
 ### Spot pair naming

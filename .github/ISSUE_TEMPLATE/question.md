@@ -18,7 +18,7 @@ Please do not use the question template to report bugs or to request new feature
   * Operating system: ____
   * Python Version: _____ (`python -V`)
   * CCXT version: _____ (`pip freeze | grep ccxt`)
-  * Freqtrade Version: ____ (`trading -V` or `docker compose run --rm trading -V` for Freqtrade running in docker)
+  * Trading Version: ____ (`trading -V` or `docker compose run --rm trading -V` for Trading running in docker)
   
 ## Your question
 

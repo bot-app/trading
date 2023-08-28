@@ -49,7 +49,7 @@ optional arguments:
 ```
 
 !!! Warning
-    Only vital questions are asked. Freqtrade offers a lot more configuration possibilities, which are listed in the [Configuration documentation](configuration.md#configuration-parameters)
+    Only vital questions are asked. Trading offers a lot more configuration possibilities, which are listed in the [Configuration documentation](configuration.md#configuration-parameters)
 
 ### Create config examples
 
@@ -222,7 +222,7 @@ optional arguments:
 * Example: see exchanges available for the bot:
 ```
 $ trading list-exchanges
-Exchanges available for Freqtrade:
+Exchanges available for Trading:
 Exchange name    Valid    reason
 ---------------  -------  --------------------------------------------
 aax              True
@@ -292,7 +292,7 @@ zb               True     missing opt: fetchMyTrades
 !!! Note "missing opt exchanges"
     Values with "missing opt:" might need special configuration (e.g. using orderbook if `fetchTickers` is missing) - but should in theory work (although we cannot guarantee they will).
 
-* Example: see all exchanges supported by the ccxt library (including 'bad' ones, i.e. those that are known to not work with Freqtrade):
+* Example: see all exchanges supported by the ccxt library (including 'bad' ones, i.e. those that are known to not work with Trading):
 ```
 $ trading list-exchanges -a
 All exchanges supported by the ccxt library:
@@ -456,7 +456,7 @@ $ trading list-timeframes -c config_binance.json
 Timeframes available for the exchange `binance`: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
 ```
 
-* Example: enumerate exchanges available for Freqtrade and print timeframes supported by each of them:
+* Example: enumerate exchanges available for Trading and print timeframes supported by each of them:
 ```
 $ for i in `trading list-exchanges -1`; do trading list-timeframes --exchange $i; done
 ```
@@ -468,7 +468,7 @@ The `list-pairs` and `list-markets` subcommands allow to see the pairs/markets a
 Pairs are markets with the '/' character between the base currency part and the quote currency part in the market symbol.
 For example, in the 'ETH/BTC' pair 'ETH' is the base currency, while 'BTC' is the quote currency.
 
-For pairs traded by Freqtrade the pair quote currency is defined by the value of the `stake_currency` configuration setting.
+For pairs traded by Trading the pair quote currency is defined by the value of the `stake_currency` configuration setting.
 
 You can print info about any pair/market with these subcommands - and you can filter output by quote-currency using `--quote BTC`, or by base-currency using `--base ETH` options correspondingly.
 
@@ -610,7 +610,7 @@ optional arguments:
 ```
 
 !!! Warning
-    Please ensure to only use this on an empty target database. Freqtrade will perform a regular migration, but may fail if entries already existed.
+    Please ensure to only use this on an empty target database. Trading will perform a regular migration, but may fail if entries already existed.
 
 ## Webserver mode
 
@@ -619,7 +619,7 @@ optional arguments:
     There may still be bugs - so if you happen to stumble across these, please report them as github issues, thanks.
 
 Run trading in webserver mode.
-Freqtrade will start the webserver and allow FreqUI to start and control backtesting processes.
+Trading will start the webserver and allow FreqUI to start and control backtesting processes.
 This has the advantage that data will not be reloaded between backtesting runs (as long as timeframe and timerange remain identical).
 FreqUI will also show the backtesting results.
 

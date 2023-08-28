@@ -17,14 +17,14 @@ Please consider using the prebuilt [docker images](docker_quickstart.md) to get 
 
 For Windows installation, please use the [windows installation guide](windows_installation.md).
 
-The easiest way to install and run Freqtrade is to clone the bot Github repository and then run the `./setup.sh` script, if it's available for your platform.
+The easiest way to install and run Trading is to clone the bot Github repository and then run the `./setup.sh` script, if it's available for your platform.
 
 !!! Note "Version considerations"
     When cloning the repository the default working branch has the name `develop`. This branch contains all last features (can be considered as relatively stable, thanks to automated tests).
     The `stable` branch contains the code of the last release (done usually once per month on an approximately one week old snapshot of the `develop` branch to prevent packaging bugs, so potentially it's more stable).
 
 !!! Note
-    Python3.8 or higher and the corresponding `pip` are assumed to be available. The install-script will warn you and stop if that's not the case. `git` is also needed to clone the Freqtrade repository.  
+    Python3.8 or higher and the corresponding `pip` are assumed to be available. The install-script will warn you and stop if that's not the case. `git` is also needed to clone the Trading repository.  
     Also, python headers (`python<yourversion>-dev` / `python<yourversion>-devel`) must be available for the installation to complete successfully.
 
 !!! Warning "Up-to-date clock"
@@ -95,9 +95,9 @@ OS Specific steps are listed first, the [Common](#common) section below is neces
 
 ------
 
-## Freqtrade repository
+## Trading repository
 
-Freqtrade is an open source crypto-currency trading bot, whose code is hosted on `github.com`
+Trading is an open source crypto-currency trading bot, whose code is hosted on `github.com`
 
 ```bash
 # Download `develop` branch of trading repository
@@ -118,7 +118,7 @@ git checkout develop
 You may later switch between branches at any time with the `git checkout stable`/`git checkout develop` commands.
 
 ??? Note "Install from pypi"
-    An alternative way to install Freqtrade is from [pypi](https://pypi.org/project/trading/). The downside is that this method requires ta-lib to be correctly installed beforehand, and is therefore currently not the recommended way to install Freqtrade.
+    An alternative way to install Trading is from [pypi](https://pypi.org/project/trading/). The downside is that this method requires ta-lib to be correctly installed beforehand, and is therefore currently not the recommended way to install Trading.
 
     ``` bash
     pip install trading
@@ -128,9 +128,9 @@ You may later switch between branches at any time with the `git checkout stable`
 
 ## Script Installation
 
-First of the ways to install Freqtrade, is to use provided the Linux/MacOS `./setup.sh` script, which install all dependencies and help you configure the bot.
+First of the ways to install Trading, is to use provided the Linux/MacOS `./setup.sh` script, which install all dependencies and help you configure the bot.
 
-Make sure you fulfill the [Requirements](#requirements) and have downloaded the [Freqtrade repository](#trading-repository).
+Make sure you fulfill the [Requirements](#requirements) and have downloaded the [Trading repository](#trading-repository).
 
 ### Use /setup.sh -install (Linux/MacOS)
 
@@ -189,7 +189,7 @@ This option will hard reset your branch (only if you are on either `stable` or `
 
 ## Manual Installation
 
-Make sure you fulfill the [Requirements](#requirements) and have downloaded the [Freqtrade repository](#trading-repository).
+Make sure you fulfill the [Requirements](#requirements) and have downloaded the [Trading repository](#trading-repository).
 
 ### Install TA-Lib
 
@@ -255,7 +255,7 @@ On Linux with software suite `systemd`, as an optional post-installation task, y
 
 ## Installation with Conda
 
-Freqtrade can also be installed with Miniconda or Anaconda. We recommend using Miniconda as it's installation footprint is smaller. Conda will automatically prepare and manage the extensive library-dependencies of the Freqtrade program.
+Trading can also be installed with Miniconda or Anaconda. We recommend using Miniconda as it's installation footprint is smaller. Conda will automatically prepare and manage the extensive library-dependencies of the Trading program.
 
 ### What is Conda?
 
@@ -271,7 +271,7 @@ Conda is a package, dependency and environment manager for multiple programming 
 
 Answer all questions. After installation, it is mandatory to turn your terminal OFF and ON again.
 
-#### Freqtrade download
+#### Trading download
 
 Download and install trading.
 
@@ -283,7 +283,7 @@ git clone https://github.com/bot-app/trading.git
 cd trading      
 ```
 
-#### Freqtrade install: Conda Environment
+#### Trading install: Conda Environment
 
 ```bash
 conda create --name trading python=3.11

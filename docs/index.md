@@ -1,6 +1,6 @@
 ![trading](assets/trading_poweredby.svg)
 
-[![Freqtrade CI](https://github.com/bot-app/trading/workflows/Freqtrade%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
+[![Trading CI](https://github.com/bot-app/trading/workflows/Trading%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04864/status.svg)](https://doi.org/10.21105/joss.04864)
 [![Coverage Status](https://coveralls.io/repos/github/bot-app/trading/badge.svg?branch=develop&service=github)](https://coveralls.io/github/bot-app/trading?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5737e6d668200b7518ff/maintainability)](https://codeclimate.com/github/bot-app/trading/maintainability)
@@ -12,7 +12,7 @@
 
 ## Introduction
 
-Freqtrade is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
+Trading is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
 
 !!! Danger "DISCLAIMER"
     This software is for educational purposes only. Do not risk money which you are afraid to lose. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS AND ALL AFFILIATES ASSUME NO RESPONSIBILITY FOR YOUR TRADING RESULTS.
@@ -33,7 +33,7 @@ Freqtrade is a free and open source crypto trading bot written in Python. It is 
 - Run: Test your strategy with simulated money (Dry-Run mode) or deploy it with real money (Live-Trade mode).
 - Run using Edge (optional module): The concept is to find the best historical [trade expectancy](edge.md#expectancy) by markets based on variation of the stop-loss and then allow/reject markets to trade. The sizing of the trade is based on a risk of a percentage of your capital.
 - Control/Monitor: Use Telegram or a WebUI (start/stop the bot, show profit/loss, daily summary, current open trades results, etc.).
-- Analyze: Further analysis can be performed on either Backtesting data or Freqtrade trading history (SQL database), including automated standard plots, and methods to load the data into [interactive environments](data-analysis.md).
+- Analyze: Further analysis can be performed on either Backtesting data or Trading trading history (SQL database), including automated standard plots, and methods to load the data into [interactive environments](data-analysis.md).
 
 ## Supported exchange marketplaces
 
@@ -93,7 +93,7 @@ Alternatively
 
 ### Help / Discord
 
-For any questions not covered by the documentation or for further information about the bot, or to simply engage with like-minded individuals, we encourage you to join the Freqtrade [discord server](https://discord.gg/p7nuUNVfP7).
+For any questions not covered by the documentation or for further information about the bot, or to simply engage with like-minded individuals, we encourage you to join the Trading [discord server](https://discord.gg/p7nuUNVfP7).
 
 ## Ready to try?
 

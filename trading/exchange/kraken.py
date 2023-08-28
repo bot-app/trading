@@ -39,7 +39,7 @@ class Kraken(Exchange):
 
     def market_is_tradable(self, market: Dict[str, Any]) -> bool:
         """
-        Check if the market symbol is tradable by Freqtrade.
+        Check if the market symbol is tradable by Trading.
         Default checks + check if pair is darkpool pair.
         """
         parent_check = super().market_is_tradable(market)
@@ -197,7 +197,7 @@ class Kraken(Exchange):
         time_in_ratio: Optional[float] = None
     ) -> float:
         """
-        # ! This method will always error when run by Freqtrade because time_in_ratio is never
+        # ! This method will always error when run by Trading because time_in_ratio is never
         # ! passed to _get_funding_fee. For kraken futures to work in dry run and backtesting
         # ! functionality must be added that passes the parameter time_in_ratio to
         # ! _get_funding_fee when using Kraken

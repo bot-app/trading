@@ -1,12 +1,12 @@
 # ![trading](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/trading_poweredby.svg)
 
-[![Freqtrade CI](https://github.com/bot-app/trading/workflows/Freqtrade%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
+[![Trading CI](https://github.com/bot-app/trading/workflows/Trading%20CI/badge.svg)](https://github.com/bot-app/trading/actions/)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.04864/status.svg)](https://doi.org/10.21105/joss.04864)
 [![Coverage Status](https://coveralls.io/repos/github/bot-app/trading/badge.svg?branch=develop&service=github)](https://coveralls.io/github/bot-app/trading?branch=develop)
 [![Documentation](https://readthedocs.org/projects/trading/badge/)](https://www.trading.io)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5737e6d668200b7518ff/maintainability)](https://codeclimate.com/github/bot-app/trading/maintainability)
 
-Freqtrade is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
+Trading is a free and open source crypto trading bot written in Python. It is designed to support all major exchanges and be controlled via Telegram or webUI. It contains backtesting, plotting and money management tools as well as strategy optimization by machine learning.
 
 ![trading](https://raw.githubusercontent.com/bot-app/trading/develop/docs/assets/trading-screenshot.png)
 
@@ -154,7 +154,7 @@ The project is currently setup in two main branches:
 
 ### Help / Discord
 
-For any questions not covered by the documentation or for further information about the bot, or to simply engage with like-minded individuals, we encourage you to join the Freqtrade [discord server](https://discord.gg/p7nuUNVfP7).
+For any questions not covered by the documentation or for further information about the bot, or to simply engage with like-minded individuals, we encourage you to join the Trading [discord server](https://discord.gg/p7nuUNVfP7).
 
 ### [Bugs / Issues](https://github.com/bot-app/trading/issues?q=is%3Aissue)
 

@@ -4,7 +4,7 @@ You can analyze the results of backtests and trading history easily using Jupyte
 
 ## Quick start with docker
 
-Freqtrade provides a docker-compose file which starts up a jupyter lab server.
+Trading provides a docker-compose file which starts up a jupyter lab server.
 You can run this server using the following command: `docker compose -f docker/docker-compose-jupyter.yml up`
 
 This will create a dockercontainer running jupyter lab, which will be accessible using `https://127.0.0.1:8888/lab`.
@@ -36,7 +36,7 @@ ipython kernel install --user --name=trading
 ```
 
 !!! Note
-    This section is provided for completeness, the Freqtrade Team won't provide full support for problems with this setup and will recommend to install Jupyter in the virtual environment directly, as that is the easiest way to get jupyter notebooks up and running. For help with this setup please refer to the [Project Jupyter](https://jupyter.org/) [documentation](https://jupyter.org/documentation) or [help channels](https://jupyter.org/community).
+    This section is provided for completeness, the Trading Team won't provide full support for problems with this setup and will recommend to install Jupyter in the virtual environment directly, as that is the easiest way to get jupyter notebooks up and running. For help with this setup please refer to the [Project Jupyter](https://jupyter.org/) [documentation](https://jupyter.org/documentation) or [help channels](https://jupyter.org/community).
 
 !!! Warning
     Some tasks don't work especially well in notebooks. For example, anything using asynchronous execution is a problem for Jupyter. Also, trading's primary entry point is the shell cli, so using pure python in a notebook bypasses arguments that provide required objects and parameters to helper functions. You may need to set those values or create expected objects manually.

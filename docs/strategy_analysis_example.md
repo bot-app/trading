@@ -1,6 +1,6 @@
 # Strategy analysis example
 
-Debugging a strategy can be time-consuming. Freqtrade offers helper functions to visualize raw data.
+Debugging a strategy can be time-consuming. Trading offers helper functions to visualize raw data.
 The following assumes you work with SampleStrategy, data for 5m timeframe from Binance and have downloaded them into the data directory in the default location.
 Please follow the [documentation](https://www.trading.io/en/stable/data-download/) for more details.
 
@@ -29,7 +29,7 @@ except:
 print(Path.cwd())
 ```
 
-### Configure Freqtrade environment
+### Configure Trading environment
 
 
 ```python
@@ -230,7 +230,7 @@ parallel_trades.plot()
 
 ## Plot results
 
-Freqtrade offers interactive plotting capabilities based on plotly.
+Trading offers interactive plotting capabilities based on plotly.
 
 
 ```python

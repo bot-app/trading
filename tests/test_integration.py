@@ -70,7 +70,7 @@ def test_may_execute_exit_stoploss_on_exchange_multi(default_conf, ticker, fee,
     )
 
     mocker.patch.multiple(
-        'trading.tradingbot.FreqtradeBot',
+        'trading.tradingbot.TradingBot',
         create_stoploss_order=MagicMock(return_value=True),
         _notify_exit=MagicMock(),
     )
@@ -159,7 +159,7 @@ def test_forcebuy_last_unlimited(default_conf, ticker, fee, mocker, balance_rati
     )
 
     mocker.patch.multiple(
-        'trading.tradingbot.FreqtradeBot',
+        'trading.tradingbot.TradingBot',
         create_stoploss_order=MagicMock(return_value=True),
         _notify_exit=MagicMock(),
     )

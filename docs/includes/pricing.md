@@ -4,7 +4,7 @@ Prices for regular orders can be controlled via the parameter structures `entry_
 Prices are always retrieved right before an order is placed, either by querying the exchange tickers or by using the orderbook data.
 
 !!! Note
-    Orderbook data used by Freqtrade are the data retrieved from exchange by the ccxt's function `fetch_order_book()`, i.e. are usually data from the L2-aggregated orderbook, while the ticker data are the structures returned by the ccxt's `fetch_ticker()`/`fetch_tickers()` functions. Refer to the ccxt library [documentation](https://github.com/ccxt/ccxt/wiki/Manual#market-data) for more details.
+    Orderbook data used by Trading are the data retrieved from exchange by the ccxt's function `fetch_order_book()`, i.e. are usually data from the L2-aggregated orderbook, while the ticker data are the structures returned by the ccxt's `fetch_ticker()`/`fetch_tickers()` functions. Refer to the ccxt library [documentation](https://github.com/ccxt/ccxt/wiki/Manual#market-data) for more details.
 
 !!! Warning "Using market orders"
     Please read the section [Market order pricing](#market-order-pricing) section when using market orders.
@@ -52,13 +52,13 @@ Also, prices at the "other" side of the spread are higher than prices at the "bi
 
 #### Entry price with Orderbook enabled
 
-When entering a trade with the orderbook enabled (`entry_pricing.use_order_book=True`), Freqtrade fetches the `entry_pricing.order_book_top` entries from the orderbook and uses the entry specified as `entry_pricing.order_book_top` on the configured side (`entry_pricing.price_side`) of the orderbook. 1 specifies the topmost entry in the orderbook, while 2 would use the 2nd entry in the orderbook, and so on.
+When entering a trade with the orderbook enabled (`entry_pricing.use_order_book=True`), Trading fetches the `entry_pricing.order_book_top` entries from the orderbook and uses the entry specified as `entry_pricing.order_book_top` on the configured side (`entry_pricing.price_side`) of the orderbook. 1 specifies the topmost entry in the orderbook, while 2 would use the 2nd entry in the orderbook, and so on.
 
 #### Entry price without Orderbook enabled
 
 The following section uses `side` as the configured `entry_pricing.price_side` (defaults to `"same"`).
 
-When not using orderbook (`entry_pricing.use_order_book=False`), Freqtrade uses the best `side` price from the ticker if it's below the `last` traded price from the ticker. Otherwise (when the `side` price is above the `last` price), it calculates a rate between `side` and `last` price based on `entry_pricing.price_last_balance`.
+When not using orderbook (`entry_pricing.use_order_book=False`), Trading uses the best `side` price from the ticker if it's below the `last` traded price from the ticker. Otherwise (when the `side` price is above the `last` price), it calculates a rate between `side` and `last` price based on `entry_pricing.price_last_balance`.
 
 The `entry_pricing.price_last_balance` configuration parameter controls this. A value of `0.0` will use `side` price, while `1.0` will use the `last` price and values between those interpolate between ask and last price.
 
@@ -110,7 +110,7 @@ This would result in the following pricing matrix:
 
 #### Exit price with Orderbook enabled
 
-When exiting with the orderbook enabled (`exit_pricing.use_order_book=True`), Freqtrade fetches the `exit_pricing.order_book_top` entries in the orderbook and uses the entry specified as `exit_pricing.order_book_top` from the configured side (`exit_pricing.price_side`) as trade exit price.
+When exiting with the orderbook enabled (`exit_pricing.use_order_book=True`), Trading fetches the `exit_pricing.order_book_top` entries in the orderbook and uses the entry specified as `exit_pricing.order_book_top` from the configured side (`exit_pricing.price_side`) as trade exit price.
 
 1 specifies the topmost entry in the orderbook, while 2 would use the 2nd entry in the orderbook, and so on.
 
@@ -118,7 +118,7 @@ When exiting with the orderbook enabled (`exit_pricing.use_order_book=True`), Fr
 
 The following section uses `side` as the configured `exit_pricing.price_side` (defaults to `"ask"`).
 
-When not using orderbook (`exit_pricing.use_order_book=False`), Freqtrade uses the best `side` price from the ticker if it's above the `last` traded price from the ticker. Otherwise (when the `side` price is below the `last` price), it calculates a rate between `side` and `last` price based on `exit_pricing.price_last_balance`.
+When not using orderbook (`exit_pricing.use_order_book=False`), Trading uses the best `side` price from the ticker if it's above the `last` traded price from the ticker. Otherwise (when the `side` price is below the `last` price), it calculates a rate between `side` and `last` price based on `exit_pricing.price_last_balance`.
 
 The `exit_pricing.price_last_balance` configuration parameter controls this. A value of `0.0` will use `side` price, while `1.0` will use the last price and values between those interpolate between `side` and last price.
 

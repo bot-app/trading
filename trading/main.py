@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Main Freqtrade bot script.
+Main Trading bot script.
 Read the documentation to know what cli arguments you need.
 """
 import logging
@@ -12,11 +12,11 @@ from trading.util.gc_setup import gc_set_threshold
 
 # check min. python version
 if sys.version_info < (3, 8):  # pragma: no cover
-    sys.exit("Freqtrade requires Python version >= 3.8")
+    sys.exit("Trading requires Python version >= 3.8")
 
 from trading import __version__
 from trading.commands import Arguments
-from trading.exceptions import FreqtradeException, OperationalException
+from trading.exceptions import TradingException, OperationalException
 from trading.loggers import setup_logging_pre
 
 
@@ -43,9 +43,9 @@ def main(sysargv: Optional[List[str]] = None) -> None:
         else:
             # No subcommand was issued.
             raise OperationalException(
-                "Usage of Freqtrade requires a subcommand to be specified.\n"
+                "Usage of Trading requires a subcommand to be specified.\n"
                 "To have the bot executing trades in live/dry-run modes, "
-                "depending on the value of the `dry_run` setting in the config, run Freqtrade "
+                "depending on the value of the `dry_run` setting in the config, run Trading "
                 "as `trading trade [options...]`.\n"
                 "To see the full list of options available, please use "
                 "`trading --help` or `trading <command> --help`."
@@ -56,7 +56,7 @@ def main(sysargv: Optional[List[str]] = None) -> None:
     except KeyboardInterrupt:
         logger.info('SIGINT received, aborting ...')
         return_code = 0
-    except FreqtradeException as e:
+    except TradingException as e:
         logger.error(str(e))
         return_code = 2
     except Exception:

@@ -11,7 +11,7 @@ Without provided configuration, `--exchange` becomes mandatory.
 You can use a relative timerange (`--days 20`) or an absolute starting point (`--timerange 20200101-`). For incremental downloads, the relative approach should be used.
 
 !!! Tip "Tip: Updating existing data"
-    If you already have backtesting data available in your data-directory and would like to refresh this data up to today, trading will automatically calculate the data missing for the existing pairs and the download will occur from the latest available point until "now", neither --days or --timerange parameters are required. Freqtrade will keep the available data and only download the missing data.
+    If you already have backtesting data available in your data-directory and would like to refresh this data up to today, trading will automatically calculate the data missing for the existing pairs and the download will occur from the latest available point until "now", neither --days or --timerange parameters are required. Trading will keep the available data and only download the missing data.
     If you are updating existing data after inserting new pairs that you have no data for, use `--new-pairs-days xx` parameter. Specified number of days will be downloaded for new pairs while old pairs will be updated with missing data only.
     If you use `--days xx` parameter alone - data for specified number of days will be downloaded for _all_ pairs. Be careful, if specified number of days is smaller than gap between now and last downloaded candle - trading will delete all existing data to avoid gaps in candle data.
 
@@ -148,11 +148,11 @@ trading download-data --exchange binance --pairs ETH/USDT XRP/USDT BTC/USDT --pr
 ```
 
 !!! Note
-    Freqtrade will ignore the end-date in this mode if data is available, updating the end-date to the existing data start point.
+    Trading will ignore the end-date in this mode if data is available, updating the end-date to the existing data start point.
 
 ### Data format
 
-Freqtrade currently supports the following data-formats:
+Trading currently supports the following data-formats:
 
 * `json` -  plain "text" json files
 * `jsongz` - a gzip-zipped version of json files
@@ -491,7 +491,7 @@ trading download-data --exchange kraken --pairs XRP/EUR ETH/EUR --days 20 --dl-t
     While this method uses async calls, it will be slow, since it requires the result of the previous call to generate the next request to the exchange.
 
 !!! Warning
-    The historic trades are not available during Freqtrade dry-run and live trade modes because all exchanges tested provide this data with a delay of few 100 candles, so it's not suitable for real-time trading.
+    The historic trades are not available during Trading dry-run and live trade modes because all exchanges tested provide this data with a delay of few 100 candles, so it's not suitable for real-time trading.
 
 !!! Note "Kraken user"
     Kraken users should read [this](exchanges.md#historic-kraken-data) before starting to download data.

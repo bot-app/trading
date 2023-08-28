@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-__main__.py for Freqtrade
-To launch Freqtrade as a module
+__main__.py for Trading
+To launch Trading as a module
 
 > python -m trading (with Python >= 3.8)
 """

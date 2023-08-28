@@ -1,4 +1,4 @@
-site_name: Freqtrade
+site_name: Trading
 site_url: https://www.trading.io/
 repo_url: https://github.com/bot-app/trading
 edit_uri: edit/develop/docs/
@@ -9,7 +9,7 @@ nav:
     - Installation:
         - Linux/MacOS/Raspberry: installation.md
         - Windows: windows_installation.md
-    - Freqtrade Basics: bot-basics.md
+    - Trading Basics: bot-basics.md
     - Configuration: configuration.md
     - Strategy Customization: strategy-customization.md
     - Strategy Callbacks: strategy-callbacks.md
@@ -50,7 +50,7 @@ nav:
     - FAQ: faq.md
     - SQL Cheat-sheet: sql_cheatsheet.md
     - Strategy migration: strategy_migration.md
-    - Updating Freqtrade: updating.md
+    - Updating Trading: updating.md
     - Deprecated Features: deprecated.md
     - Contributors Guide: developer.md
 theme:

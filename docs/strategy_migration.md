@@ -732,14 +732,14 @@ Targets now get their own, dedicated method.
 
 ### FreqAI - New data Pipeline
 
-If you have created your own custom `IFreqaiModel` with a custom `train()`/`predict()` function, *and* you still rely on `data_cleaning_train/predict()`, then you will need to migrate to the new pipeline. If your model does *not* rely on `data_cleaning_train/predict()`, then you do not need to worry about this migration. That means that this migration guide is relevant for a very small percentage of power-users. If you stumbled upon this guide by mistake, feel free to inquire in depth about your problem in the Freqtrade discord server.
+If you have created your own custom `IFreqaiModel` with a custom `train()`/`predict()` function, *and* you still rely on `data_cleaning_train/predict()`, then you will need to migrate to the new pipeline. If your model does *not* rely on `data_cleaning_train/predict()`, then you do not need to worry about this migration. That means that this migration guide is relevant for a very small percentage of power-users. If you stumbled upon this guide by mistake, feel free to inquire in depth about your problem in the Trading discord server.
 
 The conversion involves first removing `data_cleaning_train/predict()` and replacing them with a `define_data_pipeline()` and `define_label_pipeline()` function to your `IFreqaiModel` class:
 
 ```python  linenums="1" hl_lines="11-14 47-49 55-57"
 class MyCoolFreqaiModel(BaseRegressionModel):
     """
-    Some cool custom IFreqaiModel you made before Freqtrade version 2023.6
+    Some cool custom IFreqaiModel you made before Trading version 2023.6
     """
     def train(
         self, unfiltered_df: DataFrame, pair: str, dk: FreqaiDataKitchen, **kwargs

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class Bitpanda(Exchange):
     """
-    Bitpanda exchange class. Contains adjustments needed for Freqtrade to work
+    Bitpanda exchange class. Contains adjustments needed for Trading to work
     with this exchange.
     """
 

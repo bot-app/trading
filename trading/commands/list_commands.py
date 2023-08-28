@@ -58,7 +58,7 @@ def start_list_exchanges(args: Dict[str, Any]) -> None:
             print("All exchanges supported by the ccxt library:")
             exchanges = [build_entry(e, True) for e in exchanges]
         else:
-            print("Exchanges available for Freqtrade:")
+            print("Exchanges available for Trading:")
             exchanges = [build_entry(e, False) for e in exchanges if e['valid'] is not False]
 
         print(tabulate(exchanges, headers=headers, ))

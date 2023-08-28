@@ -35,7 +35,7 @@ trading trade --config config_examples/config_freqai.example.json --strategy Fre
 You will see the boot-up process of automatic data downloading, followed by simultaneous training and trading. 
 
 !!! danger "Not for production"
-    The example strategy provided with the Freqtrade source code is designed for showcasing/testing a wide variety of FreqAI features. It is also designed to run on small computers so that it can be used as a benchmark between developers and users. It is *not* designed to be run in production.
+    The example strategy provided with the Trading source code is designed for showcasing/testing a wide variety of FreqAI features. It is also designed to run on small computers so that it can be used as a benchmark between developers and users. It is *not* designed to be run in production.
 
 An example strategy, prediction model, and config to use as a starting points can be found in
 `trading/templates/FreqaiExampleStrategy.py`, `trading/freqai/prediction_models/LightGBMRegressor.py`, and
@@ -43,7 +43,7 @@ An example strategy, prediction model, and config to use as a starting points ca
 
 ## General approach
 
-You provide FreqAI with a set of custom *base indicators* (the same way as in a [typical Freqtrade strategy](strategy-customization.md)) as well as target values (*labels*). For each pair in the whitelist, FreqAI trains a model to predict the target values based on the input of custom indicators. The models are then consistently retrained, with a predetermined frequency, to adapt to market conditions. FreqAI offers the ability to both backtest strategies (emulating reality with periodic retraining on historic data) and deploy dry/live runs. In dry/live conditions, FreqAI can be set to constant retraining in a background thread to keep models as up to date as possible.
+You provide FreqAI with a set of custom *base indicators* (the same way as in a [typical Trading strategy](strategy-customization.md)) as well as target values (*labels*). For each pair in the whitelist, FreqAI trains a model to predict the target values based on the input of custom indicators. The models are then consistently retrained, with a predetermined frequency, to adapt to market conditions. FreqAI offers the ability to both backtest strategies (emulating reality with periodic retraining on historic data) and deploy dry/live runs. In dry/live conditions, FreqAI can be set to constant retraining in a background thread to keep models as up to date as possible.
 
 An overview of the algorithm, explaining the data processing pipeline and model usage, is shown below.
 
@@ -65,7 +65,7 @@ An overview of the algorithm, explaining the data processing pipeline and model 
 
 ## Install prerequisites
 
-The normal Freqtrade install process will ask if you wish to install FreqAI dependencies. You should reply "yes" to this question if you wish to use FreqAI. If you did not reply yes, you can manually install these dependencies after the install with:
+The normal Trading install process will ask if you wish to install FreqAI dependencies. You should reply "yes" to this question if you wish to use FreqAI. If you did not reply yes, you can manually install these dependencies after the install with:
 
 ``` bash
 pip install -r requirements-freqai.txt

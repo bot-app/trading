@@ -206,7 +206,7 @@ class MyAwesomeStrategy(IStrategy):
 
 ## Space options
 
-For the additional spaces, scikit-optimize (in combination with Freqtrade) provides the following space types:
+For the additional spaces, scikit-optimize (in combination with Trading) provides the following space types:
 
 * `Categorical` - Pick from a list of categories (e.g. `Categorical(['a', 'b', 'c'], name="cat")`)
 * `Integer` - Pick from a range of whole numbers (e.g. `Integer(1, 10, name='rsi')`)

@@ -1,6 +1,6 @@
 # Configuration
 
-FreqAI is configured through the typical [Freqtrade config file](configuration.md) and the standard [Freqtrade strategy](strategy-customization.md). Examples of FreqAI config and strategy files can be found in `config_examples/config_freqai.example.json` and `trading/templates/FreqaiExampleStrategy.py`, respectively.
+FreqAI is configured through the typical [Trading config file](configuration.md) and the standard [Trading strategy](strategy-customization.md). Examples of FreqAI config and strategy files can be found in `config_examples/config_freqai.example.json` and `trading/templates/FreqaiExampleStrategy.py`, respectively.
 
 ## Setting up the configuration file
 
@@ -34,7 +34,7 @@ A full example config is available in `config_examples/config_freqai.example.jso
 
 ## Building a FreqAI strategy
 
-The FreqAI strategy requires including the following lines of code in the standard [Freqtrade strategy](strategy-customization.md):
+The FreqAI strategy requires including the following lines of code in the standard [Trading strategy](strategy-customization.md):
 
 ```python
     # user should define the maximum startup candle count (the largest number of candles
@@ -166,7 +166,7 @@ Below are the values you can expect to include/use inside a typical strategy dat
 
 ## Setting the `startup_candle_count`
 
-The `startup_candle_count` in the FreqAI strategy needs to be set up in the same way as in the standard Freqtrade strategy (see details [here](strategy-customization.md#strategy-startup-period)). This value is used by Freqtrade to ensure that a sufficient amount of data is provided when calling the `dataprovider`, to avoid any NaNs at the beginning of the first training. You can easily set this value by identifying the longest period (in candle units) which is passed to the indicator creation functions (e.g., TA-Lib functions). In the presented example, `startup_candle_count` is 20 since this is the maximum value in `indicators_periods_candles`.
+The `startup_candle_count` in the FreqAI strategy needs to be set up in the same way as in the standard Trading strategy (see details [here](strategy-customization.md#strategy-startup-period)). This value is used by Trading to ensure that a sufficient amount of data is provided when calling the `dataprovider`, to avoid any NaNs at the beginning of the first training. You can easily set this value by identifying the longest period (in candle units) which is passed to the indicator creation functions (e.g., TA-Lib functions). In the presented example, `startup_candle_count` is 20 since this is the maximum value in `indicators_periods_candles`.
 
 !!! Note
     There are instances where the TA-Lib functions actually require more data than just the passed `period` or else the feature dataset gets populated with NaNs. Anecdotally, multiplying the `startup_candle_count` by 2 always leads to a fully NaN free training dataset. Hence, it is typically safest to multiply the expected `startup_candle_count` by 2. Look out for this log message to confirm that the data is clean:

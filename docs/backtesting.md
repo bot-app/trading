@@ -126,7 +126,7 @@ All profit calculations include fees, and trading will use the exchange's defaul
     To achieve reproducible results, best generate a pairlist via the [`test-pairlist`](utils.md#test-pairlist) command and use that as static pairlist.
 
 !!! Note
-    By default, Freqtrade will export backtesting results to `user_data/backtest_results`.
+    By default, Trading will export backtesting results to `user_data/backtest_results`.
     The exported trades can be used for [further analysis](#further-backtest-result-analysis) or can be used by the [plotting sub-command](plotting.md#plot-price-and-indicators) (`trading plot-dataframe`) in the scripts directory.
 
 
@@ -566,7 +566,7 @@ Exchanges have certain trading limits, like minimum (and maximum) base currency,
 These limits are usually listed in the exchange documentation as "trading rules" or similar and can be quite different between different pairs.
 
 Backtesting (as well as live and dry-run) does honor these limits, and will ensure that a stoploss can be placed below this value - so the value will be slightly higher than what the exchange specifies.
-Freqtrade has however no information about historic limits.
+Trading has however no information about historic limits.
 
 This can lead to situations where trading-limits are inflated by using a historic price, resulting in minimum amounts > 50$.
 
